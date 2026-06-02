@@ -29,43 +29,7 @@ export default function Home() {
     <div>
       <SearchHero searchQuery={searchQuery} onSearchChange={setSearchQuery} />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-20">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h2 className="font-heading font-bold text-lg text-foreground">Servicios</h2>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              {filtered.length} servicio{filtered.length !== 1 ? 's' : ''} disponible{filtered.length !== 1 ? 's' : ''}
-              {settings.usd_to_pen && (
-                <span className="ml-2">· TC: S/ {settings.usd_to_pen}</span>
-              )}
-            </p>
-          </div>
-        </div>
 
-        {!searchQuery ? (
-          <div className="text-center py-20">
-            <p className="text-muted-foreground text-sm">Escribe en el buscador para ver servicios</p>
-          </div>
-        ) : isLoading ? (
-          <div className="flex justify-center py-20">
-            <Loader2 className="w-6 h-6 text-primary animate-spin" />
-          </div>
-        ) : filtered.length === 0 ? (
-          <div className="text-center py-20">
-            <p className="text-muted-foreground text-sm">No se encontraron servicios</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filtered.map(service => (
-              <ServiceCard
-                key={service.id}
-                service={service}
-                exchangeRate={settings.usd_to_pen || 3.70}
-              />
-            ))}
-          </div>
-        )}
-      </div>
     </div>
   );
 }
