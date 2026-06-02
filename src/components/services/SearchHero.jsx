@@ -4,11 +4,32 @@ import { Search, Zap } from 'lucide-react';
 
 export default function SearchHero({ searchQuery, onSearchChange }) {
   return (
-    <div className="relative py-16 sm:py-24 overflow-hidden">
+    <div className="relative py-16 sm:py-24 overflow-hidden bg-white">
       {/* Background effects */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-accent/5 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-accent/8 rounded-full blur-3xl" />
+        {/* Corner decorations */}
+        <svg className="absolute top-0 left-0 w-48 h-48 text-primary/10" viewBox="0 0 200 200" fill="none">
+          <circle cx="0" cy="0" r="80" stroke="currentColor" strokeWidth="1.5" />
+          <circle cx="0" cy="0" r="120" stroke="currentColor" strokeWidth="0.8" />
+          <circle cx="0" cy="0" r="160" stroke="currentColor" strokeWidth="0.4" />
+        </svg>
+        <svg className="absolute bottom-0 right-0 w-48 h-48 text-accent/10" viewBox="0 0 200 200" fill="none">
+          <circle cx="200" cy="200" r="80" stroke="currentColor" strokeWidth="1.5" />
+          <circle cx="200" cy="200" r="120" stroke="currentColor" strokeWidth="0.8" />
+          <circle cx="200" cy="200" r="160" stroke="currentColor" strokeWidth="0.4" />
+        </svg>
+        <svg className="absolute top-0 right-0 w-32 h-32 text-primary/8" viewBox="0 0 128 128" fill="none">
+          <path d="M128 0 L128 128 L0 128" stroke="currentColor" strokeWidth="1" />
+          <path d="M128 20 L128 128 L20 128" stroke="currentColor" strokeWidth="0.6" />
+          <path d="M128 40 L128 128 L40 128" stroke="currentColor" strokeWidth="0.4" />
+        </svg>
+        <svg className="absolute bottom-0 left-0 w-32 h-32 text-accent/8" viewBox="0 0 128 128" fill="none">
+          <path d="M0 128 L0 0 L128 0" stroke="currentColor" strokeWidth="1" />
+          <path d="M0 128 L0 20 L108 20" stroke="currentColor" strokeWidth="0.6" />
+          <path d="M0 128 L0 40 L88 40" stroke="currentColor" strokeWidth="0.4" />
+        </svg>
       </div>
 
       <div className="relative max-w-3xl mx-auto px-4 text-center">
