@@ -16,7 +16,7 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 glass border-b border-border/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-16 hidden">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/20">
