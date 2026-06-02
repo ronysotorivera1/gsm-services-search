@@ -4,9 +4,9 @@ import { Search, Wrench, Zap, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const navLinks = [
-  { path: '/', label: 'Search', icon: Search },
-  { path: '/rentals', label: 'Rentals', icon: Wrench },
-];
+{ path: '/', label: 'Search', icon: Search },
+{ path: '/rentals', label: 'Rentals', icon: Wrench }];
+
 
 export default function Navbar() {
   const location = useLocation();
@@ -22,14 +22,14 @@ export default function Navbar() {
               <Zap className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <span className="font-display font-bold text-lg tracking-tight text-foreground">GSM CHECK</span>
+              <span className="font-display font-bold text-lg tracking-tight text-foreground">GSMServices</span>
               <span className="hidden sm:inline text-xs text-muted-foreground ml-2 font-medium">CENTER</span>
             </div>
           </Link>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-1">
-            {navLinks.map(link => {
+            {navLinks.map((link) => {
               const Icon = link.icon;
               const isActive = location.pathname === link.path;
               return (
@@ -38,16 +38,16 @@ export default function Navbar() {
                     variant="ghost"
                     size="sm"
                     className={`gap-2 text-sm font-medium transition-all ${
-                      isActive
-                        ? 'text-primary bg-primary/10'
-                        : 'text-muted-foreground hover:text-foreground'
-                    }`}
-                  >
+                    isActive ?
+                    'text-primary bg-primary/10' :
+                    'text-muted-foreground hover:text-foreground'}`
+                    }>
+                    
                     <Icon className="w-4 h-4" />
                     {link.label}
                   </Button>
-                </Link>
-              );
+                </Link>);
+
             })}
           </div>
 
@@ -56,35 +56,35 @@ export default function Navbar() {
             variant="ghost"
             size="icon"
             className="md:hidden text-muted-foreground"
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
+            onClick={() => setMobileOpen(!mobileOpen)}>
+            
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </Button>
         </div>
 
         {/* Mobile Nav */}
-        {mobileOpen && (
-          <div className="md:hidden pb-4 space-y-1">
-            {navLinks.map(link => {
-              const Icon = link.icon;
-              const isActive = location.pathname === link.path;
-              return (
-                <Link key={link.path} to={link.path} onClick={() => setMobileOpen(false)}>
+        {mobileOpen &&
+        <div className="md:hidden pb-4 space-y-1">
+            {navLinks.map((link) => {
+            const Icon = link.icon;
+            const isActive = location.pathname === link.path;
+            return (
+              <Link key={link.path} to={link.path} onClick={() => setMobileOpen(false)}>
                   <Button
-                    variant="ghost"
-                    className={`w-full justify-start gap-3 ${
-                      isActive ? 'text-primary bg-primary/10' : 'text-muted-foreground'
-                    }`}
-                  >
+                  variant="ghost"
+                  className={`w-full justify-start gap-3 ${
+                  isActive ? 'text-primary bg-primary/10' : 'text-muted-foreground'}`
+                  }>
+                  
                     <Icon className="w-4 h-4" />
                     {link.label}
                   </Button>
-                </Link>
-              );
-            })}
+                </Link>);
+
+          })}
           </div>
-        )}
+        }
       </div>
-    </nav>
-  );
+    </nav>);
+
 }
