@@ -7,7 +7,7 @@ import ServiceCard from './ServiceCard';
 export default function SearchHero({ searchQuery, onSearchChange, results = [], isLoading = false }) {
   const hasQuery = searchQuery.length > 0;
   return (
-    <div className={`relative overflow-hidden transition-all duration-500 ${hasQuery ? 'py-6 sm:py-8' : 'py-16 sm:py-24'}`}>
+    <div className={`relative transition-all duration-500 ${hasQuery ? 'py-6 sm:py-8' : 'py-16 sm:py-24'}`}>
       {/* Wave SVG background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <svg className="absolute bottom-0 left-0 w-full" viewBox="0 0 1440 220" preserveAspectRatio="none" fill="none">
