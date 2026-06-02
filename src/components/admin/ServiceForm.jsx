@@ -13,10 +13,6 @@ const CATEGORIES = [
   { value: 'server', label: 'Server' },
   { value: 'remote', label: 'Remote' },
   { value: 'premium', label: 'Premium' },
-];
-
-const SERVICE_TYPES = [
-  { value: 'service', label: 'Servicio' },
   { value: 'rental', label: 'Renta' },
   { value: 'license', label: 'Licencia' },
 ];
@@ -42,7 +38,7 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
   });
 
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
-  const showDuration = form.service_type === 'rental' || form.service_type === 'license';
+  const showDuration = form.category === 'rental' || form.category === 'license';
 
   return (
     <div className="p-4 rounded-lg border border-primary/20 bg-primary/5 mb-4 space-y-3">
@@ -68,19 +64,9 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
           <Input type="number" step="0.01" value={form.price_usd} onChange={e => set('price_usd', parseFloat(e.target.value))} placeholder="0.00" />
         </div>
 
-        <div className="space-y-1">
-          <Label className="text-xs">Modalidad</Label>
-          <Select value={form.service_type} onValueChange={v => set('service_type', v)}>
-            <SelectTrigger><SelectValue /></SelectTrigger>
-            <SelectContent>
-              {SERVICE_TYPES.map(t => <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>)}
-            </SelectContent>
-          </Select>
-        </div>
-
         {showDuration && (
           <div className="space-y-1">
-            <Label className="text-xs">Duración ({form.service_type === 'rental' ? 'Renta' : 'Licencia'})</Label>
+            <Label className="text-xs">Duración ({form.category === 'rental' ? 'Renta' : 'Licencia'})</Label>
             <Input value={form.duration} onChange={e => set('duration', e.target.value)} placeholder="ej: 1h, 1 mes, anual" />
           </div>
         )}
@@ -88,11 +74,6 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
         <div className="space-y-1">
           <Label className="text-xs">Tiempo de Entrega</Label>
           <Input value={form.delivery_time} onChange={e => set('delivery_time', e.target.value)} placeholder="ej: 1-24 Hours" />
-        </div>
-
-        <div className="space-y-1">
-          <Label className="text-xs">Marca</Label>
-          <Input value={form.brand} onChange={e => set('brand', e.target.value)} placeholder="Samsung, iPhone..." />
         </div>
 
         <div className="space-y-1">
