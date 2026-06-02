@@ -1,6 +1,7 @@
 import React from 'react';
 import { Input } from '@/components/ui/input';
 import { Search, Zap } from 'lucide-react';
+import ServicesSlider from './ServicesSlider';
 
 export default function SearchHero({ searchQuery, onSearchChange }) {
   return (
@@ -60,17 +61,7 @@ export default function SearchHero({ searchQuery, onSearchChange }) {
           />
         </div>
 
-        <div className="flex flex-wrap justify-center gap-2 mt-5">
-          {['Samsung', 'iPhone', 'Xiaomi', 'Honor', 'Motorola'].map(brand => (
-            <button
-              key={brand}
-              onClick={() => onSearchChange(brand)}
-              className="px-3 py-1 rounded-full text-xs font-medium text-muted-foreground bg-secondary/50 hover:bg-primary/10 hover:text-primary transition-all border border-transparent hover:border-primary/20"
-            >
-              {brand}
-            </button>
-          ))}
-        </div>
+        <ServicesSlider onSearchChange={onSearchChange} />
       </div>
     </div>
   );
