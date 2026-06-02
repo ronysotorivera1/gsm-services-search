@@ -1,0 +1,53 @@
+import React from 'react';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Clock, ExternalLink } from 'lucide-react';
+import StatusBadge from '../shared/StatusBadge';
+import PriceDisplay from '../shared/PriceDisplay';
+
+export default function ServiceCard({ service, exchangeRate }) {
+  const whatsappMsg = encodeURIComponent(`Hola, quiero solicitar: ${service.name} - $${service.price_usd} USD`);
+
+  return (
+    <Card className="glass glow-blue-hover group relative overflow-hidden transition-all duration-300 hover:border-primary/30 p-5">
+      {/* Top glow line */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex-1 min-w-0">
+          <h3 className="font-heading font-semibold text-foreground truncate">{service.name}</h3>
+          {service.brand && (
+            <span className="text-xs text-muted-foreground font-medium mt-0.5 block">{service.brand}</span>
+          )}
+        </div>
+        <StatusBadge status={service.status} />
+      </div>
+
+      {service.description && (
+        <p className="text-xs text-muted-foreground mb-4 line-clamp-2">{service.description}</p>
+      )}
+
+      <div className="flex items-end justify-between">
+        <div>
+          <PriceDisplay usd={service.price_usd} exchangeRate={exchangeRate} />
+          {service.delivery_time && (
+            <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
+              <Clock className="w-3 h-3" />
+              <span>{service.delivery_time}</span>
+            </div>
+          )}
+        </div>
+        <a
+          href={`https://wa.me/51901745069?text=${whatsappMsg}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Button size="sm" className="bg-primary/10 text-primary hover:bg-primary/20 border border-primary/20 gap-1.5 text-xs font-semibold">
+            <ExternalLink className="w-3 h-3" />
+            SOLICITAR
+          </Button>
+        </a>
+      </div>
+    </Card>
+  );
+}

@@ -1,0 +1,54 @@
+{
+  "name": "Service",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Service name"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "imei",
+        "unlock",
+        "frp",
+        "mdm",
+        "server",
+        "remote",
+        "premium"
+      ],
+      "description": "Service category"
+    },
+    "price_usd": {
+      "type": "number",
+      "description": "Price in USD"
+    },
+    "delivery_time": {
+      "type": "string",
+      "description": "Estimated delivery time e.g. 1-24 Hours"
+    },
+    "description": {
+      "type": "string",
+      "description": "Service description"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "delay",
+        "offline"
+      ],
+      "default": "active",
+      "description": "Service availability status"
+    },
+    "brand": {
+      "type": "string",
+      "description": "Phone brand (Samsung, iPhone, Xiaomi, etc.)"
+    }
+  },
+  "required": [
+    "name",
+    "category",
+    "price_usd"
+  ]
+}

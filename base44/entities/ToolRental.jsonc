@@ -1,0 +1,44 @@
+{
+  "name": "ToolRental",
+  "type": "object",
+  "properties": {
+    "tool_name": {
+      "type": "string",
+      "description": "Name of the tool"
+    },
+    "price_1h": {
+      "type": "number",
+      "description": "Price for 1 hour in USD"
+    },
+    "price_6h": {
+      "type": "number",
+      "description": "Price for 6 hours in USD"
+    },
+    "price_12h": {
+      "type": "number",
+      "description": "Price for 12 hours in USD"
+    },
+    "price_24h": {
+      "type": "number",
+      "description": "Price for 24 hours in USD"
+    },
+    "description": {
+      "type": "string",
+      "description": "Tool description"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "delay",
+        "offline"
+      ],
+      "default": "active"
+    }
+  },
+  "required": [
+    "tool_name",
+    "price_1h",
+    "price_24h"
+  ]
+}
