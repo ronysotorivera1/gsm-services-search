@@ -3,11 +3,13 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Loader2 } from 'lucide-react';
 import SearchHero from '../components/services/SearchHero';
+import CategoryFilter from '../components/services/CategoryFilter';
 import ServiceCard from '../components/services/ServiceCard';
 import { useSettings } from '../hooks/useSettings';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeCategory, setActiveCategory] = useState('all');
   const settings = useSettings();
 
   const { data: services = [], isLoading } = useQuery({
@@ -22,28 +24,30 @@ export default function Home() {
         s.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         s.brand?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         s.description?.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesSearch;
+      const matchesCategory = activeCategory === 'all' || s.category === activeCategory;
+      return matchesSearch && matchesCategory;
     });
-  }, [services, searchQuery]);
+  }, [services, searchQuery, activeCategory]);
 
   return (
     <div>
       <SearchHero searchQuery={searchQuery} onSearchChange={setSearchQuery} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-20">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
             <h2 className="font-heading font-bold text-lg text-foreground">Servicios</h2>
             <p className="text-xs text-muted-foreground mt-0.5">
-              {filtered.length} servicio{filtered.length !== 1 ? 's' : ''} encontrado{filtered.length !== 1 ? 's' : ''}
+              {filtered.length} servicio{filtered.length !== 1 ? 's' : ''} disponible{filtered.length !== 1 ? 's' : ''}
               {settings.usd_to_pen && (
                 <span className="ml-2">· TC: S/ {settings.usd_to_pen}</span>
               )}
             </p>
           </div>
+          <CategoryFilter active={activeCategory} onChange={setActiveCategory} />
         </div>
 
-        {!searchQuery ? (
+        {!searchQuery && activeCategory === 'all' ? (
           <div className="text-center py-20">
             <p className="text-muted-foreground text-sm">Escribe en el buscador o selecciona una categoría para ver servicios</p>
           </div>
