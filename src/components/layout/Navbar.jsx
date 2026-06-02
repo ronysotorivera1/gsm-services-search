@@ -16,52 +16,52 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 glass border-b border-border/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-16 hidden">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/20">
-              <Zap className="w-5 h-5 text-primary" />
-            </div>
-            <div>
-              <span className="font-display font-bold text-lg tracking-tight text-foreground">GSM Services</span>
-              <span className="hidden sm:inline text-xs text-muted-foreground ml-2 font-medium">PRICES</span>
-            </div>
-          </Link>
+        
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => {
-              const Icon = link.icon;
-              const isActive = location.pathname === link.path;
-              return (
-                <Link key={link.path} to={link.path}>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className={`gap-2 text-sm font-medium transition-all ${
-                    isActive ?
-                    'text-primary bg-primary/10' :
-                    'text-muted-foreground hover:text-foreground'}`
-                    }>
-                    
-                    <Icon className="w-4 h-4" />
-                    {link.label}
-                  </Button>
-                </Link>);
 
-            })}
-          </div>
 
-          {/* Mobile toggle */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden text-muted-foreground"
-            onClick={() => setMobileOpen(!mobileOpen)}>
-            
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </Button>
-        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
 
         {/* Mobile Nav */}
         {mobileOpen &&
