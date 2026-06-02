@@ -47,7 +47,11 @@ export default function Home() {
           <CategoryFilter active={activeCategory} onChange={setActiveCategory} />
         </div>
 
-        {isLoading ? (
+        {!searchQuery && activeCategory === 'all' ? (
+          <div className="text-center py-20">
+            <p className="text-muted-foreground text-sm">Escribe en el buscador o selecciona una categoría para ver servicios</p>
+          </div>
+        ) : isLoading ? (
           <div className="flex justify-center py-20">
             <Loader2 className="w-6 h-6 text-primary animate-spin" />
           </div>
