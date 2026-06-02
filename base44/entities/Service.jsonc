@@ -4,7 +4,7 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "Service name"
+      "description": "Nombre del servicio"
     },
     "category": {
       "type": "string",
@@ -17,33 +17,51 @@
         "remote",
         "premium"
       ],
-      "description": "Service category"
+      "description": "Tipo de servicio"
     },
     "price_usd": {
       "type": "number",
-      "description": "Price in USD"
+      "description": "Valor en USD"
+    },
+    "service_type": {
+      "type": "string",
+      "enum": [
+        "service",
+        "rental",
+        "license"
+      ],
+      "default": "service",
+      "description": "Servicio, Renta o Licencia"
+    },
+    "duration": {
+      "type": "string",
+      "description": "Duraci\u00f3n si es renta o licencia (ej: 1h, 1 mes, anual)"
     },
     "delivery_time": {
       "type": "string",
-      "description": "Estimated delivery time e.g. 1-24 Hours"
-    },
-    "description": {
-      "type": "string",
-      "description": "Service description"
+      "description": "Tiempo de entrega estimado"
     },
     "status": {
       "type": "string",
       "enum": [
         "active",
-        "delay",
-        "offline"
+        "inactive",
+        "out_of_stock"
       ],
       "default": "active",
-      "description": "Service availability status"
+      "description": "Activo, Inactivo o Sin Stock"
+    },
+    "note_html": {
+      "type": "string",
+      "description": "Nota opcional con soporte HTML"
     },
     "brand": {
       "type": "string",
-      "description": "Phone brand (Samsung, iPhone, Xiaomi, etc.)"
+      "description": "Marca del dispositivo"
+    },
+    "description": {
+      "type": "string",
+      "description": "Descripci\u00f3n del servicio"
     }
   },
   "required": [
