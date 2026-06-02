@@ -22,8 +22,8 @@ export default function Navbar() {
               <Zap className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <span className="font-display font-bold text-lg tracking-tight text-foreground">GSMServices</span>
-              <span className="hidden sm:inline text-xs text-muted-foreground ml-2 font-medium">CENTER</span>
+              <span className="font-display font-bold text-lg tracking-tight text-foreground">GSM Services</span>
+              <span className="hidden sm:inline text-xs text-muted-foreground ml-2 font-medium">PRICES</span>
             </div>
           </Link>
 
