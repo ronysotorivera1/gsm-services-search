@@ -24,7 +24,7 @@ export default function Home() {
   }, [services, searchQuery]);
 
   return (
-    <div style={{ background: 'linear-gradient(160deg, #dce8f5 0%, #e8f0f8 40%, #c8ddf0 100%)' }} className="min-h-screen">
+    <div style={{ background: 'linear-gradient(160deg, #dce8f5 0%, #e8f0f8 40%, #c8ddf0 100%)' }} className="flex-1">
       <SearchHero
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
