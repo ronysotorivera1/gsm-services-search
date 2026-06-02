@@ -32,9 +32,9 @@
     --chart-4: 160 60% 45%;
     --chart-5: 280 65% 60%;
     --radius: 0.75rem;
-    --font-heading: Tahoma, ui-sans-serif, system-ui, sans-serif;
-    --font-body: Tahoma, ui-sans-serif, system-ui, sans-serif;
-    --font-display: Tahoma, ui-sans-serif, system-ui, sans-serif;
+    --font-heading: inherit;
+    --font-body: inherit;
+    --font-display: inherit;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     --sidebar-background: 220 15% 6%;
     --sidebar-foreground: 210 20% 90%;
