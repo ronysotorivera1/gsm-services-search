@@ -26,7 +26,7 @@ export default function Home() {
   }, [services, searchQuery]);
 
   return (
-    <div>
+    <div style={{ background: 'linear-gradient(160deg, #dce8f5 0%, #e8f0f8 40%, #c8ddf0 100%)', minHeight: '100vh' }}>
       <SearchHero searchQuery={searchQuery} onSearchChange={setSearchQuery} />
 
       {searchQuery && (
