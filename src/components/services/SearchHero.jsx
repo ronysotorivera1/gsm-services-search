@@ -5,31 +5,27 @@ import ServicesSlider from './ServicesSlider';
 
 export default function SearchHero({ searchQuery, onSearchChange }) {
   return (
-    <div className="relative py-16 sm:py-24 overflow-hidden bg-white">
-      {/* Background effects */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-accent/8 rounded-full blur-3xl" />
-        {/* Corner decorations */}
-        <svg className="absolute top-0 left-0 w-48 h-48 text-primary/10" viewBox="0 0 200 200" fill="none">
-          <circle cx="0" cy="0" r="80" stroke="currentColor" strokeWidth="1.5" />
-          <circle cx="0" cy="0" r="120" stroke="currentColor" strokeWidth="0.8" />
-          <circle cx="0" cy="0" r="160" stroke="currentColor" strokeWidth="0.4" />
+    <div className="relative py-16 sm:py-24 overflow-hidden" style={{ background: 'linear-gradient(160deg, #dce8f5 0%, #e8f0f8 40%, #c8ddf0 100%)' }}>
+      {/* Wave SVG background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <svg className="absolute bottom-0 left-0 w-full" viewBox="0 0 1440 220" preserveAspectRatio="none" fill="none">
+          <path d="M0,120 C200,180 400,40 600,100 C800,160 1000,60 1200,110 C1320,140 1400,100 1440,90 L1440,220 L0,220 Z" fill="rgba(255,255,255,0.18)" />
+          <path d="M0,160 C180,120 360,180 540,150 C720,120 900,170 1080,145 C1240,125 1360,155 1440,140 L1440,220 L0,220 Z" fill="rgba(255,255,255,0.12)" />
         </svg>
-        <svg className="absolute bottom-0 right-0 w-48 h-48 text-accent/10" viewBox="0 0 200 200" fill="none">
-          <circle cx="200" cy="200" r="80" stroke="currentColor" strokeWidth="1.5" />
-          <circle cx="200" cy="200" r="120" stroke="currentColor" strokeWidth="0.8" />
-          <circle cx="200" cy="200" r="160" stroke="currentColor" strokeWidth="0.4" />
+        <svg className="absolute top-0 right-0 w-full" viewBox="0 0 1440 180" preserveAspectRatio="none" fill="none">
+          <path d="M0,0 L1440,0 L1440,60 C1200,100 900,20 600,70 C300,120 100,50 0,80 Z" fill="rgba(255,255,255,0.15)" />
         </svg>
-        <svg className="absolute top-0 right-0 w-32 h-32 text-primary/8" viewBox="0 0 128 128" fill="none">
-          <path d="M128 0 L128 128 L0 128" stroke="currentColor" strokeWidth="1" />
-          <path d="M128 20 L128 128 L20 128" stroke="currentColor" strokeWidth="0.6" />
-          <path d="M128 40 L128 128 L40 128" stroke="currentColor" strokeWidth="0.4" />
-        </svg>
-        <svg className="absolute bottom-0 left-0 w-32 h-32 text-accent/8" viewBox="0 0 128 128" fill="none">
-          <path d="M0 128 L0 0 L128 0" stroke="currentColor" strokeWidth="1" />
-          <path d="M0 128 L0 20 L108 20" stroke="currentColor" strokeWidth="0.6" />
-          <path d="M0 128 L0 40 L88 40" stroke="currentColor" strokeWidth="0.4" />
+        {/* Fine wave lines */}
+        <svg className="absolute inset-0 w-full h-full opacity-30" viewBox="0 0 1440 400" preserveAspectRatio="none" fill="none">
+          {[0,18,36,54,72,90,108,126].map((offset, i) => (
+            <path
+              key={i}
+              d={`M0,${180 + offset} C240,${140 + offset} 480,${220 + offset} 720,${170 + offset} C960,${120 + offset} 1200,${200 + offset} 1440,${160 + offset}`}
+              stroke="#7aa8cc"
+              strokeWidth="0.7"
+              fill="none"
+            />
+          ))}
         </svg>
       </div>
 

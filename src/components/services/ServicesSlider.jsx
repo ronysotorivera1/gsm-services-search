@@ -43,15 +43,12 @@ export default function ServicesSlider({ onSearchChange }) {
           <button
             key={`${service.id}-${i}`}
             onClick={() => onSearchChange(service.name)}
-            className="flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-white hover:border-primary/40 hover:bg-primary/5 hover:text-primary transition-all text-sm font-medium text-muted-foreground whitespace-nowrap shadow-sm"
+            className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/60 bg-white/70 hover:bg-white hover:border-primary/40 hover:text-primary transition-all text-sm font-medium text-slate-600 whitespace-nowrap shadow-sm backdrop-blur-sm"
           >
             {service.brand && (
-              <span className="text-xs text-primary/60 font-semibold uppercase tracking-wide">{service.brand}</span>
+              <span className="text-xs text-primary/70 font-semibold uppercase tracking-wide">{service.brand}</span>
             )}
             <span>{service.name}</span>
-            {service.price_usd && (
-              <span className="text-xs font-bold text-accent">${service.price_usd}</span>
-            )}
           </button>
         ))}
       </div>
