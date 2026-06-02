@@ -5,7 +5,7 @@ import ServicesSlider from './ServicesSlider';
 
 export default function SearchHero({ searchQuery, onSearchChange }) {
   return (
-    <div className="relative py-16 sm:py-24 overflow-hidden" style={{ background: 'linear-gradient(160deg, #dce8f5 0%, #e8f0f8 40%, #c8ddf0 100%)' }}>
+    <div className="relative py-10 sm:py-14 overflow-hidden" style={{ background: 'linear-gradient(160deg, #dce8f5 0%, #e8f0f8 40%, #c8ddf0 100%)' }}>
       {/* Wave SVG background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <svg className="absolute bottom-0 left-0 w-full" viewBox="0 0 1440 220" preserveAspectRatio="none" fill="none">

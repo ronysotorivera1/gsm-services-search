@@ -30,7 +30,7 @@ export default function Home() {
       <SearchHero searchQuery={searchQuery} onSearchChange={setSearchQuery} />
 
       {searchQuery && (
-        <div className="max-w-7xl mx-auto px-4 pb-12">
+        <div className="max-w-7xl mx-auto px-4 pt-6 pb-12">
           {isLoading ? (
             <div className="flex justify-center py-12">
               <Loader2 className="w-6 h-6 animate-spin text-primary" />
