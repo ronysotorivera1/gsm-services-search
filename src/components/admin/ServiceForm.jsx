@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useQuery } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 
 const CATEGORIES = [
   { value: 'renta', label: 'RENTA' },
@@ -37,6 +39,22 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
     note_html: initial?.note_html || '',
   });
 
+  const [showNameSuggestions, setShowNameSuggestions] = useState(false);
+
+  const { data: allServices = [] } = useQuery({
+    queryKey: ['services-admin'],
+    queryFn: () => base44.entities.Service.list('-updated_date', 100),
+    initialData: [],
+  });
+
+  // Get unique service names
+  const uniqueServiceNames = Array.from(new Set(allServices.map(s => s.name)));
+  
+  // Filter suggestions based on input
+  const nameSuggestions = form.name.length > 0
+    ? uniqueServiceNames.filter(name => name.toLowerCase().includes(form.name.toLowerCase()))
+    : [];
+
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
   const showDuration = form.category === 'renta' || form.category === 'activacion';
 
@@ -44,9 +62,28 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
     <div className="p-4 rounded-lg border border-primary/20 bg-primary/5 mb-4 space-y-3">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 
-        <div className="space-y-1">
+        <div className="space-y-1 relative">
           <Label className="text-xs">Servicio *</Label>
-          <Input value={form.name} onChange={e => set('name', e.target.value)} placeholder="Nombre del servicio" />
+          <Input 
+            value={form.name} 
+            onChange={e => { set('name', e.target.value); setShowNameSuggestions(true); }} 
+            onFocus={() => setShowNameSuggestions(true)}
+            onBlur={() => setTimeout(() => setShowNameSuggestions(false), 200)}
+            placeholder="Nombre del servicio" 
+          />
+          {showNameSuggestions && nameSuggestions.length > 0 && (
+            <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-border rounded-lg shadow-lg z-10 max-h-32 overflow-y-auto">
+              {nameSuggestions.map((name) => (
+                <button
+                  key={name}
+                  onClick={() => { set('name', name); setShowNameSuggestions(false); }}
+                  className="w-full text-left px-3 py-2 hover:bg-secondary/50 border-b border-border/30 last:border-b-0 text-xs text-foreground transition-colors"
+                >
+                  {name}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="space-y-1">
