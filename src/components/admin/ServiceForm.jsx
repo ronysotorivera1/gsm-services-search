@@ -7,10 +7,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 
 const CATEGORIES = [
   { value: 'renta', label: 'RENTA' },
-  { value: 'activacion', label: 'ACTIVACIÓN' },
+  { value: 'activacion', label: 'ACTIVACIÓN LICENCIA' },
   { value: 'imei', label: 'IMEI' },
   { value: 'remoto', label: 'REMOTO' },
 ];
+
+const DURATION_OPTIONS = Array.from({ length: 24 }, (_, i) => ({
+  value: `${i + 1} mes${i > 0 ? 'es' : ''}`,
+  label: `${i + 1} mes${i > 0 ? 'es' : ''}`
+}));
 
 const STATUSES = [
   { value: 'active', label: 'Activo' },
@@ -33,7 +38,7 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
   });
 
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
-  const showDuration = form.category === 'renta';
+  const showDuration = form.category === 'renta' || form.category === 'activacion';
 
   return (
     <div className="p-4 rounded-lg border border-primary/20 bg-primary/5 mb-4 space-y-3">
@@ -61,8 +66,17 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
 
         {showDuration && (
           <div className="space-y-1">
-            <Label className="text-xs">Duración</Label>
-            <Input value={form.duration} onChange={e => set('duration', e.target.value)} placeholder="ej: 1h, 6h, 12h, 24h, 1 mes, anual" />
+            <Label className="text-xs">Duración {form.category === 'activacion' ? '(Meses)' : ''}</Label>
+            {form.category === 'activacion' ? (
+              <Select value={form.duration} onValueChange={v => set('duration', v)}>
+                <SelectTrigger><SelectValue placeholder="Selecciona duración" /></SelectTrigger>
+                <SelectContent>
+                  {DURATION_OPTIONS.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            ) : (
+              <Input value={form.duration} onChange={e => set('duration', e.target.value)} placeholder="ej: 1h, 6h, 12h, 24h, 1 mes, anual" />
+            )}
           </div>
         )}
 
