@@ -67,8 +67,8 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
             </div>
 
             {/* Input único — siempre en el DOM, siempre enfocable */}
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none z-10" />
+            <div className="relative flex items-center">
+              <Search className="absolute left-3 w-5 h-5 text-muted-foreground pointer-events-none z-10" />
               <Input
                 ref={inputRef}
                 type="text"
