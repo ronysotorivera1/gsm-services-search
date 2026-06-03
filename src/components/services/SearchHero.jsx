@@ -16,6 +16,9 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
   const inputRef = useRef(null);
   const [promoIndex, setPromoIndex] = useState(0);
   const [promoVisible, setPromoVisible] = useState(true);
+  
+  // Get unique service names from results for autocomplete
+  const uniqueNames = Array.from(new Set(results.map(r => r.name)));
 
   // Mantener el foco en el input cuando cambia hasQuery
   useEffect(() => {
@@ -74,6 +77,20 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
                 onChange={(e) => onSearchChange(e.target.value)}
                 className={`pl-12 pr-4 text-base bg-white/70 border-border/50 rounded-xl focus:border-primary/50 focus:ring-primary/20 placeholder:text-muted-foreground/50 transition-all duration-300 ${hasQuery ? 'h-12' : 'h-14'}`} />
               
+              {/* Autocomplete dropdown with unique names */}
+              {hasQuery && uniqueNames.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-border rounded-xl shadow-lg z-10 max-h-48 overflow-y-auto">
+                  {uniqueNames.map((name) => (
+                    <button
+                      key={name}
+                      onClick={() => onSearchChange(name)}
+                      className="w-full text-left px-4 py-3 hover:bg-secondary/50 border-b border-border/30 last:border-b-0 text-sm text-foreground transition-colors"
+                    >
+                      {name}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {!hasQuery && <ServicesSlider onSearchChange={onSearchChange} />}

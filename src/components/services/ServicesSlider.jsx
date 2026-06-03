@@ -12,8 +12,10 @@ export default function ServicesSlider({ onSearchChange }) {
   });
 
   const active = services.filter(s => s.status === 'active');
+  // Remove duplicates by name
+  const uniqueActive = Array.from(new Map(active.map(s => [s.name, s])).values());
   // Duplicate for infinite loop effect
-  const items = [...active, ...active];
+  const items = [...uniqueActive, ...uniqueActive];
 
   useEffect(() => {
     const track = trackRef.current;
@@ -32,9 +34,9 @@ export default function ServicesSlider({ onSearchChange }) {
 
     raf = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(raf);
-  }, [active.length]);
+  }, [uniqueActive.length]);
 
-  if (active.length === 0) return null;
+  if (uniqueActive.length === 0) return null;
 
   return (
     <div className="w-full overflow-hidden mt-5 select-none">
