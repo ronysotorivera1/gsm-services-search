@@ -123,12 +123,12 @@ export default function AdminServices() {
                       </p>
                       {s.category && <p className="text-xs text-primary mt-1">{s.category}</p>}
                     </div>
-                    <div className="flex gap-2 ml-3">
-                      <Button size="icon" variant="ghost" className="w-7 h-7" onClick={() => { setEditing(s); setShowForm(true); }}>
-                        <Pencil className="w-3.5 h-3.5" />
+                    <div className="flex gap-1 ml-3">
+                      <Button size="icon" variant="ghost" className="min-w-[44px] min-h-[44px]" onClick={() => { setEditing(s); setShowForm(true); }}>
+                        <Pencil className="w-4 h-4" />
                       </Button>
-                      <Button size="icon" variant="ghost" className="w-7 h-7 text-destructive hover:text-destructive" onClick={() => handleDelete(s.id)}>
-                        <Trash2 className="w-3.5 h-3.5" />
+                      <Button size="icon" variant="ghost" className="min-w-[44px] min-h-[44px] text-destructive hover:text-destructive" onClick={() => handleDelete(s.id)}>
+                        <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>
                   </div>
