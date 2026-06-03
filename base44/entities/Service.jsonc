@@ -9,13 +9,10 @@
     "category": {
       "type": "string",
       "enum": [
+        "renta",
+        "activacion",
         "imei",
-        "unlock",
-        "frp",
-        "mdm",
-        "server",
-        "remote",
-        "premium"
+        "remoto"
       ],
       "description": "Tipo de servicio"
     },

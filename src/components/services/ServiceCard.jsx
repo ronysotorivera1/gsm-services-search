@@ -5,10 +5,25 @@ import { Clock, ExternalLink, Zap } from 'lucide-react';
 import StatusBadge from '../shared/StatusBadge';
 import PriceDisplay from '../shared/PriceDisplay';
 
-const serviceTypeLabels = {
-  service: 'Servicio',
-  rental: 'Renta',
-  license: 'Licencia',
+const categoryLabels = {
+  renta: 'RENTA',
+  activacion: 'ACTIVACIÓN',
+  imei: 'IMEI',
+  remoto: 'REMOTO',
+};
+
+const categoryColors = {
+  renta: 'bg-accent/15 text-accent',
+  activacion: 'bg-primary/15 text-primary',
+  imei: 'bg-blue-500/15 text-blue-600',
+  remoto: 'bg-purple-500/15 text-purple-600',
+};
+
+const categoryIcons = {
+  renta: '⚡',
+  activacion: '✓',
+  imei: '#',
+  remoto: '🌐',
 };
 
 export default function ServiceCard({ service, exchangeRate }) {
@@ -37,19 +52,15 @@ export default function ServiceCard({ service, exchangeRate }) {
         <p className="text-xs text-muted-foreground mb-4 line-clamp-2">{service.description}</p>
       )}
 
-      <div className="flex gap-2 mb-4">
-        {service.service_type && (
-          <span className={`text-[11px] font-semibold px-2 py-1 rounded-full flex items-center gap-1 ${
-            service.service_type === 'rental' 
-              ? 'bg-accent/15 text-accent' 
-              : 'bg-secondary/60 text-secondary-foreground'
-          }`}>
-            {service.service_type === 'rental' && <Zap className="w-3 h-3" />}
-            {serviceTypeLabels[service.service_type] || service.service_type}
+      <div className="flex gap-2 mb-4 items-center">
+        {service.category && (
+          <span className={`text-[11px] font-semibold px-2.5 py-1.5 rounded-lg ${categoryColors[service.category] || 'bg-secondary/60 text-secondary-foreground'}`}>
+            <span className="mr-1">{categoryIcons[service.category]}</span>
+            {categoryLabels[service.category] || service.category}
           </span>
         )}
         {service.duration && (
-          <span className="text-[11px] font-semibold px-2 py-1 rounded-full bg-accent/10 text-accent">
+          <span className="text-[10px] font-medium px-2 py-1 rounded bg-muted text-muted-foreground">
             {service.duration}
           </span>
         )}
