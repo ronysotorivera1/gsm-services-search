@@ -87,7 +87,7 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
                 href="https://gsmservicess.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-3 flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-accent/10 border border-primary/15 hover:border-primary/30 hover:from-primary/15 transition-all duration-300 group overflow-hidden"
+                className="mt-3 flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-accent/10 border border-primary/15 hover:border-primary/30 hover:from-primary/15 transition-all duration-300 group overflow-hidden"
               >
                 <span className="shrink-0 w-2 h-2 rounded-full bg-primary animate-pulse" />
                 <span
