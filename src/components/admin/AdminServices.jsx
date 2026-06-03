@@ -116,15 +116,17 @@ export default function AdminServices() {
 
       {/* Modal para crear / editar */}
       <Dialog open={showForm} onOpenChange={open => { if (!open) { setShowForm(false); setEditing(null); } }}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl">
-          <DialogHeader>
+        <DialogContent className="max-w-2xl w-full max-h-[85dvh] flex flex-col rounded-2xl p-0 gap-0 overflow-hidden">
+          <DialogHeader className="px-5 pt-5 pb-3 shrink-0 border-b border-border">
             <DialogTitle>{editing ? 'Editar Servicio' : 'Nuevo Servicio'}</DialogTitle>
           </DialogHeader>
-          <ServiceForm
-            initial={editing}
-            onSave={handleSave}
-            onCancel={() => { setShowForm(false); setEditing(null); }}
-          />
+          <div className="overflow-y-auto flex-1 px-5 py-4 overscroll-contain">
+            <ServiceForm
+              initial={editing}
+              onSave={handleSave}
+              onCancel={() => { setShowForm(false); setEditing(null); }}
+            />
+          </div>
         </DialogContent>
       </Dialog>
 
