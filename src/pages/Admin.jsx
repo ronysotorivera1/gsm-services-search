@@ -21,7 +21,7 @@ export default function Admin() {
       <Tabs defaultValue="services">
         <TabsList className="mb-6">
           <TabsTrigger value="services">Servicios</TabsTrigger>
-          <TabsTrigger value="rentals" className="hidden">Herramientas</TabsTrigger>
+          
           <TabsTrigger value="settings">Configuración</TabsTrigger>
         </TabsList>
 
