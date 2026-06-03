@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
-import { Search, Zap, Loader2 } from 'lucide-react';
+import { Search, Zap, Loader2, X } from 'lucide-react';
 import ServicesSlider from './ServicesSlider';
 import ServiceCard from './ServiceCard';
 
@@ -72,8 +72,16 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
                 placeholder="Buscar IMEI, Unlock, MDM, FRP..."
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
-                className={`pl-12 pr-4 text-base bg-white/70 border-border/50 rounded-xl focus:border-primary/50 focus:ring-primary/20 placeholder:text-muted-foreground/50 transition-all duration-300 ${hasQuery ? 'h-12' : 'h-14'}`} />
-              
+                className={`pl-12 pr-12 text-base bg-white/70 border-border/50 rounded-xl focus:border-primary/50 focus:ring-primary/20 placeholder:text-muted-foreground/50 transition-all duration-300 ${hasQuery ? 'h-12' : 'h-14'}`} />
+              {hasQuery && (
+                <button
+                  onClick={() => onSearchChange('')}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Limpiar búsqueda"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              )}
             </div>
 
             {!hasQuery && <ServicesSlider onSearchChange={onSearchChange} />}
