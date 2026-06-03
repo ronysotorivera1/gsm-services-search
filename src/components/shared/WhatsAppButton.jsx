@@ -1,5 +1,5 @@
 import React from 'react';
-import { Send } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 
 export default function WhatsAppButton() {
   return (
@@ -16,7 +16,7 @@ export default function WhatsAppButton() {
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-full blur-lg group-hover:blur-xl transition-all duration-300 group-hover:scale-125 animate-pulse"></div>
           <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-lg shadow-primary/30 transition-all duration-300 group-hover:scale-110 group-hover:shadow-primary/50 border border-primary/30">
-            <Send className="w-6 h-6 text-white" />
+            <MessageSquare className="w-6 h-6 text-white" />
           </div>
         </div>
       </div>
