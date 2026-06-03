@@ -7,10 +7,12 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Save, Loader2, Upload, Trash2 } from 'lucide-react';
+import { Save, Loader2, Upload, Trash2, CheckCircle } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
 
 export default function AdminSettings() {
   const queryClient = useQueryClient();
+  const { toast } = useToast();
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef();
@@ -57,14 +59,18 @@ export default function AdminSettings() {
 
   const handleSave = async () => {
     setSaving(true);
-    const data = { ...form, usd_to_pen: parseFloat(form.usd_to_pen) || 3.70 };
-    if (settings.length > 0) {
-      await base44.entities.AppSettings.update(settings[0].id, data);
-    } else {
-      await base44.entities.AppSettings.create(data);
+    try {
+      const data = { ...form, usd_to_pen: parseFloat(form.usd_to_pen) || 3.70 };
+      if (settings.length > 0) {
+        await base44.entities.AppSettings.update(settings[0].id, data);
+      } else {
+        await base44.entities.AppSettings.create(data);
+      }
+      queryClient.invalidateQueries({ queryKey: ['appSettings'] });
+      toast({ title: '✓ Configuración guardada' });
+    } finally {
+      setSaving(false);
     }
-    queryClient.invalidateQueries({ queryKey: ['appSettings'] });
-    setSaving(false);
   };
 
   return (
