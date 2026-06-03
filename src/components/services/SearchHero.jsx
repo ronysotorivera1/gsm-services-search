@@ -18,20 +18,7 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
   return (
     <div className="flex flex-col min-h-screen">
 
-      {/* Barra sticky - solo visible con resultados, NO recibe el input real */}
-      <div
-        className={`sticky top-0 z-40 glass border-b border-border/30 transition-all duration-300 overflow-hidden ${
-          hasQuery ? 'py-3 px-4 max-h-20 opacity-100' : 'max-h-0 py-0 opacity-0'
-        }`}
-        aria-hidden="true"
-      >
-        <div className="relative max-w-xl mx-auto">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
-          <div className="pl-12 pr-4 h-12 text-base bg-white/70 border border-border/50 rounded-xl flex items-center text-muted-foreground/60 text-sm select-none">
-            {searchQuery || 'Buscar IMEI, Unlock, MDM, FRP...'}
-          </div>
-        </div>
-      </div>
+
 
       {/* Contenido principal */}
       <div className="flex-1 flex flex-col">
