@@ -54,16 +54,15 @@ export default function ServiceCard({ service, exchangeRate }) {
       </div>
 
       {/* Nota pie de tarjeta */}
-      <div className="mt-3 pt-3 border-t border-border/40">
-        <a
-          href="https://gsmservicess.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs text-primary/70 hover:text-primary transition-colors"
-        >
-          🌐 Más barato y automático en <span className="font-semibold underline">gsmservicess.com</span>
-        </a>
-      </div>
+      <a
+        href="https://gsmservicess.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-3 flex items-center gap-1.5 text-[11px] text-muted-foreground/60 hover:text-primary/70 transition-colors group/note"
+      >
+        <span className="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover/note:bg-primary/60 transition-colors shrink-0" />
+        Más barato y automático en <span className="font-medium text-primary/50 group-hover/note:text-primary/80 transition-colors">gsmservicess.com</span>
+      </a>
     </Card>
   );
 }
