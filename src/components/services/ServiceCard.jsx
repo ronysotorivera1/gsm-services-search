@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Clock, ExternalLink, Zap } from 'lucide-react';
+import { Clock, ExternalLink, Minus, Plus } from 'lucide-react';
 import StatusBadge from '../shared/StatusBadge';
 import PriceDisplay from '../shared/PriceDisplay';
 
@@ -32,10 +32,13 @@ const categoryIcons = {
 export default function ServiceCard({ service, exchangeRate }) {
   const rate = exchangeRate || 3.70;
   const isCreditos = service.category === 'creditos' && service.credits_quantity;
-  const displayPrice = isCreditos ? service.price_usd * service.credits_quantity : service.price_usd;
+  const minQty = isCreditos ? service.credits_quantity : 1;
+  const [qty, setQty] = useState(minQty);
+
+  const displayPrice = isCreditos ? service.price_usd * qty : service.price_usd;
   const soles = (displayPrice * rate).toFixed(2);
   const whatsappMsg = encodeURIComponent(
-    `Hola, quiero solicitar el servicio:\n*${service.name}*${isCreditos ? `\n🔢 ${service.credits_quantity} créditos` : ''}\n💵 $${displayPrice.toFixed(2)} USDT\n🇵🇪 S/ ${soles} Soles`
+    `Hola, quiero solicitar el servicio:\n*${service.name}*${isCreditos ? `\n🔢 ${qty} créditos` : ''}\n💵 $${displayPrice.toFixed(2)} USDT\n🇵🇪 S/ ${soles} Soles`
   );
 
   return (
@@ -69,21 +72,35 @@ export default function ServiceCard({ service, exchangeRate }) {
             {service.duration}
           </span>
         )}
-        {isCreditos && service.credits_quantity && (
+        {isCreditos && (
           <span className="text-[11px] font-semibold px-2.5 py-1.5 rounded-lg bg-green-500/15 text-green-600">
-            Mín. {service.credits_quantity} créditos
+            Mín. {minQty} créditos
           </span>
         )}
       </div>
 
+      {isCreditos && (
+        <div className="flex items-center gap-2 mb-3">
+          <button
+            onClick={() => setQty(q => Math.max(minQty, q - minQty))}
+            className="w-7 h-7 rounded-lg border border-border flex items-center justify-center hover:bg-muted transition-colors"
+          >
+            <Minus className="w-3 h-3" />
+          </button>
+          <span className="text-sm font-semibold w-12 text-center">{qty}</span>
+          <button
+            onClick={() => setQty(q => Math.min(1000, q + minQty))}
+            className="w-7 h-7 rounded-lg border border-border flex items-center justify-center hover:bg-muted transition-colors"
+          >
+            <Plus className="w-3 h-3" />
+          </button>
+          <span className="text-[10px] text-muted-foreground">(${service.price_usd.toFixed(2)} c/u)</span>
+        </div>
+      )}
+
       <div className="flex items-end justify-between">
         <div>
           <PriceDisplay usd={displayPrice} exchangeRate={exchangeRate} />
-          {isCreditos && (
-            <span className="text-[10px] text-muted-foreground">
-              (${service.price_usd.toFixed(2)} × {service.credits_quantity} uds.)
-            </span>
-          )}
           {service.delivery_time && (
             <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
               <Clock className="w-3 h-3" />
