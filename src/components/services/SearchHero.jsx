@@ -91,35 +91,33 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
                   ))}
                 </div>
               )}
+
+              {/* Banner promo slider — solo con búsqueda activa */}
+              {hasQuery &&
+              <a
+                href="https://gsmservicess.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-accent/10 border border-primary/15 hover:border-primary/30 hover:from-primary/15 transition-all duration-300 group overflow-hidden w-full">
+                
+                  <span className="shrink-0 w-2 h-2 rounded-full bg-primary animate-pulse" />
+                  <span
+                  className="text-[11.5px] text-muted-foreground/80 truncate transition-opacity duration-400"
+                  style={{ opacity: promoVisible ? 1 : 0 }}>
+                  
+                    {PROMO_MESSAGES[promoIndex].split('gsmservicess.com').map((part, i, arr) =>
+                  i < arr.length - 1 ?
+                  <span key={i}>{part}<span className="font-semibold text-primary group-hover:underline">gsmservicess.com</span></span> :
+                  <span key={i}>{part}</span>
+                  )}
+                  </span>
+                </a>
+              }
             </div>
 
             {!hasQuery && <ServicesSlider onSearchChange={onSearchChange} />}
           </div>
         </div>
-
-        {/* Banner promo slider — solo con búsqueda activa */}
-        {hasQuery &&
-        <div className="flex justify-center px-4 py-3 relative z-20">
-          <a
-            href="https://gsmservicess.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-accent/10 border border-primary/15 hover:border-primary/30 hover:from-primary/15 transition-all duration-300 group overflow-hidden max-w-2xl">
-            
-              <span className="shrink-0 w-2 h-2 rounded-full bg-primary animate-pulse" />
-              <span
-              className="text-[11.5px] text-muted-foreground/80 truncate transition-opacity duration-400"
-              style={{ opacity: promoVisible ? 1 : 0 }}>
-              
-                {PROMO_MESSAGES[promoIndex].split('gsmservicess.com').map((part, i, arr) =>
-              i < arr.length - 1 ?
-              <span key={i}>{part}<span className="font-semibold text-primary group-hover:underline">gsmservicess.com</span></span> :
-              <span key={i}>{part}</span>
-              )}
-              </span>
-            </a>
-          </div>
-        }
 
         {/* Resultados */}
         {hasQuery &&
