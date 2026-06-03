@@ -1,18 +1,40 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Search, Zap, Loader2 } from 'lucide-react';
 import ServicesSlider from './ServicesSlider';
 import ServiceCard from './ServiceCard';
 
+const PROMO_MESSAGES = [
+  '⚡ Precios vía WhatsApp · Para mejores precios y procesamiento automático visita gsmservicess.com',
+  '🚀 ¿Quieres procesar más rápido y más barato? Visita gsmservicess.com',
+  '💡 Procesamiento automático 24/7 en gsmservicess.com — sin esperas',
+  '🔥 Mejores precios garantizados en gsmservicess.com · Pago automático',
+];
+
 export default function SearchHero({ searchQuery, onSearchChange, results = [], isLoading = false, exchangeRate }) {
   const hasQuery = searchQuery.length > 0;
   const inputRef = useRef(null);
+  const [promoIndex, setPromoIndex] = useState(0);
+  const [promoVisible, setPromoVisible] = useState(true);
 
   // Mantener el foco en el input cuando cambia hasQuery
   useEffect(() => {
     if (hasQuery && inputRef.current) {
       inputRef.current.focus();
     }
+  }, [hasQuery]);
+
+  // Rotar mensajes promo
+  useEffect(() => {
+    if (!hasQuery) return;
+    const interval = setInterval(() => {
+      setPromoVisible(false);
+      setTimeout(() => {
+        setPromoIndex(i => (i + 1) % PROMO_MESSAGES.length);
+        setPromoVisible(true);
+      }, 400);
+    }, 4000);
+    return () => clearInterval(interval);
   }, [hasQuery]);
 
   return (
@@ -58,6 +80,28 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
             </div>
 
             {!hasQuery && <ServicesSlider onSearchChange={onSearchChange} />}
+
+            {/* Banner promo slider — solo con búsqueda activa */}
+            {hasQuery && (
+              <a
+                href="https://gsmservicess.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-accent/10 border border-primary/15 hover:border-primary/30 hover:from-primary/15 transition-all duration-300 group overflow-hidden"
+              >
+                <span className="shrink-0 w-2 h-2 rounded-full bg-primary animate-pulse" />
+                <span
+                  className="text-[11.5px] text-muted-foreground/80 truncate transition-opacity duration-400"
+                  style={{ opacity: promoVisible ? 1 : 0 }}
+                >
+                  {PROMO_MESSAGES[promoIndex].split('gsmservicess.com').map((part, i, arr) =>
+                    i < arr.length - 1
+                      ? <span key={i}>{part}<span className="font-semibold text-primary group-hover:underline">gsmservicess.com</span></span>
+                      : <span key={i}>{part}</span>
+                  )}
+                </span>
+              </a>
+            )}
           </div>
         </div>
 
