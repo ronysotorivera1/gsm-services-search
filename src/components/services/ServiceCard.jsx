@@ -1,9 +1,15 @@
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Clock, ExternalLink } from 'lucide-react';
+import { Clock, ExternalLink, Package } from 'lucide-react';
 import StatusBadge from '../shared/StatusBadge';
 import PriceDisplay from '../shared/PriceDisplay';
+
+const serviceTypeLabels = {
+  service: 'Servicio',
+  rental: 'Renta',
+  license: 'Licencia',
+};
 
 export default function ServiceCard({ service, exchangeRate }) {
   const rate = exchangeRate || 3.70;
@@ -30,6 +36,19 @@ export default function ServiceCard({ service, exchangeRate }) {
       {service.description && (
         <p className="text-xs text-muted-foreground mb-4 line-clamp-2">{service.description}</p>
       )}
+
+      <div className="flex gap-2 mb-4">
+        {service.service_type && (
+          <span className="text-[11px] font-semibold px-2 py-1 rounded-full bg-secondary/60 text-secondary-foreground">
+            {serviceTypeLabels[service.service_type] || service.service_type}
+          </span>
+        )}
+        {service.duration && (
+          <span className="text-[11px] font-semibold px-2 py-1 rounded-full bg-accent/10 text-accent">
+            {service.duration}
+          </span>
+        )}
+      </div>
 
       <div className="flex items-end justify-between">
         <div>
