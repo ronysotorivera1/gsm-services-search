@@ -16,9 +16,6 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
   const inputRef = useRef(null);
   const [promoIndex, setPromoIndex] = useState(0);
   const [promoVisible, setPromoVisible] = useState(true);
-  
-  // Get unique service names from results for autocomplete
-  const uniqueNames = Array.from(new Set(results.map(r => r.name)));
 
   // Mantener el foco en el input cuando cambia hasQuery
   useEffect(() => {
@@ -49,7 +46,7 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
       <div className="flex-1 flex flex-col">
 
         {/* Hero + Input único SIEMPRE montado */}
-        <div className={`transition-all duration-500 px-4 text-center ${hasQuery ? 'sticky top-0 z-50 bg-white/95 backdrop-blur-md py-4 shadow-sm' : 'flex-1 flex flex-col items-center justify-center py-16 sm:py-24'}`}>
+        <div className={`transition-all duration-500 px-4 text-center ${hasQuery ? 'py-4' : 'flex-1 flex flex-col items-center justify-center py-16 sm:py-24'}`}>
           <div className={`w-full mx-auto transition-all duration-500 ${hasQuery ? 'max-w-xl' : 'max-w-3xl'}`}>
 
             {/* Título - se oculta suavemente */}
@@ -67,55 +64,41 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
             </div>
 
             {/* Input único — siempre en el DOM, siempre enfocable */}
-            <div className="relative flex items-center">
-              <Search className="absolute left-3 w-5 h-5 text-muted-foreground pointer-events-none z-10" />
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
               <Input
                 ref={inputRef}
                 type="text"
                 placeholder="Buscar IMEI, Unlock, MDM, FRP..."
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
-                className={`pl-11 pr-4 text-base bg-white/70 border-border/50 rounded-xl focus:border-primary/50 focus:ring-primary/20 placeholder:text-muted-foreground/50 transition-all duration-300 ${hasQuery ? 'h-12' : 'h-14'}`} />
+                className={`pl-12 pr-4 text-base bg-white/70 border-border/50 rounded-xl focus:border-primary/50 focus:ring-primary/20 placeholder:text-muted-foreground/50 transition-all duration-300 ${hasQuery ? 'h-12' : 'h-14'}`} />
               
-              {/* Autocomplete dropdown with unique names */}
-              {hasQuery && uniqueNames.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-border rounded-xl shadow-lg z-10 max-h-48 overflow-y-auto">
-                  {uniqueNames.map((name) => (
-                    <button
-                      key={name}
-                      onClick={() => onSearchChange(name)}
-                      className="w-full text-left px-4 py-3 hover:bg-secondary/50 border-b border-border/30 last:border-b-0 text-sm text-foreground transition-colors"
-                    >
-                      {name}
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {/* Banner promo slider — solo con búsqueda activa */}
-              {hasQuery &&
-              <a
-                href="https://gsmservicess.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-3 flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-accent/10 border border-primary/15 hover:border-primary/30 hover:from-primary/15 transition-all duration-300 group overflow-hidden w-full">
-                
-                  <span className="shrink-0 w-2 h-2 rounded-full bg-primary animate-pulse" />
-                  <span
-                  className="text-[11.5px] text-muted-foreground/80 truncate transition-opacity duration-400"
-                  style={{ opacity: promoVisible ? 1 : 0 }}>
-                  
-                    {PROMO_MESSAGES[promoIndex].split('gsmservicess.com').map((part, i, arr) =>
-                  i < arr.length - 1 ?
-                  <span key={i}>{part}<span className="font-semibold text-primary group-hover:underline">gsmservicess.com</span></span> :
-                  <span key={i}>{part}</span>
-                  )}
-                  </span>
-                </a>
-              }
             </div>
 
             {!hasQuery && <ServicesSlider onSearchChange={onSearchChange} />}
+
+            {/* Banner promo slider — solo con búsqueda activa */}
+            {hasQuery &&
+            <a
+              href="https://gsmservicess.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-accent/10 border border-primary/15 hover:border-primary/30 hover:from-primary/15 transition-all duration-300 group overflow-hidden">
+              
+                <span className="shrink-0 w-2 h-2 rounded-full bg-primary animate-pulse" />
+                <span
+                className="text-[11.5px] text-muted-foreground/80 truncate transition-opacity duration-400"
+                style={{ opacity: promoVisible ? 1 : 0 }}>
+                
+                  {PROMO_MESSAGES[promoIndex].split('gsmservicess.com').map((part, i, arr) =>
+                i < arr.length - 1 ?
+                <span key={i}>{part}<span className="font-semibold text-primary group-hover:underline">gsmservicess.com</span></span> :
+                <span key={i}>{part}</span>
+                )}
+                </span>
+              </a>
+            }
           </div>
         </div>
 
