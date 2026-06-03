@@ -10,9 +10,8 @@ export default function Home() {
 
   const { data: services = [], isLoading } = useQuery({
     queryKey: ['services'],
-    queryFn: () => base44.entities.Service.list('created_date', 1000),
+    queryFn: () => base44.entities.Service.filter({}, 'created_date', 2000),
     staleTime: 0,
-    gcTime: 0,
     refetchOnMount: 'always',
     refetchOnWindowFocus: true,
   });
