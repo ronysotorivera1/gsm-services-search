@@ -73,7 +73,7 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
   };
 
   return (
-    <div className="p-4 rounded-lg border border-primary/20 bg-primary/5 mb-4 space-y-3">
+    <div className="space-y-3">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 
         <div className="space-y-1 relative">
