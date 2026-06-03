@@ -68,14 +68,14 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
 
             {/* Input único — siempre en el DOM, siempre enfocable */}
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none z-10" />
               <Input
                 ref={inputRef}
                 type="text"
                 placeholder="Buscar IMEI, Unlock, MDM, FRP..."
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
-                className={`pl-12 pr-4 text-base bg-white/70 border-border/50 rounded-xl focus:border-primary/50 focus:ring-primary/20 placeholder:text-muted-foreground/50 transition-all duration-300 ${hasQuery ? 'h-12' : 'h-14'}`} />
+                className={`pl-11 pr-4 text-base bg-white/70 border-border/50 rounded-xl focus:border-primary/50 focus:ring-primary/20 placeholder:text-muted-foreground/50 transition-all duration-300 ${hasQuery ? 'h-12' : 'h-14'}`} />
               
               {/* Autocomplete dropdown with unique names */}
               {hasQuery && uniqueNames.length > 0 && (
