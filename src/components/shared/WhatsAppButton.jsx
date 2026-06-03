@@ -14,8 +14,8 @@ export default function WhatsAppButton() {
           <p className="text-sm font-medium text-foreground">¿Necesitas ayuda?</p>
         </div>
         <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-full blur-lg group-hover:blur-xl transition-all duration-300 group-hover:scale-125 animate-pulse"></div>
-          <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-lg shadow-primary/30 transition-all duration-300 group-hover:scale-110 group-hover:shadow-primary/50 border border-primary/30">
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/20 via-slate-900/20 to-slate-900/20 rounded-full blur-lg group-hover:blur-xl transition-all duration-300 group-hover:scale-125 animate-pulse"></div>
+          <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-slate-900 to-slate-950 flex items-center justify-center shadow-lg shadow-slate-900/30 transition-all duration-300 group-hover:scale-110 group-hover:shadow-slate-900/50 border border-slate-800/30">
             <MessageSquare className="w-6 h-6 text-white" />
           </div>
         </div>
