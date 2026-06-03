@@ -4,17 +4,18 @@ import { AnimatePresence, motion } from 'framer-motion';
 import WhatsAppButton from '../shared/WhatsAppButton';
 import AuroraBackground from './AuroraBackground';
 import Footer from './Footer';
-import BottomTabBar from './BottomTabBar';
-import Navbar from './Navbar';
+import MobileHeader from './MobileHeader';
+import useDarkMode from '@/hooks/useDarkMode';
 
 export default function AppLayout() {
   const location = useLocation();
+  useDarkMode();
 
   return (
     <div className="flex flex-col min-h-screen">
       <AuroraBackground />
-      {/* <Navbar /> */}
-      <main className="flex-1 flex flex-col pb-[calc(56px+env(safe-area-inset-bottom))] md:pb-0">
+      <MobileHeader />
+      <main className="flex-1 flex flex-col">
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
@@ -30,7 +31,6 @@ export default function AppLayout() {
       </main>
       <Footer />
       <WhatsAppButton />
-      {/* <BottomTabBar /> */}
     </div>
   );
 }

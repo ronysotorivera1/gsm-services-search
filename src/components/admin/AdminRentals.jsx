@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Plus, Pencil, Trash2, Loader2 } from 'lucide-react';
@@ -24,22 +24,46 @@ export default function AdminRentals() {
     enabled: !!user?.id,
   });
 
-  const handleDelete = async (id) => {
+  const deleteMutation = useMutation({
+    mutationFn: (id) => base44.entities.ToolRental.delete(id),
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: ['myRentals', user?.id] });
+      const prev = queryClient.getQueryData(['myRentals', user?.id]);
+      queryClient.setQueryData(['myRentals', user?.id], old => (old || []).filter(r => r.id !== id));
+      return { prev };
+    },
+    onError: (_, __, ctx) => queryClient.setQueryData(['myRentals', user?.id], ctx.prev),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ['myRentals'] }),
+  });
+
+  const saveMutation = useMutation({
+    mutationFn: (data) => editing
+      ? base44.entities.ToolRental.update(editing.id, data)
+      : base44.entities.ToolRental.create(data),
+    onMutate: async (data) => {
+      await queryClient.cancelQueries({ queryKey: ['myRentals', user?.id] });
+      const prev = queryClient.getQueryData(['myRentals', user?.id]);
+      if (editing) {
+        queryClient.setQueryData(['myRentals', user?.id], old =>
+          (old || []).map(r => r.id === editing.id ? { ...r, ...data } : r)
+        );
+      }
+      return { prev };
+    },
+    onError: (_, __, ctx) => queryClient.setQueryData(['myRentals', user?.id], ctx.prev),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['myRentals'] });
+      setShowForm(false);
+      setEditing(null);
+    },
+  });
+
+  const handleDelete = (id) => {
     if (!confirm('¿Eliminar esta herramienta?')) return;
-    await base44.entities.ToolRental.delete(id);
-    queryClient.invalidateQueries({ queryKey: ['toolRentals'] });
+    deleteMutation.mutate(id);
   };
 
-  const handleSave = async (data) => {
-    if (editing) {
-      await base44.entities.ToolRental.update(editing.id, data);
-    } else {
-      await base44.entities.ToolRental.create(data);
-    }
-    queryClient.invalidateQueries({ queryKey: ['toolRentals'] });
-    setShowForm(false);
-    setEditing(null);
-  };
+  const handleSave = (data) => saveMutation.mutate(data);
 
   const statusColors = { active: 'text-green-400', delay: 'text-yellow-400', offline: 'text-red-400' };
 
@@ -70,12 +94,12 @@ export default function AdminRentals() {
                 <p className="text-sm font-medium truncate">{r.tool_name}</p>
                 <p className="text-xs text-muted-foreground">1h: ${r.price_1h} · 24h: ${r.price_24h} · <span className={statusColors[r.status]}>{r.status}</span></p>
               </div>
-              <div className="flex gap-2 ml-3">
-                <Button size="icon" variant="ghost" className="w-7 h-7" onClick={() => { setEditing(r); setShowForm(true); }}>
-                  <Pencil className="w-3.5 h-3.5" />
+              <div className="flex gap-1 ml-3">
+                <Button size="icon" variant="ghost" className="min-w-[44px] min-h-[44px]" onClick={() => { setEditing(r); setShowForm(true); }}>
+                  <Pencil className="w-4 h-4" />
                 </Button>
-                <Button size="icon" variant="ghost" className="w-7 h-7 text-destructive hover:text-destructive" onClick={() => handleDelete(r.id)}>
-                  <Trash2 className="w-3.5 h-3.5" />
+                <Button size="icon" variant="ghost" className="min-w-[44px] min-h-[44px] text-destructive hover:text-destructive" onClick={() => handleDelete(r.id)}>
+                  <Trash2 className="w-4 h-4" />
                 </Button>
               </div>
             </div>

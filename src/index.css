@@ -94,6 +94,13 @@
   }
 }
 
+/* Minimum font size for readability */
+@media (max-width: 768px) {
+  p, span, label, li, td, th, input, textarea, select, button {
+    font-size: max(14px, 1em);
+  }
+}
+
 /* Custom glow effects */
 .glow-blue {
   box-shadow: 0 0 20px rgba(0, 168, 255, 0.15), 0 0 40px rgba(0, 168, 255, 0.05);

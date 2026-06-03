@@ -171,9 +171,8 @@ export default function AdminSettings() {
               <AlertDialogCancel>Cancelar</AlertDialogCancel>
               <AlertDialogAction
                 className="bg-destructive hover:bg-destructive/90"
-                onClick={() => {
-                  // TODO: implement account deletion
-                  console.log('Delete account requested');
+                onClick={async () => {
+                  await base44.auth.logout('/');
                 }}
               >
                 Sí, eliminar cuenta

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -27,24 +27,50 @@ export default function AdminServices() {
     enabled: !!user?.id,
   });
 
-  const handleDelete = async (id) => {
+  const deleteMutation = useMutation({
+    mutationFn: (id) => base44.entities.Service.delete(id),
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: ['myServices', user?.id] });
+      const prev = queryClient.getQueryData(['myServices', user?.id]);
+      queryClient.setQueryData(['myServices', user?.id], old => (old || []).filter(s => s.id !== id));
+      return { prev };
+    },
+    onError: (_, __, ctx) => queryClient.setQueryData(['myServices', user?.id], ctx.prev),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['services'] });
+      queryClient.invalidateQueries({ queryKey: ['myServices'] });
+    },
+  });
+
+  const saveMutation = useMutation({
+    mutationFn: (data) => editing
+      ? base44.entities.Service.update(editing.id, data)
+      : base44.entities.Service.create(data),
+    onMutate: async (data) => {
+      await queryClient.cancelQueries({ queryKey: ['myServices', user?.id] });
+      const prev = queryClient.getQueryData(['myServices', user?.id]);
+      if (editing) {
+        queryClient.setQueryData(['myServices', user?.id], old =>
+          (old || []).map(s => s.id === editing.id ? { ...s, ...data } : s)
+        );
+      }
+      return { prev };
+    },
+    onError: (_, __, ctx) => queryClient.setQueryData(['myServices', user?.id], ctx.prev),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['services'] });
+      queryClient.invalidateQueries({ queryKey: ['myServices'] });
+      setShowForm(false);
+      setEditing(null);
+    },
+  });
+
+  const handleDelete = (id) => {
     if (!confirm('¿Eliminar este servicio?')) return;
-    await base44.entities.Service.delete(id);
-    queryClient.resetQueries({ queryKey: ['services'] });
-    queryClient.resetQueries({ queryKey: ['myServices'] });
+    deleteMutation.mutate(id);
   };
 
-  const handleSave = async (data) => {
-    if (editing) {
-      await base44.entities.Service.update(editing.id, data);
-    } else {
-      await base44.entities.Service.create(data);
-    }
-    queryClient.resetQueries({ queryKey: ['services'] });
-    queryClient.resetQueries({ queryKey: ['myServices'] });
-    setShowForm(false);
-    setEditing(null);
-  };
+  const handleSave = (data) => saveMutation.mutate(data);
 
   const statusColors = { active: 'text-green-500', inactive: 'text-yellow-500', out_of_stock: 'text-red-500' };
 
