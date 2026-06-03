@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/AuthContext';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Shield, Users } from 'lucide-react';
+import { Shield } from 'lucide-react';
 import AdminServices from '../components/admin/AdminServices';
-import AdminRentals from '../components/admin/AdminRentals';
 import AdminSettings from '../components/admin/AdminSettings';
-import AdminUsers from '../components/admin/AdminUsers';
 
 export default function Admin() {
   const { user } = useAuth();
@@ -14,40 +12,30 @@ export default function Admin() {
   return (
     <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 py-8">
       <div className="flex items-center gap-3 mb-8">
-        <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
-          <Shield className="w-5 h-5 text-primary" />
-        </div>
-        <div>
-          <h1 className="font-bold text-xl text-foreground">Panel Admin</h1>
-          <p className="text-xs text-muted-foreground">Gestión de servicios, herramientas y configuración</p>
-        </div>
-      </div>
+         <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
+           <Shield className="w-5 h-5 text-primary" />
+         </div>
+         <div>
+           <h1 className="font-bold text-xl text-foreground">Panel Admin</h1>
+           <p className="text-xs text-muted-foreground">Gestión de servicios y configuración</p>
+         </div>
+       </div>
 
       <Tabs defaultValue="services">
-        <TabsList className="mb-6">
-          <TabsTrigger value="services">Servicios</TabsTrigger>
-          <TabsTrigger value="rentals">Herramientas</TabsTrigger>
-          {isMainAdmin && <TabsTrigger value="users">Usuarios</TabsTrigger>}
-          {isMainAdmin && <TabsTrigger value="settings">Configuración</TabsTrigger>}
-        </TabsList>
+         <TabsList className="mb-6">
+           <TabsTrigger value="services">Servicios</TabsTrigger>
+           {isMainAdmin && <TabsTrigger value="settings">Configuración</TabsTrigger>}
+         </TabsList>
 
-        <TabsContent value="services">
-          <AdminServices />
-        </TabsContent>
-        <TabsContent value="rentals">
-          <AdminRentals />
-        </TabsContent>
-        {isMainAdmin && (
-          <>
-            <TabsContent value="users">
-              <AdminUsers />
-            </TabsContent>
-            <TabsContent value="settings">
-              <AdminSettings />
-            </TabsContent>
-          </>
-        )}
-      </Tabs>
+         <TabsContent value="services">
+           <AdminServices />
+         </TabsContent>
+         {isMainAdmin && (
+           <TabsContent value="settings">
+             <AdminSettings />
+           </TabsContent>
+         )}
+       </Tabs>
     </div>);
 
 }

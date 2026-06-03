@@ -141,16 +141,7 @@ export default function Login() {
           </form>
         </div>
 
-        {/* Footer */}
-        <p className="text-center text-sm text-muted-foreground">
-          ¿No tienes cuenta?{" "}
-          <Link
-            to="/register"
-            className="text-primary font-semibold hover:underline"
-          >
-            Crear una
-          </Link>
-        </p>
+
       </div>
     </div>
   );
