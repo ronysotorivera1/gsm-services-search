@@ -12,13 +12,18 @@
         "renta",
         "activacion",
         "imei",
-        "remoto"
+        "remoto",
+        "creditos"
       ],
       "description": "Tipo de servicio"
     },
     "price_usd": {
       "type": "number",
       "description": "Valor en USD"
+    },
+    "credits_quantity": {
+      "type": "number",
+      "description": "Cantidad de cr\u00e9ditos (1-1000)"
     },
     "service_type": {
       "type": "string",

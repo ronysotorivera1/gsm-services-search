@@ -10,6 +10,7 @@ const categoryLabels = {
   activacion: 'ACTIVACIÓN',
   imei: 'IMEI',
   remoto: 'REMOTO',
+  creditos: 'CRÉDITOS',
 };
 
 const categoryColors = {
@@ -17,6 +18,7 @@ const categoryColors = {
   activacion: 'bg-primary/15 text-primary',
   imei: 'bg-blue-500/15 text-blue-600',
   remoto: 'bg-purple-500/15 text-purple-600',
+  creditos: 'bg-green-500/15 text-green-600',
 };
 
 const categoryIcons = {
@@ -24,6 +26,7 @@ const categoryIcons = {
   activacion: '✓',
   imei: '#',
   remoto: '🌐',
+  creditos: '💳',
 };
 
 export default function ServiceCard({ service, exchangeRate }) {
@@ -62,6 +65,11 @@ export default function ServiceCard({ service, exchangeRate }) {
         {service.duration && (
           <span className="text-[10px] font-medium px-2 py-1 rounded bg-muted text-muted-foreground">
             {service.duration}
+          </span>
+        )}
+        {service.credits_quantity && (
+          <span className="text-[10px] font-medium px-2 py-1 rounded bg-green-500/10 text-green-600">
+            {service.credits_quantity} créditos
           </span>
         )}
       </div>

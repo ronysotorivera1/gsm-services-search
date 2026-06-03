@@ -12,6 +12,7 @@ const CATEGORIES = [
   { value: 'activacion', label: 'ACTIVACIÓN LICENCIA' },
   { value: 'imei', label: 'IMEI' },
   { value: 'remoto', label: 'REMOTO' },
+  { value: 'creditos', label: 'CRÉDITOS' },
 ];
 
 const DURATION_OPTIONS = Array.from({ length: 24 }, (_, i) => ({
@@ -32,6 +33,7 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
     category: initial?.category || 'imei',
     service_type: initial?.service_type || 'service',
     price_usd: initial?.price_usd || '',
+    credits_quantity: initial?.credits_quantity || '',
     duration: initial?.duration || '',
     delivery_time: initial?.delivery_time || '',
     status: initial?.status || 'active',
@@ -50,6 +52,7 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
 
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
   const showDuration = form.category === 'renta' || form.category === 'activacion';
+  const showCredits = form.category === 'creditos';
 
   const uniqueNames = Array.from(new Set(allServices.map(s => s.name))).sort();
   const suggestions = form.name ? uniqueNames.filter(n => n.toLowerCase().includes(form.name.toLowerCase())).slice(0, 5) : [];
@@ -115,6 +118,20 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
           <Label className="text-xs">Valor (USD) *</Label>
           <Input type="number" step="0.01" value={form.price_usd} onChange={e => set('price_usd', parseFloat(e.target.value))} placeholder="0.00" />
         </div>
+
+        {showCredits && (
+          <div className="space-y-1">
+            <Label className="text-xs">Cantidad de Créditos (1-1000)</Label>
+            <Input
+              type="number"
+              min="1"
+              max="1000"
+              value={form.credits_quantity}
+              onChange={e => set('credits_quantity', parseInt(e.target.value) || '')}
+              placeholder="ej: 10, 50, 100..."
+            />
+          </div>
+        )}
 
         {showDuration && (
           <div className="space-y-1">
