@@ -6,15 +6,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const CATEGORIES = [
+  { value: 'renta', label: 'RENTA' },
+  { value: 'activacion', label: 'ACTIVACIÓN' },
   { value: 'imei', label: 'IMEI' },
-  { value: 'unlock', label: 'Unlock' },
-  { value: 'frp', label: 'FRP' },
-  { value: 'mdm', label: 'MDM' },
-  { value: 'server', label: 'Server' },
-  { value: 'remote', label: 'Remote' },
-  { value: 'premium', label: 'Premium' },
-  { value: 'rental', label: 'Renta' },
-  { value: 'license', label: 'Licencia' },
+  { value: 'remoto', label: 'REMOTO' },
 ];
 
 const STATUSES = [
@@ -38,7 +33,7 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
   });
 
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
-  const showDuration = form.category === 'rental' || form.category === 'license';
+  const showDuration = form.category === 'renta';
 
   return (
     <div className="p-4 rounded-lg border border-primary/20 bg-primary/5 mb-4 space-y-3">
@@ -66,8 +61,8 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
 
         {showDuration && (
           <div className="space-y-1">
-            <Label className="text-xs">Duración ({form.category === 'rental' ? 'Renta' : 'Licencia'})</Label>
-            <Input value={form.duration} onChange={e => set('duration', e.target.value)} placeholder="ej: 1h, 1 mes, anual" />
+            <Label className="text-xs">Duración</Label>
+            <Input value={form.duration} onChange={e => set('duration', e.target.value)} placeholder="ej: 1h, 6h, 12h, 24h, 1 mes, anual" />
           </div>
         )}
 
