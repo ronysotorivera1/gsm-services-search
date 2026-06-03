@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
@@ -10,10 +10,19 @@ export default function AdminServices() {
   const queryClient = useQueryClient();
   const [editing, setEditing] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    base44.auth.me().then(setUser);
+  }, []);
 
   const { data: services = [], isLoading } = useQuery({
-    queryKey: ['services'],
-    queryFn: () => base44.entities.Service.list('-created_date', 200),
+    queryKey: ['myServices', user?.id],
+    queryFn: async () => {
+      if (!user?.id) return [];
+      return await base44.entities.Service.filter({ created_by_id: user.id }, '-created_date', 200);
+    },
+    enabled: !!user?.id,
   });
 
   const handleDelete = async (id) => {

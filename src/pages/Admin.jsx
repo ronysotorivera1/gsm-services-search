@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '@/lib/AuthContext';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Shield } from 'lucide-react';
+import { Shield, Users } from 'lucide-react';
 import AdminServices from '../components/admin/AdminServices';
 import AdminRentals from '../components/admin/AdminRentals';
 import AdminSettings from '../components/admin/AdminSettings';
+import AdminUsers from '../components/admin/AdminUsers';
 
 export default function Admin() {
+  const { user } = useAuth();
+  const isMainAdmin = user?.role === 'admin';
+
   return (
     <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 py-8">
       <div className="flex items-center gap-3 mb-8">
@@ -21,8 +26,9 @@ export default function Admin() {
       <Tabs defaultValue="services">
         <TabsList className="mb-6">
           <TabsTrigger value="services">Servicios</TabsTrigger>
-          
-          <TabsTrigger value="settings">Configuración</TabsTrigger>
+          <TabsTrigger value="rentals">Herramientas</TabsTrigger>
+          {isMainAdmin && <TabsTrigger value="users">Usuarios</TabsTrigger>}
+          {isMainAdmin && <TabsTrigger value="settings">Configuración</TabsTrigger>}
         </TabsList>
 
         <TabsContent value="services">
@@ -31,9 +37,16 @@ export default function Admin() {
         <TabsContent value="rentals">
           <AdminRentals />
         </TabsContent>
-        <TabsContent value="settings">
-          <AdminSettings />
-        </TabsContent>
+        {isMainAdmin && (
+          <>
+            <TabsContent value="users">
+              <AdminUsers />
+            </TabsContent>
+            <TabsContent value="settings">
+              <AdminSettings />
+            </TabsContent>
+          </>
+        )}
       </Tabs>
     </div>);
 
