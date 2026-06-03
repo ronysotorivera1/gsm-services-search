@@ -30,7 +30,7 @@ export default function AppLayout() {
       </main>
       <Footer />
       <WhatsAppButton />
-      <BottomTabBar />
+      {/* <BottomTabBar /> */}
     </div>
   );
 }
