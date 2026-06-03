@@ -4,7 +4,7 @@ import { Search, Zap, Loader2 } from 'lucide-react';
 import ServicesSlider from './ServicesSlider';
 import ServiceCard from './ServiceCard';
 
-export default function SearchHero({ searchQuery, onSearchChange, results = [], isLoading = false }) {
+export default function SearchHero({ searchQuery, onSearchChange, results = [], isLoading = false, exchangeRate }) {
   const hasQuery = searchQuery.length > 0;
   return (
     <div className={`transition-all duration-500 ${hasQuery ? 'py-6 sm:py-8' : 'py-16 sm:py-24'}`}>
@@ -56,7 +56,7 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
                 <p className="text-sm text-muted-foreground mb-4">{results.length} resultado{results.length !== 1 ? 's' : ''} para "<span className="text-foreground">{searchQuery}</span>"</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                   {results.map(service => (
-                    <ServiceCard key={service.id} service={service} />
+                    <ServiceCard key={service.id} service={service} exchangeRate={exchangeRate} />
                   ))}
                 </div>
               </>

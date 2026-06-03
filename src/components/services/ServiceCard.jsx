@@ -6,7 +6,11 @@ import StatusBadge from '../shared/StatusBadge';
 import PriceDisplay from '../shared/PriceDisplay';
 
 export default function ServiceCard({ service, exchangeRate }) {
-  const whatsappMsg = encodeURIComponent(`Hola, quiero solicitar: ${service.name} - $${service.price_usd} USD`);
+  const rate = exchangeRate || 3.70;
+  const soles = (service.price_usd * rate).toFixed(2);
+  const whatsappMsg = encodeURIComponent(
+    `Hola, quiero solicitar el servicio:\n*${service.name}*\n💵 $${service.price_usd} USDT\n🇵🇪 S/ ${soles} Soles`
+  );
 
   return (
     <Card className="glass glow-blue-hover group relative overflow-hidden transition-all duration-300 hover:border-primary/30 p-5">

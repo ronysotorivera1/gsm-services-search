@@ -30,6 +30,7 @@ export default function Home() {
         onSearchChange={setSearchQuery}
         results={filtered}
         isLoading={isLoading}
+        exchangeRate={settings?.usd_to_pen}
       />
     </div>
   );
