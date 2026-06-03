@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Clock, ExternalLink, Package } from 'lucide-react';
+import { Clock, ExternalLink, Zap } from 'lucide-react';
 import StatusBadge from '../shared/StatusBadge';
 import PriceDisplay from '../shared/PriceDisplay';
 
@@ -39,7 +39,12 @@ export default function ServiceCard({ service, exchangeRate }) {
 
       <div className="flex gap-2 mb-4">
         {service.service_type && (
-          <span className="text-[11px] font-semibold px-2 py-1 rounded-full bg-secondary/60 text-secondary-foreground">
+          <span className={`text-[11px] font-semibold px-2 py-1 rounded-full flex items-center gap-1 ${
+            service.service_type === 'rental' 
+              ? 'bg-accent/15 text-accent' 
+              : 'bg-secondary/60 text-secondary-foreground'
+          }`}>
+            {service.service_type === 'rental' && <Zap className="w-3 h-3" />}
             {serviceTypeLabels[service.service_type] || service.service_type}
           </span>
         )}
