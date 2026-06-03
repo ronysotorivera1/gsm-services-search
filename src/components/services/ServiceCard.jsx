@@ -19,7 +19,7 @@ export default function ServiceCard({ service, exchangeRate }) {
 
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1 min-w-0">
-          <h3 className="font-heading font-semibold text-foreground truncate">{service.name}</h3>
+          <h3 className="font-heading font-semibold text-foreground leading-tight">{service.name}</h3>
           {service.brand && (
             <span className="text-xs text-muted-foreground font-medium mt-0.5 block">{service.brand}</span>
           )}
