@@ -49,7 +49,7 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
       <div className="flex-1 flex flex-col">
 
         {/* Hero + Input único SIEMPRE montado */}
-        <div className={`transition-all duration-500 px-4 text-center ${hasQuery ? 'py-4' : 'flex-1 flex flex-col items-center justify-center py-16 sm:py-24'}`}>
+        <div className={`transition-all duration-500 px-4 text-center ${hasQuery ? 'sticky top-0 z-50 bg-white/95 backdrop-blur-md py-4 shadow-sm' : 'flex-1 flex flex-col items-center justify-center py-16 sm:py-24'}`}>
           <div className={`w-full mx-auto transition-all duration-500 ${hasQuery ? 'max-w-xl' : 'max-w-3xl'}`}>
 
             {/* Título - se oculta suavemente */}
