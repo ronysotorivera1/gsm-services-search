@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -37,16 +39,66 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
     note_html: initial?.note_html || '',
   });
 
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [selectedSuggestion, setSelectedSuggestion] = useState(null);
+
+  const { data: allServices = [] } = useQuery({
+    queryKey: ['allServices'],
+    queryFn: () => base44.entities.Service.list('-updated_date', 100),
+    initialData: [],
+  });
+
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
   const showDuration = form.category === 'renta' || form.category === 'activacion';
+
+  const uniqueNames = Array.from(new Set(allServices.map(s => s.name))).sort();
+  const suggestions = form.name ? uniqueNames.filter(n => n.toLowerCase().includes(form.name.toLowerCase())).slice(0, 5) : [];
+
+  const handleSelectSuggestion = (name) => {
+    const service = allServices.find(s => s.name === name);
+    if (service) {
+      setForm(f => ({
+        ...f,
+        name: service.name,
+        brand: service.brand || f.brand,
+        category: service.category || f.category,
+        description: service.description || f.description,
+      }));
+      setSelectedSuggestion(name);
+    }
+    setShowSuggestions(false);
+  };
 
   return (
     <div className="p-4 rounded-lg border border-primary/20 bg-primary/5 mb-4 space-y-3">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 
-        <div className="space-y-1">
+        <div className="space-y-1 relative">
           <Label className="text-xs">Servicio *</Label>
-          <Input value={form.name} onChange={e => set('name', e.target.value)} placeholder="Nombre del servicio" />
+          <Input 
+            value={form.name} 
+            onChange={e => {
+              set('name', e.target.value);
+              setShowSuggestions(true);
+              setSelectedSuggestion(null);
+            }}
+            onFocus={() => setShowSuggestions(true)}
+            placeholder="Nombre del servicio" 
+          />
+          {showSuggestions && suggestions.length > 0 && (
+            <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-primary/20 rounded-md shadow-lg z-10">
+              {suggestions.map(name => (
+                <button
+                  key={name}
+                  type="button"
+                  onClick={() => handleSelectSuggestion(name)}
+                  className="w-full text-left px-3 py-2 text-sm hover:bg-primary/10 border-b border-primary/10 last:border-b-0 transition-colors"
+                >
+                  {name}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="space-y-1">
