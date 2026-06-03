@@ -6,9 +6,8 @@ export default function ServicesSlider({ onSearchChange }) {
   const trackRef = useRef();
 
   const { data: services = [] } = useQuery({
-    queryKey: ['services'],
-    queryFn: () => base44.entities.Service.list('-updated_date', 40),
-    initialData: [],
+    queryKey: ['services-slider'],
+    queryFn: () => base44.entities.Service.filter({ status: 'active' }, 'name', 200),
   });
 
   const active = services.filter(s => s.status === 'active');

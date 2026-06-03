@@ -28,8 +28,8 @@ export default function AdminServices() {
   const handleDelete = async (id) => {
     if (!confirm('¿Eliminar este servicio?')) return;
     await base44.entities.Service.delete(id);
-    queryClient.invalidateQueries({ queryKey: ['services'] });
-    queryClient.invalidateQueries({ queryKey: ['myServices'] });
+    queryClient.resetQueries({ queryKey: ['services'] });
+    queryClient.resetQueries({ queryKey: ['myServices'] });
   };
 
   const handleSave = async (data) => {
@@ -38,8 +38,8 @@ export default function AdminServices() {
     } else {
       await base44.entities.Service.create(data);
     }
-    queryClient.invalidateQueries({ queryKey: ['services'] });
-    queryClient.invalidateQueries({ queryKey: ['myServices'] });
+    queryClient.resetQueries({ queryKey: ['services'] });
+    queryClient.resetQueries({ queryKey: ['myServices'] });
     setShowForm(false);
     setEditing(null);
   };
