@@ -53,7 +53,7 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
             <div className={`transition-all duration-500 overflow-hidden ${hasQuery ? 'max-h-0 opacity-0 mb-0' : 'max-h-64 opacity-100 mb-0'}`}>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-6">
                 <Zap className="w-3.5 h-3.5 text-primary" />
-                <span className="text-xs font-semibold text-primary tracking-wide">GSM SERVICES ORDERS WH</span>
+                <span className="text-xs font-semibold text-primary tracking-wide">GSM SERVICES ORDERS</span>
               </div>
               <h1 className="font-display text-3xl sm:text-5xl font-bold text-foreground mb-3 leading-tight">
                 Buscador de{' '}
