@@ -1,6 +1,4 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
 import { Input } from '@/components/ui/input';
 import { Search, Zap, Loader2, X } from 'lucide-react';
 import ServicesSlider from './ServicesSlider';
@@ -13,18 +11,12 @@ const PROMO_MESSAGES = [
 '🔥 Mejores precios garantizados en gsmservicess.com · Pago automático'];
 
 
-export default function SearchHero({ searchQuery, onSearchChange, results = [], isLoading = false, exchangeRate }) {
+export default function SearchHero({ searchQuery, onSearchChange, results = [], allServices = [], isLoading = false, exchangeRate }) {
   const hasQuery = searchQuery.length > 0;
   const inputRef = useRef(null);
   const [promoIndex, setPromoIndex] = useState(0);
   const [promoVisible, setPromoVisible] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(false);
-
-  const { data: allServices = [] } = useQuery({
-    queryKey: ['allServices'],
-    queryFn: () => base44.entities.Service.list('-updated_date', 1000),
-    staleTime: 0,
-  });
 
   const uniqueNames = Array.from(new Set(allServices.map(s => s.name))).sort();
   const suggestions = searchQuery ? uniqueNames.filter(n => n.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 5) : [];
