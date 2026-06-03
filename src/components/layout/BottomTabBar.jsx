@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Shield } from 'lucide-react';
+import { Search } from 'lucide-react';
 
 const tabs = [
   { path: '/', label: 'Buscar', icon: Search },
-  { path: '/admin', label: 'Admin', icon: Shield },
 ];
 
 export default function BottomTabBar() {
