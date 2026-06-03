@@ -82,14 +82,24 @@ export default function ServiceCard({ service, exchangeRate }) {
       {isCreditos && (
         <div className="flex items-center gap-2 mb-3">
           <button
-            onClick={() => setQty(q => Math.max(minQty, q - minQty))}
+            onClick={() => setQty(q => Math.max(minQty, q - 1))}
             className="w-7 h-7 rounded-lg border border-border flex items-center justify-center hover:bg-muted transition-colors"
           >
             <Minus className="w-3 h-3" />
           </button>
-          <span className="text-sm font-semibold w-12 text-center">{qty}</span>
+          <input
+            type="number"
+            min={minQty}
+            max={1000}
+            value={qty}
+            onChange={e => {
+              const val = parseInt(e.target.value) || minQty;
+              setQty(Math.max(minQty, Math.min(1000, val)));
+            }}
+            className="w-14 text-center text-sm font-semibold border border-border rounded-lg h-7 bg-transparent focus:outline-none focus:ring-1 focus:ring-primary/40"
+          />
           <button
-            onClick={() => setQty(q => Math.min(1000, q + minQty))}
+            onClick={() => setQty(q => Math.min(1000, q + 1))}
             className="w-7 h-7 rounded-lg border border-border flex items-center justify-center hover:bg-muted transition-colors"
           >
             <Plus className="w-3 h-3" />
