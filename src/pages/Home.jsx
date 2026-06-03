@@ -12,7 +12,8 @@ export default function Home() {
     queryKey: ['services'],
     queryFn: () => base44.entities.Service.list('-created_date', 1000),
     staleTime: 0,
-    refetchOnMount: true,
+    gcTime: 0,
+    refetchOnMount: 'always',
     refetchOnWindowFocus: true,
   });
 
