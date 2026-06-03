@@ -23,7 +23,7 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
   const { data: allServices = [] } = useQuery({
     queryKey: ['allServices'],
     queryFn: () => base44.entities.Service.list('-updated_date', 1000),
-    initialData: [],
+    staleTime: 0,
   });
 
   const uniqueNames = Array.from(new Set(allServices.map(s => s.name))).sort();
