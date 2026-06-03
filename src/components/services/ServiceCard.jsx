@@ -52,6 +52,18 @@ export default function ServiceCard({ service, exchangeRate }) {
           </Button>
         </a>
       </div>
+
+      {/* Nota pie de tarjeta */}
+      <div className="mt-3 pt-3 border-t border-border/40">
+        <a
+          href="https://gsmservicess.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs text-primary/70 hover:text-primary transition-colors"
+        >
+          🌐 Más barato y automático en <span className="font-semibold underline">gsmservicess.com</span>
+        </a>
+      </div>
     </Card>
   );
 }
