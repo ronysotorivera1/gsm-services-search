@@ -31,9 +31,11 @@ const categoryIcons = {
 
 export default function ServiceCard({ service, exchangeRate }) {
   const rate = exchangeRate || 3.70;
-  const soles = (service.price_usd * rate).toFixed(2);
+  const isCreditos = service.category === 'creditos' && service.credits_quantity;
+  const displayPrice = isCreditos ? service.price_usd * service.credits_quantity : service.price_usd;
+  const soles = (displayPrice * rate).toFixed(2);
   const whatsappMsg = encodeURIComponent(
-    `Hola, quiero solicitar el servicio:\n*${service.name}*\n💵 $${service.price_usd} USDT\n🇵🇪 S/ ${soles} Soles`
+    `Hola, quiero solicitar el servicio:\n*${service.name}*${isCreditos ? `\n🔢 ${service.credits_quantity} créditos` : ''}\n💵 $${displayPrice.toFixed(2)} USDT\n🇵🇪 S/ ${soles} Soles`
   );
 
   return (
@@ -76,7 +78,12 @@ export default function ServiceCard({ service, exchangeRate }) {
 
       <div className="flex items-end justify-between">
         <div>
-          <PriceDisplay usd={service.price_usd} exchangeRate={exchangeRate} />
+          <PriceDisplay usd={displayPrice} exchangeRate={exchangeRate} />
+          {isCreditos && (
+            <span className="text-[10px] text-muted-foreground">
+              (${service.price_usd.toFixed(2)} × {service.credits_quantity} uds.)
+            </span>
+          )}
           {service.delivery_time && (
             <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
               <Clock className="w-3 h-3" />
