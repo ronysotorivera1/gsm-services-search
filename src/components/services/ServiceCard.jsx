@@ -69,9 +69,9 @@ export default function ServiceCard({ service, exchangeRate }) {
             {service.duration}
           </span>
         )}
-        {service.credits_quantity && (
-          <span className="text-[10px] font-medium px-2 py-1 rounded bg-green-500/10 text-green-600">
-            {service.credits_quantity} créditos
+        {isCreditos && service.credits_quantity && (
+          <span className="text-[11px] font-semibold px-2.5 py-1.5 rounded-lg bg-green-500/15 text-green-600">
+            Mín. {service.credits_quantity} créditos
           </span>
         )}
       </div>
