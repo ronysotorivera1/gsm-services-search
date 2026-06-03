@@ -14,8 +14,25 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 glass border-b border-border/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
+        <span className="font-bold text-primary tracking-wide text-sm">GSM CHECK CENTER</span>
+        <div className="hidden md:flex items-center gap-1">
+          {navLinks.map((link) => {
+            const Icon = link.icon;
+            const isActive = location.pathname === link.path;
+            return (
+              <Link key={link.path} to={link.path}>
+                <Button variant="ghost" size="sm" className={`gap-2 ${isActive ? 'text-primary bg-primary/10' : 'text-muted-foreground'}`}>
+                  <Icon className="w-4 h-4" />
+                  {link.label}
+                </Button>
+              </Link>
+            );
+          })}
+        </div>
+        <button className="md:hidden" onClick={() => setMobileOpen(!mobileOpen)}>
+          {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
 
 
 
