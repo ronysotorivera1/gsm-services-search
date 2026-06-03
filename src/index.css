@@ -83,7 +83,7 @@
   }
   body {
     @apply text-foreground font-body;
-    background: #f0f4ff;
+    background: linear-gradient(135deg, #ffffff 0%, #f3f1ff 50%, #e8f4ff 100%);
     min-height: 100vh;
   }
 }
