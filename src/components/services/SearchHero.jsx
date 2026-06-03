@@ -99,7 +99,7 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
 
         {/* Banner promo slider — solo con búsqueda activa */}
         {hasQuery &&
-        <div className="flex justify-center px-4 py-3">
+        <div className="flex justify-center px-4 py-3 relative z-20">
           <a
             href="https://gsmservicess.com"
             target="_blank"
