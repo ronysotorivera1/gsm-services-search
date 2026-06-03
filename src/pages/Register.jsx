@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,19 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [showOtp, setShowOtp] = useState(false);
   const [otpCode, setOtpCode] = useState("");
+  const [registrationsDisabled, setRegistrationsDisabled] = useState(false);
+  const [checkingSettings, setCheckingSettings] = useState(true);
+
+  useEffect(() => {
+    const checkSettings = async () => {
+      const settings = await base44.entities.AppSettings.list();
+      if (settings.length > 0 && settings[0].allow_new_registrations === false) {
+        setRegistrationsDisabled(true);
+      }
+      setCheckingSettings(false);
+    };
+    checkSettings();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,6 +82,30 @@ export default function Register() {
   const handleGoogle = () => {
     base44.auth.loginWithProvider("google", "/");
   };
+
+  if (checkingSettings) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (registrationsDisabled) {
+    return (
+      <div className="flex items-center justify-center min-h-screen px-4">
+        <div className="max-w-md text-center">
+          <h1 className="text-2xl font-bold text-foreground mb-3">Registro Desactivado</h1>
+          <p className="text-muted-foreground mb-6">
+            El registro de nuevos usuarios está temporalmente desactivado. Por favor, intenta más tarde o contacta al administrador.
+          </p>
+          <Link to="/login">
+            <Button className="w-full">Ir al Login</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   if (showOtp) {
     return (

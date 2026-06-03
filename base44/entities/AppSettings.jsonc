@@ -25,6 +25,11 @@
     "footer_contact": {
       "type": "string",
       "description": "Datos de contacto para el footer (HTML permitido)"
+    },
+    "allow_new_registrations": {
+      "type": "boolean",
+      "default": true,
+      "description": "Permitir que nuevos usuarios se registren"
     }
   },
   "required": [

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Switch } from '@/components/ui/switch';
 import { Save, Loader2, Upload } from 'lucide-react';
 
 export default function AdminSettings() {
@@ -19,6 +20,7 @@ export default function AdminSettings() {
     usd_to_pen: '',
     whatsapp_number: '',
     footer_contact: '',
+    allow_new_registrations: true,
   });
 
   const { data: settings = [] } = useQuery({
@@ -36,6 +38,7 @@ export default function AdminSettings() {
         usd_to_pen: s.usd_to_pen || '',
         whatsapp_number: s.whatsapp_number || '',
         footer_contact: s.footer_contact || '',
+        allow_new_registrations: s.allow_new_registrations !== false,
       });
     }
   }, [settings]);
@@ -113,7 +116,7 @@ export default function AdminSettings() {
         </div>
       </div>
 
-      <div>
+      <div className="pb-3 border-b border-border">
         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Footer</p>
         <div className="space-y-1">
           <Label>Datos de Contacto (HTML permitido)</Label>
@@ -122,6 +125,21 @@ export default function AdminSettings() {
             onChange={e => set('footer_contact', e.target.value)}
             placeholder={'ej:\n<p>Email: contacto@gsm.com</p>\n<p>Tel: +51 900 000 000</p>'}
             className="font-mono text-xs min-h-[100px]"
+          />
+        </div>
+      </div>
+
+      <div>
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Registro de Usuarios</p>
+        <div className="flex items-center justify-between p-4 rounded-lg border border-border bg-card/50">
+          <div className="flex-1">
+            <Label className="font-medium text-sm">Permitir nuevos registros</Label>
+            <p className="text-xs text-muted-foreground mt-1">Los nuevos usuarios podrán crear cuentas en la plataforma</p>
+          </div>
+          <Switch
+            checked={form.allow_new_registrations}
+            onCheckedChange={(checked) => set('allow_new_registrations', checked)}
+            className="ml-4"
           />
         </div>
       </div>
