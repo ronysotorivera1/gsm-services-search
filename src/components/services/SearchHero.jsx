@@ -1,4 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 import { Input } from '@/components/ui/input';
 import { Search, Zap, Loader2, X } from 'lucide-react';
 import ServicesSlider from './ServicesSlider';
@@ -16,6 +18,16 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
   const inputRef = useRef(null);
   const [promoIndex, setPromoIndex] = useState(0);
   const [promoVisible, setPromoVisible] = useState(true);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  const { data: allServices = [] } = useQuery({
+    queryKey: ['allServices'],
+    queryFn: () => base44.entities.Service.list('-updated_date', 100),
+    initialData: [],
+  });
+
+  const uniqueNames = Array.from(new Set(allServices.map(s => s.name))).sort();
+  const suggestions = searchQuery ? uniqueNames.filter(n => n.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 5) : [];
 
   // Mantener el foco en el input cuando cambia hasQuery
   useEffect(() => {
@@ -71,7 +83,12 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
                 type="text"
                 placeholder="Buscar IMEI, Unlock, MDM, FRP..."
                 value={searchQuery}
-                onChange={(e) => onSearchChange(e.target.value)}
+                onChange={(e) => {
+                  onSearchChange(e.target.value);
+                  setShowSuggestions(true);
+                }}
+                onFocus={() => setShowSuggestions(true)}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                 className={`pl-12 pr-12 text-base bg-white/70 border-border/50 rounded-xl focus:border-primary/50 focus:ring-primary/20 placeholder:text-muted-foreground/50 transition-all duration-300 ${hasQuery ? 'h-12' : 'h-14'}`} />
               {hasQuery && (
                 <button
@@ -81,6 +98,23 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
                 >
                   <X className="w-5 h-5" />
                 </button>
+              )}
+              {showSuggestions && suggestions.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-primary/20 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
+                  {suggestions.map(name => (
+                    <button
+                      key={name}
+                      type="button"
+                      onClick={() => {
+                        onSearchChange(name);
+                        setShowSuggestions(false);
+                      }}
+                      className="w-full text-left px-4 py-2.5 text-sm hover:bg-primary/10 border-b border-primary/10 last:border-b-0 transition-colors"
+                    >
+                      {name}
+                    </button>
+                  ))}
+                </div>
               )}
             </div>
 
