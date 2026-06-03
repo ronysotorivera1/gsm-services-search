@@ -5,11 +5,8 @@ import WhatsAppButton from '../shared/WhatsAppButton';
 import AuroraBackground from './AuroraBackground';
 import Footer from './Footer';
 import MobileHeader from './MobileHeader';
-import useDarkMode from '@/hooks/useDarkMode';
-
 export default function AppLayout() {
   const location = useLocation();
-  useDarkMode();
 
   return (
     <div className="flex flex-col min-h-screen">
