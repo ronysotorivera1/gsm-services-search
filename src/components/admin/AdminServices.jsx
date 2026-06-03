@@ -70,7 +70,17 @@ export default function AdminServices() {
     deleteMutation.mutate(id);
   };
 
-  const handleSave = (data) => saveMutation.mutate(data);
+  const handleSave = (data) => {
+    const clean = { ...data };
+    // Limpiar campos numéricos vacíos que la API rechaza como string vacío
+    if (clean.credits_quantity === '' || clean.credits_quantity === null) delete clean.credits_quantity;
+    if (clean.price_usd === '' || clean.price_usd === null) delete clean.price_usd;
+    // Si la categoría no usa duration, limpiarla
+    if (clean.category !== 'renta' && clean.category !== 'activacion') clean.duration = '';
+    // Si la categoría no usa credits, limpiarla
+    if (clean.category !== 'creditos') delete clean.credits_quantity;
+    saveMutation.mutate(clean);
+  };
 
   const statusColors = { active: 'text-green-500', inactive: 'text-yellow-500', out_of_stock: 'text-red-500' };
 
