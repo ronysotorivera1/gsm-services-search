@@ -159,7 +159,9 @@ export default function AdminServices() {
                         {s.brand && <span>{s.brand} · </span>}
                         ${s.price_usd} · <span className={statusColors[s.status]}>{s.status}</span>
                       </p>
-                      {s.category && <p className="text-xs text-primary mt-1">{s.category}</p>}
+                      {s.category && <p className="text-xs text-primary mt-1">{s.category}{s.duration && ` · ${s.duration}`}{s.credits_quantity && ` · ${s.credits_quantity} créditos`}</p>}
+                      {s.delivery_time && <p className="text-xs text-muted-foreground mt-0.5">⏱ {s.delivery_time}</p>}
+                      {s.note_html && <p className="text-xs text-muted-foreground mt-0.5 truncate" dangerouslySetInnerHTML={{ __html: s.note_html }} />}
                     </div>
                     <div className="flex gap-1 ml-3">
                       <Button size="icon" variant="ghost" className="min-w-[44px] min-h-[44px]" onClick={() => { setEditing(s); setShowForm(true); }}>
