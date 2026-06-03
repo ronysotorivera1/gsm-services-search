@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import WhatsAppButton from '../shared/WhatsAppButton';
 import AuroraBackground from './AuroraBackground';
+import Footer from './Footer';
 
 export default function AppLayout() {
   return (
@@ -10,6 +11,7 @@ export default function AppLayout() {
       <main className="flex-1 flex flex-col">
         <Outlet />
       </main>
+      <Footer />
       <WhatsAppButton />
     </div>
   );
