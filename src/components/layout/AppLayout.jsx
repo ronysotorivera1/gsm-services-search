@@ -13,7 +13,7 @@ export default function AppLayout() {
   return (
     <div className="flex flex-col min-h-screen">
       <AuroraBackground />
-      <Navbar />
+      {/* <Navbar /> */}
       <main className="flex-1 flex flex-col pb-[calc(56px+env(safe-area-inset-bottom))] md:pb-0">
         <AnimatePresence mode="wait">
           <motion.div
