@@ -15,10 +15,15 @@ const CATEGORIES = [
   { value: 'creditos', label: 'CRÉDITOS' },
 ];
 
-const DURATION_OPTIONS = Array.from({ length: 24 }, (_, i) => ({
-  value: `${i + 1} mes${i > 0 ? 'es' : ''}`,
-  label: `${i + 1} mes${i > 0 ? 'es' : ''}`
-}));
+const DURATION_OPTIONS = [
+  ...Array.from({ length: 24 }, (_, i) => ({
+    value: `${i + 1} mes${i > 0 ? 'es' : ''}`,
+    label: `${i + 1} mes${i > 0 ? 'es' : ''}`
+  })),
+  { value: '3 años', label: '3 años' },
+  { value: '4 años', label: '4 años' },
+  { value: '5 años', label: '5 años' },
+];
 
 const STATUSES = [
   { value: 'active', label: 'Activo' },
