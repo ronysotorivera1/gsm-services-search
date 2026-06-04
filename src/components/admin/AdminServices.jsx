@@ -161,7 +161,7 @@ export default function AdminServices() {
                       </p>
                       {s.category && <p className="text-xs text-primary mt-1">{s.category}{s.duration && ` · ${s.duration}`}{s.credits_quantity && ` · ${s.credits_quantity} créditos`}</p>}
                       {s.delivery_time && <p className="text-xs text-muted-foreground mt-0.5">⏱ {s.delivery_time}</p>}
-                      {s.note_html && <p className="text-xs text-muted-foreground mt-0.5 truncate" dangerouslySetInnerHTML={{ __html: s.note_html }} />}
+                      {s.note_html && <p className="text-xs text-muted-foreground mt-0.5 truncate">📝 {s.note_html.replace(/<[^>]*>/g, '')}</p>}
                     </div>
                     <div className="flex gap-1 ml-3">
                       <Button size="icon" variant="ghost" className="min-w-[44px] min-h-[44px]" onClick={() => { setEditing(s); setShowForm(true); }}>
