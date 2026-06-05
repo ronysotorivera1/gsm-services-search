@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Search, Zap, Loader2, X } from 'lucide-react';
 import ServicesSlider from './ServicesSlider';
 import ServiceCard from './ServiceCard';
+import AISearchChat from './AISearchChat';
 
 const PROMO_MESSAGES = [
 '⚡ Precios vía WhatsApp · Para mejores precios y procesamiento automático visita gsmservicess.com',
@@ -68,7 +69,7 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
             </div>
 
             {/* Input único — siempre en el DOM, siempre enfocable */}
-            <div className="relative">
+            <div className="relative flex items-center gap-2">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
               <Input
                 ref={inputRef}
@@ -110,6 +111,7 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
                 </div>
               )}
             </div>
+            <AISearchChat onSearchChange={onSearchChange} />
 
             {!hasQuery && (
               <>
