@@ -59,10 +59,10 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
                 <Zap className="w-3.5 h-3.5 text-primary" />
                 <span className="text-xs font-semibold text-primary tracking-wide">GSM SERVICES ORDERS</span>
               </div>
-              <h1 className="font-display text-3xl sm:text-5xl font-bold mb-3 leading-tight text-foreground">
+              <h1 className="font-display text-4xl sm:text-6xl font-bold mb-3 leading-tight text-foreground">
                 Buscador de Servicios <span className="text-accent font-bold">GSM</span>
               </h1>
-              <p className="text-muted-foreground text-sm sm:text-base mb-8 max-w-lg mx-auto">
+              <p className="text-muted-foreground text-base sm:text-lg mb-8 max-w-lg mx-auto">
                 Busca servicios IMEI, Unlock, MDM, FRP y renta de herramientas profesionales
               </p>
             </div>
