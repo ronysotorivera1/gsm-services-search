@@ -15,9 +15,7 @@ export default function AdminSettings() {
   const { toast } = useToast();
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [uploadingApk, setUploadingApk] = useState(false);
   const fileRef = useRef();
-  const apkRef = useRef();
   const [form, setForm] = useState({
     site_name: '',
     logo_url: '',
@@ -63,15 +61,7 @@ export default function AdminSettings() {
     setUploading(false);
   };
 
-  const handleApkUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setUploadingApk(true);
-    const { file_url } = await base44.integrations.Core.UploadFile({ file });
-    set('apk_url', file_url);
-    setUploadingApk(false);
-    toast({ title: '✓ APK subido correctamente' });
-  };
+
 
   const handleSave = async () => {
     setSaving(true);
@@ -179,23 +169,20 @@ export default function AdminSettings() {
             />
           </div>
           <div className="space-y-2">
-            <Label>APK</Label>
-            <div className="flex items-center gap-3">
-              <Button size="sm" variant="outline" onClick={() => apkRef.current.click()} disabled={uploadingApk}>
-                {uploadingApk ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : <Smartphone className="w-4 h-4 mr-1" />}
-                {uploadingApk ? 'Subiendo...' : 'Subir APK'}
-              </Button>
-              <input ref={apkRef} type="file" accept=".apk" className="hidden" onChange={handleApkUpload} />
-            </div>
+            <Label>URL de descarga del APK</Label>
+            <Input
+              value={form.apk_url}
+              onChange={e => set('apk_url', e.target.value)}
+              placeholder="https://drive.google.com/uc?id=... o enlace directo al APK"
+            />
             {form.apk_url && (
               <div className="flex items-center gap-2 p-2 rounded-lg bg-green-50 border border-green-200">
                 <Smartphone className="w-4 h-4 text-green-600 shrink-0" />
-                <span className="text-xs text-green-700 truncate flex-1">{form.apk_url}</span>
-                <a href={form.apk_url} download className="text-xs text-green-700 font-medium hover:underline shrink-0">Descargar</a>
+                <a href={form.apk_url} download className="text-xs text-green-700 font-medium hover:underline truncate flex-1">Descargar APK actual</a>
               </div>
             )}
             <p className="text-xs text-muted-foreground">
-              Al subir un APK nuevo, la URL se actualiza automáticamente y el banner de actualización se mostrará a usuarios con versión anterior.
+              Pega el enlace directo al APK (Google Drive, Dropbox, servidor propio). Al guardar, el footer y el banner de actualización usarán esta URL.
             </p>
           </div>
         </div>
