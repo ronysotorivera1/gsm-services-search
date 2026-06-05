@@ -112,25 +112,28 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
 
             {!hasQuery && <ServicesSlider onSearchChange={onSearchChange} />}
 
-            {/* Banner promo slider — solo con búsqueda activa */}
+            {/* Banner promo ticker — solo con búsqueda activa */}
             {hasQuery &&
             <a
               href="https://gsmservicess.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 flex items-center justify-center gap-3 px-5 py-3 rounded-xl bg-gradient-to-r from-primary/20 via-accent/10 to-primary/20 border border-primary/40 hover:border-primary/60 hover:from-primary/30 transition-all duration-300 group overflow-hidden shadow-sm">
+              className="mt-3 flex items-center gap-3 px-4 py-2.5 rounded-xl bg-gradient-to-r from-primary/20 via-accent/10 to-primary/20 border border-primary/40 hover:border-primary/60 transition-all duration-300 group overflow-hidden shadow-sm w-full">
               
                 <span className="shrink-0 w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
-                <span
-                className="text-sm font-medium text-foreground/90 truncate transition-opacity duration-400"
-                style={{ opacity: promoVisible ? 1 : 0 }}>
-                
-                  {PROMO_MESSAGES[promoIndex].split('gsmservicess.com').map((part, i, arr) =>
-                i < arr.length - 1 ?
-                <span key={i}>{part}<span className="font-bold text-primary group-hover:underline">gsmservicess.com</span></span> :
-                <span key={i}>{part}</span>
-                )}
-                </span>
+                <div className="overflow-hidden flex-1">
+                  <div className="flex whitespace-nowrap" style={{ animation: 'marquee 28s linear infinite' }}>
+                    {[...PROMO_MESSAGES, ...PROMO_MESSAGES].map((msg, i) => (
+                      <span key={i} className="text-sm font-medium text-foreground/90 mr-16">
+                        {msg.split('gsmservicess.com').map((part, j, arr) =>
+                          j < arr.length - 1 ?
+                            <span key={j}>{part}<span className="font-bold text-primary group-hover:underline">gsmservicess.com</span></span> :
+                            <span key={j}>{part}</span>
+                        )}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </a>
             }
           </div>
