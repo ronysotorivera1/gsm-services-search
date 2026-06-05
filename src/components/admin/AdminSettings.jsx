@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Save, Loader2, Upload, Trash2, Smartphone } from 'lucide-react';
+import { Save, Loader2, Upload, Trash2, Smartphone, Bot } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
 export default function AdminSettings() {
@@ -26,6 +26,7 @@ export default function AdminSettings() {
     allow_new_registrations: true,
     android_version: '',
     apk_url: '',
+    ai_context: '',
   });
 
   const { data: settings = [] } = useQuery({
@@ -46,6 +47,7 @@ export default function AdminSettings() {
         allow_new_registrations: s.allow_new_registrations !== false,
         android_version: s.android_version || '',
         apk_url: s.apk_url || '',
+        ai_context: s.ai_context || '',
       });
     }
   }, [settings]);
@@ -186,6 +188,20 @@ export default function AdminSettings() {
             </p>
           </div>
         </div>
+      </div>
+
+      <div className="pb-3 border-b border-border">
+        <div className="flex items-center gap-2 mb-1">
+          <Bot className="w-4 h-4 text-primary" />
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Asistente IA</p>
+        </div>
+        <p className="text-xs text-muted-foreground mb-3">Esta información la usará el asistente IA para responder mejor. Incluye promociones, políticas, horarios, métodos de pago, etc.</p>
+        <Textarea
+          value={form.ai_context}
+          onChange={e => set('ai_context', e.target.value)}
+          placeholder={"Ej:\n- Aceptamos pago por Yape, Plin y transferencia bancaria\n- Horario de atención: Lunes a Sábado 9am - 8pm\n- Oferta: 10% descuento en servicios IMEI esta semana\n- No hacemos devoluciones una vez procesado el servicio"}
+          className="text-sm min-h-[140px]"
+        />
       </div>
 
       <Button onClick={handleSave} disabled={saving}>
