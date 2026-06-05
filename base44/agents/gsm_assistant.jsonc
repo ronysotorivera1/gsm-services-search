@@ -23,5 +23,15 @@
       "description": "Guarda una consulta que la IA no pudo responder (servicio no encontrado) para que el administrador la vea y agregue el servicio o informaci\u00f3n."
     }
   ],
+  "selected_skill_names": [
+    "brand-voice"
+  ],
+  "selected_workspace_skill_ids": [],
+  "model": "automatic",
+  "memory_config": {
+    "enabled": true,
+    "scope": "both",
+    "instructions": null
+  },
   "name": "gsm_assistant"
 }
