@@ -91,6 +91,7 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
               setSelectedSuggestion(null);
             }}
             onFocus={() => setShowSuggestions(true)}
+            onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
             placeholder="Nombre del servicio" 
           />
           {showSuggestions && suggestions.length > 0 && (
@@ -99,7 +100,7 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
                 <button
                   key={name}
                   type="button"
-                  onClick={() => handleSelectSuggestion(name)}
+                  onMouseDown={(e) => { e.preventDefault(); handleSelectSuggestion(name); }}
                   className="w-full text-left px-3 py-2 text-sm hover:bg-primary/10 border-b border-primary/10 last:border-b-0 transition-colors"
                 >
                   {name}
