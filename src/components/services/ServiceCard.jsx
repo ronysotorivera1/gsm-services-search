@@ -37,9 +37,23 @@ export default function ServiceCard({ service, exchangeRate }) {
 
   const displayPrice = isCreditos ? service.price_usd * qty : service.price_usd;
   const soles = (displayPrice * rate).toFixed(2);
-  const whatsappMsg = encodeURIComponent(
-    `Hola, quiero solicitar el servicio:\n*${service.name}*${isCreditos ? `\n🔢 ${qty} créditos` : ''}\n💵 $${displayPrice.toFixed(2)} USDT\n🇵🇪 S/ ${soles} Soles`
-  );
+  const buildMsg = () => {
+    let msg = `Hola, quiero solicitar el servicio:\n*${service.name}*`;
+    if (service.brand) msg += `\n🏷️ Marca: ${service.brand}`;
+    if (service.category) msg += `\n📂 Categoría: ${categoryLabels[service.category] || service.category}`;
+    if (service.duration) msg += `\n⏳ Duración: ${service.duration}`;
+    if (isCreditos) msg += `\n🔢 Créditos: ${qty}`;
+    if (service.delivery_time) msg += `\n🚀 Entrega: ${service.delivery_time}`;
+    if (service.description) msg += `\n📝 ${service.description}`;
+    // Strip HTML tags from note
+    if (service.note_html) {
+      const plain = service.note_html.replace(/<[^>]+>/g, '').trim();
+      if (plain) msg += `\n⚠️ Nota: ${plain}`;
+    }
+    msg += `\n\n💵 $${displayPrice.toFixed(2)} USDT\n🇵🇪 S/ ${soles} Soles`;
+    return msg;
+  };
+  const whatsappMsg = encodeURIComponent(buildMsg());
 
   return (
     <Card className="glass glow-blue-hover group relative overflow-hidden transition-all duration-300 hover:border-primary/30 p-5">
