@@ -118,7 +118,7 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
               href="https://gsmservicess.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 flex items-center gap-3 px-4 py-2.5 bg-gradient-to-r from-primary/20 via-accent/10 to-primary/20 border-y border-primary/40 hover:border-primary/60 transition-all duration-300 group overflow-hidden shadow-sm w-screen relative -mx-4">
+              className="mt-3 flex items-center gap-3 px-4 py-2.5 bg-gradient-to-r from-primary/20 via-accent/10 to-primary/20 border-y border-primary/40 hover:border-primary/60 transition-all duration-300 group overflow-hidden shadow-sm" style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)' }}>
               
                 <span className="shrink-0 w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
                 <div className="overflow-hidden flex-1">
