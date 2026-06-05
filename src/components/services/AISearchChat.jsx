@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Sparkles, Send, X, Loader2, Bot } from 'lucide-react';
+import { Sparkles, Send, X, Loader2, Bot, LogIn } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -9,7 +9,12 @@ export default function AISearchChat({ onSearchChange }) {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
   const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    base44.auth.isAuthenticated().then(setIsAuthenticated);
+  }, []);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -151,43 +156,65 @@ export default function AISearchChat({ onSearchChange }) {
               </div>
             </div>
 
-            {/* Mensajes */}
-            <div className="flex-1 overflow-y-auto p-3 space-y-3" style={{ maxHeight: '300px' }}>
-              {messages.map((msg, i) => (
-                <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[85%] px-3 py-2 rounded-xl text-sm leading-relaxed ${
-                    msg.role === 'user'
-                      ? 'bg-primary text-white rounded-br-sm'
-                      : 'bg-muted text-foreground rounded-bl-sm'
-                  }`}>
-                    {msg.content === null
-                      ? <Loader2 className="w-4 h-4 animate-spin" />
-                      : msg.content
-                    }
-                  </div>
+            {/* Login gate */}
+            {isAuthenticated === false ? (
+              <div className="flex-1 flex flex-col items-center justify-center p-6 text-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Bot className="w-6 h-6 text-primary" />
                 </div>
-              ))}
-              <div ref={messagesEndRef} />
-            </div>
+                <div>
+                  <p className="font-semibold text-foreground text-sm">Inicia sesión para usar el Asistente IA</p>
+                  <p className="text-xs text-muted-foreground mt-1">El asistente está disponible para usuarios registrados</p>
+                </div>
+                <button
+                  onClick={() => base44.auth.redirectToLogin(window.location.href)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-colors"
+                >
+                  <LogIn className="w-4 h-4" />
+                  Iniciar sesión
+                </button>
+              </div>
+            ) : (
+              <>
+                {/* Mensajes */}
+                <div className="flex-1 overflow-y-auto p-3 space-y-3" style={{ maxHeight: '300px' }}>
+                  {messages.map((msg, i) => (
+                    <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`max-w-[85%] px-3 py-2 rounded-xl text-sm leading-relaxed ${
+                        msg.role === 'user'
+                          ? 'bg-primary text-white rounded-br-sm'
+                          : 'bg-muted text-foreground rounded-bl-sm'
+                      }`}>
+                        {msg.content === null
+                          ? <Loader2 className="w-4 h-4 animate-spin" />
+                          : msg.content
+                        }
+                      </div>
+                    </div>
+                  ))}
+                  <div ref={messagesEndRef} />
+                </div>
 
-            {/* Input */}
-            <div className="p-3 border-t border-border flex gap-2">
-              <input
-                type="text"
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && sendMessage()}
-                placeholder="Ej: iPhone 13 bloqueado por iCloud..."
-                className="flex-1 text-sm border border-input rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary/50 bg-background"
-              />
-              <button
-                onClick={sendMessage}
-                disabled={!input.trim() || loading}
-                className="p-2 rounded-lg bg-primary text-white hover:bg-primary/90 disabled:opacity-50 disabled:pointer-events-none transition-colors"
-              >
-                <Send className="w-4 h-4" />
-              </button>
-            </div>
+                {/* Input */}
+                <div className="p-3 border-t border-border flex gap-2">
+                  <input
+                    type="text"
+                    value={input}
+                    onChange={e => setInput(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && sendMessage()}
+                    placeholder="Ej: iPhone 13 bloqueado por iCloud..."
+                    className="flex-1 text-sm border border-input rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary/50 bg-background"
+                  />
+                  <button
+                    onClick={sendMessage}
+                    disabled={!input.trim() || loading}
+                    className="p-2 rounded-lg bg-primary text-white hover:bg-primary/90 disabled:opacity-50 disabled:pointer-events-none transition-colors"
+                  >
+                    <Send className="w-4 h-4" />
+                  </button>
+                </div>
+              </>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
