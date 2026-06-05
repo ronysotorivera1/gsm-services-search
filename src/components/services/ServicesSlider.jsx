@@ -37,7 +37,7 @@ export default function ServicesSlider({ onSearchChange }) {
   if (uniqueServices.length === 0) return null;
 
   return (
-    <div className="w-full overflow-hidden mt-5 select-none">
+    <div className="overflow-hidden mt-5 select-none" style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)' }}>
       <div ref={trackRef} className="flex gap-3 w-max" style={{ willChange: 'transform' }}>
         {items.map((service, i) => (
           <button
