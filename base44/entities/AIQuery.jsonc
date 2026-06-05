@@ -1,0 +1,26 @@
+{
+  "name": "AIQuery",
+  "type": "object",
+  "properties": {
+    "question": {
+      "type": "string",
+      "description": "Pregunta del usuario que la IA no pudo responder"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "answered"
+      ],
+      "default": "pending",
+      "description": "Estado de la consulta"
+    },
+    "admin_answer": {
+      "type": "string",
+      "description": "Respuesta del admin para agregar al contexto de la IA"
+    }
+  },
+  "required": [
+    "question"
+  ]
+}
