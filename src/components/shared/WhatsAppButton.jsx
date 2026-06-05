@@ -15,9 +15,9 @@ export default function WhatsAppButton() {
         </div>
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-slate-900/20 via-slate-900/20 to-slate-900/20 rounded-full blur-lg group-hover:blur-xl transition-all duration-300 group-hover:scale-125 animate-pulse"></div>
-          <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-slate-900 to-slate-950 flex items-center justify-center shadow-lg shadow-slate-900/30 transition-all duration-300 group-hover:scale-110 group-hover:shadow-slate-900/50 border border-slate-800/30 hidden">
-            <MessageSquare className="w-6 h-6 text-white" />
-          </div>
+          
+
+          
         </div>
       </div>
     </a>);
