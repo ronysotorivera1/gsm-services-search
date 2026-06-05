@@ -17,12 +17,15 @@ export default function AISearchChat({ onSearchChange }) {
     }
   }, [messages]);
 
+  const conversationRef = useRef(null);
+
   const initConversation = async () => {
-    if (conversation) return conversation;
+    if (conversationRef.current) return conversationRef.current;
     const conv = await base44.agents.createConversation({
       agent_name: 'gsm_assistant',
       metadata: { name: 'Búsqueda IA' }
     });
+    conversationRef.current = conv;
     setConversation(conv);
     return conv;
   };
@@ -34,11 +37,27 @@ export default function AISearchChat({ onSearchChange }) {
     setMessages(prev => [...prev, { role: 'user', content: text }]);
     setLoading(true);
 
+    let conv;
     try {
-      const conv = await initConversation();
-      setMessages(prev => [...prev, { role: 'assistant', content: null }]);
+      conv = await initConversation();
+    } catch (e) {
+      // Si falla al crear conversación, resetear y mostrar error
+      conversationRef.current = null;
+      setConversation(null);
+      setMessages(prev => {
+        const updated = [...prev];
+        updated[updated.length - 1] = { role: 'assistant', content: 'No se pudo conectar con el asistente. Por favor intenta de nuevo.' };
+        return updated;
+      });
+      setLoading(false);
+      return;
+    }
 
-      const unsubscribe = base44.agents.subscribeToConversation(conv.id, (data) => {
+    setMessages(prev => [...prev, { role: 'assistant', content: null }]);
+
+    let unsubscribe;
+    try {
+      unsubscribe = base44.agents.subscribeToConversation(conv.id, (data) => {
         const msgs = data.messages || [];
         const assistantMsgs = msgs.filter(m => m.role === 'assistant');
         const last = assistantMsgs[assistantMsgs.length - 1];
@@ -48,19 +67,22 @@ export default function AISearchChat({ onSearchChange }) {
             updated[updated.length - 1] = { role: 'assistant', content: last.content };
             return updated;
           });
+          setLoading(false);
         }
       });
 
       await base44.agents.addMessage(conv, { role: 'user', content: text });
 
+      // Timeout de seguridad
       setTimeout(() => {
-        unsubscribe();
+        if (unsubscribe) unsubscribe();
         setLoading(false);
-      }, 8000);
+      }, 15000);
     } catch (e) {
+      if (unsubscribe) unsubscribe();
       setMessages(prev => {
         const updated = [...prev];
-        updated[updated.length - 1] = { role: 'assistant', content: 'Hubo un error. Intenta de nuevo.' };
+        updated[updated.length - 1] = { role: 'assistant', content: 'Hubo un error al enviar el mensaje. Intenta de nuevo.' };
         return updated;
       });
       setLoading(false);
