@@ -14,8 +14,25 @@
     },
     {
       "function_name": "reportUnknownQuery",
-      "description": "Guarda una consulta que la IA no pudo responder para que el administrador la vea y agregue la informaci\u00f3n al contexto."
+      "description": "Guarda una consulta sin respuesta para que el administrador la vea y la responda"
     }
   ],
+  "context_files": [],
+  "app_user_connector_configs": [],
+  "selected_skill_names": [],
+  "selected_workspace_skill_ids": [],
+  "model": "automatic",
+  "whatsapp_greeting": null,
+  "telegram_greeting": null,
+  "line_greeting": null,
+  "memory_config": {
+    "enabled": true,
+    "scope": "both",
+    "include_other_conversation_context": false,
+    "instructions": null
+  },
+  "voice_config": {
+    "voice_id": null
+  },
   "name": "gsm_assistant"
 }

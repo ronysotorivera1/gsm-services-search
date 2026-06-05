@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Shield } from 'lucide-react';
 import AdminServices from '../components/admin/AdminServices';
 import AdminSettings from '../components/admin/AdminSettings';
+import AdminAIQueries from '../components/admin/AdminAIQueries';
 
 export default function Admin() {
   const { user } = useAuth();
@@ -24,6 +25,7 @@ export default function Admin() {
       <Tabs defaultValue="services">
          <TabsList className="mb-6">
            <TabsTrigger value="services">Servicios</TabsTrigger>
+           {isMainAdmin && <TabsTrigger value="ai-queries">Consultas IA</TabsTrigger>}
            {isMainAdmin && <TabsTrigger value="settings">Configuración</TabsTrigger>}
          </TabsList>
 
@@ -31,9 +33,14 @@ export default function Admin() {
            <AdminServices />
          </TabsContent>
          {isMainAdmin && (
-           <TabsContent value="settings">
-             <AdminSettings />
-           </TabsContent>
+          <TabsContent value="ai-queries">
+            <AdminAIQueries />
+          </TabsContent>
+         )}
+         {isMainAdmin && (
+          <TabsContent value="settings">
+            <AdminSettings />
+          </TabsContent>
          )}
        </Tabs>
     </div>);
