@@ -80,7 +80,7 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
                   setShowSuggestions(true);
                 }}
                 onFocus={() => setShowSuggestions(true)}
-                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
                 className={`pl-12 pr-12 text-base bg-white/70 border-border/50 rounded-xl focus:border-primary/50 focus:ring-primary/20 placeholder:text-muted-foreground/50 transition-all duration-300 ${hasQuery ? 'h-12' : 'h-14'}`} />
               {hasQuery && (
                 <button
@@ -97,7 +97,8 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
                     <button
                       key={name}
                       type="button"
-                      onClick={() => {
+                      onMouseDown={(e) => {
+                        e.preventDefault();
                         onSearchChange(name);
                         setShowSuggestions(false);
                       }}
