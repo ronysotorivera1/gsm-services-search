@@ -110,7 +110,23 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
               )}
             </div>
 
-            {!hasQuery && <ServicesSlider onSearchChange={onSearchChange} />}
+            {!hasQuery && (
+              <>
+                <ServicesSlider onSearchChange={onSearchChange} />
+                <div className="mt-5 flex justify-center">
+                  <a
+                    href="https://gsmservicess.com/app.apk"
+                    download
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-green-500 hover:bg-green-600 text-white font-semibold text-sm shadow-md transition-all duration-200"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M17.523 15.341A5 5 0 0 0 12 11a5 5 0 0 0-5.523 4.341A3 3 0 0 0 9 21h6a3 3 0 0 0 2.523-5.659zM12 3l-4 7h3v4h2v-4h3L12 3z"/>
+                    </svg>
+                    Descargar APK para Android
+                  </a>
+                </div>
+              </>
+            )}
 
             {/* Banner promo ticker — solo con búsqueda activa */}
             {hasQuery &&
