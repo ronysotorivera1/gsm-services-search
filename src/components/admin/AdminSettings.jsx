@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Save, Loader2, Upload, Trash2, CheckCircle } from 'lucide-react';
+import { Save, Loader2, Upload, Trash2, Smartphone } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
 export default function AdminSettings() {
@@ -15,7 +15,9 @@ export default function AdminSettings() {
   const { toast } = useToast();
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [uploadingApk, setUploadingApk] = useState(false);
   const fileRef = useRef();
+  const apkRef = useRef();
   const [form, setForm] = useState({
     site_name: '',
     logo_url: '',
@@ -24,6 +26,8 @@ export default function AdminSettings() {
     whatsapp_number: '',
     footer_contact: '',
     allow_new_registrations: true,
+    android_version: '',
+    apk_url: '',
   });
 
   const { data: settings = [] } = useQuery({
@@ -42,6 +46,8 @@ export default function AdminSettings() {
         whatsapp_number: s.whatsapp_number || '',
         footer_contact: s.footer_contact || '',
         allow_new_registrations: s.allow_new_registrations !== false,
+        android_version: s.android_version || '',
+        apk_url: s.apk_url || '',
       });
     }
   }, [settings]);
@@ -55,6 +61,16 @@ export default function AdminSettings() {
     const { file_url } = await base44.integrations.Core.UploadFile({ file });
     set('logo_url', file_url);
     setUploading(false);
+  };
+
+  const handleApkUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploadingApk(true);
+    const { file_url } = await base44.integrations.Core.UploadFile({ file });
+    set('apk_url', file_url);
+    setUploadingApk(false);
+    toast({ title: '✓ APK subido correctamente' });
   };
 
   const handleSave = async () => {
@@ -148,6 +164,40 @@ export default function AdminSettings() {
             onCheckedChange={(checked) => set('allow_new_registrations', checked)}
             className="ml-4"
           />
+        </div>
+      </div>
+
+      <div className="pb-3 border-b border-border">
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">App Android</p>
+        <div className="space-y-4">
+          <div className="space-y-1">
+            <Label>Versión actual (ej: 1.2.0)</Label>
+            <Input
+              value={form.android_version}
+              onChange={e => set('android_version', e.target.value)}
+              placeholder="1.0.0"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>APK</Label>
+            <div className="flex items-center gap-3">
+              <Button size="sm" variant="outline" onClick={() => apkRef.current.click()} disabled={uploadingApk}>
+                {uploadingApk ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : <Smartphone className="w-4 h-4 mr-1" />}
+                {uploadingApk ? 'Subiendo...' : 'Subir APK'}
+              </Button>
+              <input ref={apkRef} type="file" accept=".apk" className="hidden" onChange={handleApkUpload} />
+            </div>
+            {form.apk_url && (
+              <div className="flex items-center gap-2 p-2 rounded-lg bg-green-50 border border-green-200">
+                <Smartphone className="w-4 h-4 text-green-600 shrink-0" />
+                <span className="text-xs text-green-700 truncate flex-1">{form.apk_url}</span>
+                <a href={form.apk_url} download className="text-xs text-green-700 font-medium hover:underline shrink-0">Descargar</a>
+              </div>
+            )}
+            <p className="text-xs text-muted-foreground">
+              Al subir un APK nuevo, la URL se actualiza automáticamente y el banner de actualización se mostrará a usuarios con versión anterior.
+            </p>
+          </div>
         </div>
       </div>
 
