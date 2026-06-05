@@ -118,16 +118,16 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
               href="https://gsmservicess.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-accent/10 border border-primary/15 hover:border-primary/30 hover:from-primary/15 transition-all duration-300 group overflow-hidden">
+              className="mt-3 flex items-center justify-center gap-3 px-5 py-3 rounded-xl bg-gradient-to-r from-primary/20 via-accent/10 to-primary/20 border border-primary/40 hover:border-primary/60 hover:from-primary/30 transition-all duration-300 group overflow-hidden shadow-sm">
               
-                <span className="shrink-0 w-2 h-2 rounded-full bg-primary animate-pulse" />
+                <span className="shrink-0 w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
                 <span
-                className="text-[11.5px] text-muted-foreground/80 truncate transition-opacity duration-400"
+                className="text-sm font-medium text-foreground/90 truncate transition-opacity duration-400"
                 style={{ opacity: promoVisible ? 1 : 0 }}>
                 
                   {PROMO_MESSAGES[promoIndex].split('gsmservicess.com').map((part, i, arr) =>
                 i < arr.length - 1 ?
-                <span key={i}>{part}<span className="font-semibold text-primary group-hover:underline">gsmservicess.com</span></span> :
+                <span key={i}>{part}<span className="font-bold text-primary group-hover:underline">gsmservicess.com</span></span> :
                 <span key={i}>{part}</span>
                 )}
                 </span>
