@@ -7,10 +7,10 @@ export default function Footer() {
 
   return (
     <footer className="bg-card/50 border-t border-border py-6 px-4">
-      <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         
         {/* Copyright */}
-        <p className="text-xs text-muted-foreground text-center">
+        <p className="text-xs text-muted-foreground text-left">
           {settings?.footer_contact
             ? <span dangerouslySetInnerHTML={{ __html: settings.footer_contact }} />
             : <>GSMServices © 2026 · Derechos reservados</>
