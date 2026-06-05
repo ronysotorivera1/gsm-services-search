@@ -30,6 +30,14 @@
       "type": "boolean",
       "default": true,
       "description": "Permitir que nuevos usuarios se registren"
+    },
+    "android_version": {
+      "type": "string",
+      "description": "Versi\u00f3n actual de la app Android (ej: 1.0.0)"
+    },
+    "apk_url": {
+      "type": "string",
+      "description": "URL directa de descarga del APK"
     }
   },
   "required": [

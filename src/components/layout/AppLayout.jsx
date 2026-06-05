@@ -5,12 +5,14 @@ import WhatsAppButton from '../shared/WhatsAppButton';
 import AuroraBackground from './AuroraBackground';
 import Footer from './Footer';
 import MobileHeader from './MobileHeader';
+import UpdateBanner from './UpdateBanner';
 export default function AppLayout() {
   const location = useLocation();
 
   return (
     <div className="flex flex-col min-h-screen">
       <AuroraBackground />
+      <UpdateBanner />
       <MobileHeader />
       <main className="flex-1 flex flex-col">
         <AnimatePresence mode="wait">

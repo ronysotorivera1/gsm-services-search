@@ -32,7 +32,7 @@ export default function Footer() {
 
         {/* APK Download */}
         <a
-          href="https://gsmservicess.com/app.apk"
+          href={settings?.apk_url || 'https://gsmservicess.com/app.apk'}
           download
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-white/60 hover:bg-white/90 text-muted-foreground hover:text-foreground text-sm transition-all duration-200 shadow-sm backdrop-blur-sm"
         >
