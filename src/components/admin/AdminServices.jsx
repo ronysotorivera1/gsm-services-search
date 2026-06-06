@@ -17,6 +17,9 @@ export default function AdminServices() {
 
   const toggleGroup = (name) => setCollapsed(prev => ({ ...prev, [name]: !prev[name] }));
 
+  // Colapsar grupos nuevos por defecto
+  const isCollapsed = (name) => collapsed[name] !== false;
+
   useEffect(() => {
     base44.auth.me().then(setUser);
   }, []);
@@ -157,7 +160,7 @@ export default function AdminServices() {
                 onClick={() => toggleGroup(group.name)}
                 className="flex items-center gap-2 w-full text-left mb-2 group"
               >
-                {collapsed[group.name]
+                {isCollapsed(group.name)
                   ? <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
                   : <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />}
                 <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
@@ -165,7 +168,7 @@ export default function AdminServices() {
                 </h3>
                 <span className="text-xs text-muted-foreground">({group.items.length})</span>
               </button>
-              {!collapsed[group.name] && <div className="space-y-2">
+              {!isCollapsed(group.name) && <div className="space-y-2">
                 {group.items.map(s => (
                   <div key={s.id} className="flex items-center justify-between p-3 rounded-lg bg-card border border-border">
                     <div className="flex-1 min-w-0">
