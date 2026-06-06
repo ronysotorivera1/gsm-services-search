@@ -1,8 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useSettings } from '@/hooks/useSettings';
+import { base44 } from '@/api/base44Client';
+import { Settings, LogIn } from 'lucide-react';
+
+const OWNER_EMAIL = 'ronysotorivera1@gmail.com';
 
 export default function Footer() {
   const settings = useSettings();
+  const [isOwner, setIsOwner] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    base44.auth.isAuthenticated().then(authed => {
+      setIsAuthenticated(authed);
+      if (authed) {
+        base44.auth.me().then(user => {
+          if (user?.email === OWNER_EMAIL) setIsOwner(true);
+        }).catch(() => {});
+      }
+    });
+  }, []);
 
   return (
     <footer className="bg-card/50 border-t border-border py-6 px-6">
@@ -31,6 +49,28 @@ export default function Footer() {
             </svg>
             Canal WhatsApp
           </a>
+
+          {/* Login */}
+          {!isAuthenticated && (
+            <Link
+              to="/login"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 text-xs font-semibold transition-all duration-200"
+            >
+              <LogIn className="w-3.5 h-3.5" />
+              Iniciar sesión
+            </Link>
+          )}
+
+          {/* Admin */}
+          {isOwner && (
+            <Link
+              to="/admin"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted border border-border text-muted-foreground hover:text-primary hover:bg-muted/80 text-xs font-semibold transition-all duration-200"
+            >
+              <Settings className="w-3.5 h-3.5" />
+              Admin
+            </Link>
+          )}
 
           {/* APK Download */}
           <a
