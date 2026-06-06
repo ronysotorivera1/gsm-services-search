@@ -39,17 +39,19 @@ export default function Navbar() {
             );
           })}
         </div>
-        {isOwner && (
-          <Link to="/admin">
-            <Button size="sm" variant="ghost" className="gap-1.5 text-muted-foreground hover:text-primary">
-              <Settings className="w-4 h-4" />
-              <span className="text-xs">Admin</span>
-            </Button>
-          </Link>
-        )}
-        <button className="md:hidden" onClick={() => setMobileOpen(!mobileOpen)}>
+        <div className="flex items-center gap-1">
+          {isOwner && (
+            <Link to="/admin">
+              <Button size="sm" variant="ghost" className="gap-1.5 text-muted-foreground hover:text-primary">
+                <Settings className="w-4 h-4" />
+                <span className="text-xs">Admin</span>
+              </Button>
+            </Link>
+          )}
+          <button className="md:hidden" onClick={() => setMobileOpen(!mobileOpen)}>
           {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
+          </button>
+        </div>
 
 
 
