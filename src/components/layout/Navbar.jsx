@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Menu, X } from 'lucide-react';
+import { Search, Menu, X, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { base44 } from '@/api/base44Client';
+
+const OWNER_EMAIL = 'ronysotorivera1@gmail.com';
 
 const navLinks = [
 { path: '/', label: 'Search', icon: Search }];
@@ -10,6 +13,13 @@ const navLinks = [
 export default function Navbar() {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
+
+  useEffect(() => {
+    base44.auth.me().then(user => {
+      if (user?.email === OWNER_EMAIL) setIsOwner(true);
+    }).catch(() => {});
+  }, []);
 
   return (
     <nav className="sticky top-0 z-50 glass border-b border-border/50" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
@@ -29,6 +39,14 @@ export default function Navbar() {
             );
           })}
         </div>
+        {isOwner && (
+          <Link to="/admin">
+            <Button size="sm" variant="ghost" className="gap-1.5 text-muted-foreground hover:text-primary">
+              <Settings className="w-4 h-4" />
+              <span className="text-xs">Admin</span>
+            </Button>
+          </Link>
+        )}
         <button className="md:hidden" onClick={() => setMobileOpen(!mobileOpen)}>
           {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
