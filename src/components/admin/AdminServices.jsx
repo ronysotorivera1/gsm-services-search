@@ -4,7 +4,7 @@ import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Plus, Pencil, Trash2, Loader2, Search, X } from 'lucide-react';
+import { Plus, Pencil, Trash2, Loader2, Search, X, ChevronDown, ChevronRight } from 'lucide-react';
 import ServiceForm from './ServiceForm';
 
 export default function AdminServices() {
@@ -13,6 +13,9 @@ export default function AdminServices() {
   const [showForm, setShowForm] = useState(false);
   const [user, setUser] = useState(null);
   const [search, setSearch] = useState('');
+  const [collapsed, setCollapsed] = useState({});
+
+  const toggleGroup = (name) => setCollapsed(prev => ({ ...prev, [name]: !prev[name] }));
 
   useEffect(() => {
     base44.auth.me().then(setUser);
@@ -150,8 +153,19 @@ export default function AdminServices() {
         <div className="space-y-4">
           {groupedServices.map(group => (
             <div key={group.name} className="border-l-2 border-primary/30 pl-4">
-              <h3 className="text-sm font-semibold text-foreground mb-2">{group.name}</h3>
-              <div className="space-y-2">
+              <button
+                onClick={() => toggleGroup(group.name)}
+                className="flex items-center gap-2 w-full text-left mb-2 group"
+              >
+                {collapsed[group.name]
+                  ? <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
+                  : <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />}
+                <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+                  {group.name}
+                </h3>
+                <span className="text-xs text-muted-foreground">({group.items.length})</span>
+              </button>
+              {!collapsed[group.name] && <div className="space-y-2">
                 {group.items.map(s => (
                   <div key={s.id} className="flex items-center justify-between p-3 rounded-lg bg-card border border-border">
                     <div className="flex-1 min-w-0">
@@ -174,7 +188,7 @@ export default function AdminServices() {
                     </div>
                   </div>
                 ))}
-              </div>
+              </div>}
             </div>
           ))}
         </div>
