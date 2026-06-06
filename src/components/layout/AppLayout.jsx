@@ -1,7 +1,6 @@
 import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import WhatsAppButton from '../shared/WhatsAppButton';
 import AuroraBackground from './AuroraBackground';
 import Footer from './Footer';
 import MobileHeader from './MobileHeader';
@@ -29,7 +28,6 @@ export default function AppLayout() {
         </AnimatePresence>
       </main>
       <Footer />
-      <WhatsAppButton />
     </div>
   );
 }
