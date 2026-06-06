@@ -9,6 +9,9 @@ import AppLayout from './components/layout/AppLayout';
 import Home from './pages/Home';
 import Admin from './pages/Admin';
 import Login from './pages/Login';
+import Register from './pages/Register';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 const AdminRoute = () => {
   const { isLoadingAuth, isAuthenticated } = useAuth();
@@ -43,6 +46,9 @@ const AuthenticatedApp = () => {
         <Route path="/admin" element={<AdminRoute />} />
       </Route>
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
