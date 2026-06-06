@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSettings } from '@/hooks/useSettings';
 import { base44 } from '@/api/base44Client';
-import { Settings, LogIn } from 'lucide-react';
+import { Settings, LogIn, LogOut } from 'lucide-react';
 
 const OWNER_EMAIL = 'ronysotorivera1@gmail.com';
 
@@ -50,8 +50,8 @@ export default function Footer() {
             Canal WhatsApp
           </a>
 
-          {/* Login */}
-          {!isAuthenticated && (
+          {/* Login / Logout */}
+          {!isAuthenticated ? (
             <Link
               to="/login"
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 text-xs font-semibold transition-all duration-200"
@@ -59,6 +59,14 @@ export default function Footer() {
               <LogIn className="w-3.5 h-3.5" />
               Iniciar sesión
             </Link>
+          ) : (
+            <button
+              onClick={() => base44.auth.logout()}
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted border border-border text-muted-foreground hover:text-destructive hover:bg-destructive/10 text-xs font-semibold transition-all duration-200"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              Cerrar sesión
+            </button>
           )}
 
           {/* Admin */}
