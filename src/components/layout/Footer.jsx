@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSettings } from '@/hooks/useSettings';
 import { base44 } from '@/api/base44Client';
-import { Settings, LogIn, LogOut } from 'lucide-react';
+import { Settings, LogIn, LogOut, Home } from 'lucide-react';
 
 const OWNER_EMAIL = 'ronysotorivera1@gmail.com';
 
 export default function Footer() {
   const settings = useSettings();
+  const location = useLocation();
+  const isAdminPage = location.pathname === '/admin';
   const [isOwner, setIsOwner] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -87,13 +89,23 @@ export default function Footer() {
           )}
 
           {isOwner && (
-            <Link
-              to="/admin"
-              className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-muted border border-border text-muted-foreground hover:text-primary hover:bg-muted/80 text-xs font-semibold transition-all"
-            >
-              <Settings className="w-3.5 h-3.5" />
-              <span>Admin</span>
-            </Link>
+            isAdminPage ? (
+              <Link
+                to="/"
+                className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-muted border border-border text-muted-foreground hover:text-primary hover:bg-muted/80 text-xs font-semibold transition-all"
+              >
+                <Home className="w-3.5 h-3.5" />
+                <span>Buscador</span>
+              </Link>
+            ) : (
+              <Link
+                to="/admin"
+                className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-muted border border-border text-muted-foreground hover:text-primary hover:bg-muted/80 text-xs font-semibold transition-all"
+              >
+                <Settings className="w-3.5 h-3.5" />
+                <span>Admin</span>
+              </Link>
+            )
           )}
 
         </div>
