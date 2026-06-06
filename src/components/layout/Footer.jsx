@@ -36,10 +36,18 @@ export default function Footer() {
 
   return (
     <footer className="bg-card/50 border-t border-border py-4 px-4">
-      <div className="max-w-5xl mx-auto flex flex-col gap-3">
+      <div className="max-w-5xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
 
-        {/* Botones — grid en móvil, fila en desktop */}
-        <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2">
+        {/* Copyright — izquierda en desktop */}
+        <p className="text-xs text-muted-foreground text-center sm:text-left order-last sm:order-first">
+          {settings?.footer_contact
+            ? <span dangerouslySetInnerHTML={{ __html: settings.footer_contact }} />
+            : <>GSMServices © 2026 · Derechos reservados</>
+          }
+        </p>
+
+        {/* Botones — grid en móvil, fila a la derecha en desktop */}
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 sm:justify-end">
 
           <a
             href="https://whatsapp.com/channel/0029Vb6ggImLI8YbWLjlzI2A"
@@ -89,14 +97,6 @@ export default function Footer() {
           )}
 
         </div>
-
-        {/* Copyright */}
-        <p className="text-xs text-muted-foreground text-center sm:text-left">
-          {settings?.footer_contact
-            ? <span dangerouslySetInnerHTML={{ __html: settings.footer_contact }} />
-            : <>GSMServices © 2026 · Derechos reservados</>
-          }
-        </p>
 
       </div>
     </footer>
