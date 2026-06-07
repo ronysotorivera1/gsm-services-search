@@ -1,6 +1,59 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
-import { Search, Zap, Loader2, X, Sparkles, List } from 'lucide-react';
+import { Search, Zap, Loader2, X, Sparkles, List, ChevronDown, ChevronRight } from 'lucide-react';
+
+const CATEGORY_LABELS = {
+  renta: 'RENTA',
+  activacion: 'ACTIVACIÓN',
+  imei: 'IMEI',
+  remoto: 'REMOTO',
+  creditos: 'CRÉDITOS',
+};
+
+function GroupedResults({ services, exchangeRate }) {
+  const [collapsed, setCollapsed] = useState({});
+  const toggle = (cat) => setCollapsed(p => ({ ...p, [cat]: !p[cat] }));
+
+  const groups = Object.entries(
+    services.reduce((acc, s) => {
+      const key = s.category || 'otros';
+      if (!acc[key]) acc[key] = [];
+      acc[key].push(s);
+      return acc;
+    }, {})
+  ).sort(([a], [b]) => (CATEGORY_LABELS[a] || a).localeCompare(CATEGORY_LABELS[b] || b));
+
+  return (
+    <div className="space-y-4">
+      {groups.map(([cat, items]) => {
+        const isOpen = !collapsed[cat];
+        return (
+          <div key={cat} className="border border-border rounded-xl overflow-hidden bg-white/40">
+            <button
+              onClick={() => toggle(cat)}
+              className="w-full flex items-center justify-between px-4 py-3 hover:bg-white/60 transition-colors"
+            >
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-sm text-foreground">{CATEGORY_LABELS[cat] || cat}</span>
+                <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">{items.length}</span>
+              </div>
+              {isOpen
+                ? <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                : <ChevronRight className="w-4 h-4 text-muted-foreground" />}
+            </button>
+            {isOpen && (
+              <div className="px-4 pb-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {items.map(service => (
+                  <ServiceCard key={service.id} service={service} exchangeRate={exchangeRate} />
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 import ServicesSlider from './ServicesSlider';
 import ServiceCard from './ServiceCard';
 import AISearchChat from './AISearchChat';
@@ -211,11 +264,14 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
                     : <>{displayResults.length} servicios disponibles</>
                   }
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                  {displayResults.map((service) =>
-              <ServiceCard key={service.id} service={service} exchangeRate={exchangeRate} />
-              )}
-                </div>
+                {showAll && !hasQuery
+                  ? <GroupedResults services={displayResults} exchangeRate={exchangeRate} />
+                  : <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                      {displayResults.map((service) =>
+                        <ServiceCard key={service.id} service={service} exchangeRate={exchangeRate} />
+                      )}
+                    </div>
+                }
               </>
           }
           </div>
