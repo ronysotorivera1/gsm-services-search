@@ -16,12 +16,12 @@ function GroupedResults({ services, exchangeRate }) {
 
   const groups = Object.entries(
     services.reduce((acc, s) => {
-      const key = s.category || 'otros';
+      const key = s.brand || s.name.split(' ')[0] || 'otros';
       if (!acc[key]) acc[key] = [];
       acc[key].push(s);
       return acc;
     }, {})
-  ).sort(([a], [b]) => (CATEGORY_LABELS[a] || a).localeCompare(CATEGORY_LABELS[b] || b));
+  ).sort(([a], [b]) => a.localeCompare(b));
 
   return (
     <div className="space-y-4">
@@ -34,7 +34,7 @@ function GroupedResults({ services, exchangeRate }) {
               className="w-full flex items-center justify-between px-4 py-3 hover:bg-white/60 transition-colors"
             >
               <div className="flex items-center gap-2">
-                <span className="font-semibold text-sm text-foreground">{CATEGORY_LABELS[cat] || cat}</span>
+                <span className="font-semibold text-sm text-foreground">{cat}</span>
                 <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">{items.length}</span>
               </div>
               {isOpen
