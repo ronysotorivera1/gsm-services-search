@@ -21,7 +21,7 @@ function GroupedResults({ services, exchangeRate }) {
       acc[key].push(s);
       return acc;
     }, {})
-  ).sort(([a], [b]) => (CATEGORY_LABELS[a] || a).localeCompare(CATEGORY_LABELS[b] || b));
+  ).sort(([a], [b]) => (CATEGORY_LABELS[a] || a).localeCompare(CATEGORY_LABELS[b] || b, 'es'));
 
   return (
     <div className="space-y-4">
