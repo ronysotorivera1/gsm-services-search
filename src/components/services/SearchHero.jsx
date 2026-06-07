@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
-import { Search, Zap, Loader2, X, Sparkles } from 'lucide-react';
+import { Search, Zap, Loader2, X, Sparkles, List } from 'lucide-react';
 import ServicesSlider from './ServicesSlider';
 import ServiceCard from './ServiceCard';
 import AISearchChat from './AISearchChat';
@@ -14,7 +14,10 @@ const PROMO_MESSAGES = [
 
 
 export default function SearchHero({ searchQuery, onSearchChange, results = [], allServices = [], isLoading = false, exchangeRate }) {
+  const [showAll, setShowAll] = useState(false);
   const hasQuery = searchQuery.length > 0;
+  const displayResults = showAll && !hasQuery ? allServices : results;
+  const showResults = hasQuery || showAll;
   const inputRef = useRef(null);
   const [promoIndex, setPromoIndex] = useState(0);
   const [promoVisible, setPromoVisible] = useState(true);
@@ -153,7 +156,14 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
             {!hasQuery && (
               <>
                 <ServicesSlider onSearchChange={onSearchChange} />
-
+                <button
+                  type="button"
+                  onClick={() => setShowAll(v => !v)}
+                  className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-border bg-white/60 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-white/80 transition-all"
+                >
+                  <List className="w-4 h-4" />
+                  {showAll ? 'Ocultar servicios' : 'Ver todos los servicios'}
+                </button>
               </>
             )}
 
@@ -185,21 +195,24 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
         </div>
 
         {/* Resultados */}
-        {hasQuery &&
+        {showResults &&
         <div className="max-w-7xl mx-auto w-full px-4 pb-8">
             {isLoading ?
           <div className="flex justify-center py-12">
                 <Loader2 className="w-6 h-6 animate-spin text-primary" />
               </div> :
-          results.length === 0 ?
+          displayResults.length === 0 ?
           <p className="text-center text-muted-foreground py-12">No se encontraron servicios para "{searchQuery}"</p> :
 
           <>
                 <p className="text-sm text-muted-foreground mb-4">
-                  {results.length} resultado{results.length !== 1 ? 's' : ''} para "<span className="text-foreground">{searchQuery}</span>"
+                  {hasQuery
+                    ? <>{displayResults.length} resultado{displayResults.length !== 1 ? 's' : ''} para "<span className="text-foreground">{searchQuery}</span>"</>
+                    : <>{displayResults.length} servicios disponibles</>
+                  }
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                  {results.map((service) =>
+                  {displayResults.map((service) =>
               <ServiceCard key={service.id} service={service} exchangeRate={exchangeRate} />
               )}
                 </div>
