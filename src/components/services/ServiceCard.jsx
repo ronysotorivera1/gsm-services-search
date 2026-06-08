@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Clock, ExternalLink, Minus, Plus } from 'lucide-react';
+import { Clock, ExternalLink, Minus, Plus, ChevronDown, ChevronUp, FileText } from 'lucide-react';
 import StatusBadge from '../shared/StatusBadge';
 import PriceDisplay from '../shared/PriceDisplay';
 
@@ -34,6 +34,8 @@ export default function ServiceCard({ service, exchangeRate }) {
   const isCreditos = service.category === 'creditos' && service.credits_quantity;
   const minQty = isCreditos ? service.credits_quantity : 1;
   const [qty, setQty] = useState(minQty);
+  const [showNote, setShowNote] = useState(false);
+  const hasNote = service.note_html && service.note_html.replace(/<[^>]+>/g, '').trim().length > 0;
 
   const displayPrice = isCreditos ? service.price_usd * qty : service.price_usd;
   const soles = (displayPrice * rate).toFixed(2);
@@ -144,6 +146,24 @@ export default function ServiceCard({ service, exchangeRate }) {
         </a>
       </div>
 
+      {hasNote && (
+        <div className="mt-3 border-t border-border/50">
+          <button
+            onClick={() => setShowNote(v => !v)}
+            className="w-full flex items-center gap-1.5 pt-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <FileText className="w-3 h-3 shrink-0" />
+            <span className="font-medium">Nota</span>
+            {showNote ? <ChevronUp className="w-3 h-3 ml-auto" /> : <ChevronDown className="w-3 h-3 ml-auto" />}
+          </button>
+          {showNote && (
+            <div
+              className="mt-2 text-xs text-muted-foreground prose prose-sm max-w-none"
+              dangerouslySetInnerHTML={{ __html: service.note_html }}
+            />
+          )}
+        </div>
+      )}
 
     </Card>
   );
