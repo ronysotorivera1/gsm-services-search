@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Clock, ExternalLink, Minus, Plus, ChevronDown, ChevronUp, FileText } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Clock, ExternalLink, Minus, Plus, FileText } from 'lucide-react';
 import StatusBadge from '../shared/StatusBadge';
 import PriceDisplay from '../shared/PriceDisplay';
 
@@ -150,21 +151,30 @@ export default function ServiceCard({ service, exchangeRate, whatsappNumber }) {
       {hasNote && (
         <div className="mt-3 border-t border-border/50">
           <button
-            onClick={() => setShowNote(v => !v)}
+            onClick={() => setShowNote(true)}
             className="w-full flex items-center gap-1.5 pt-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
           >
             <FileText className="w-3 h-3 shrink-0" />
             <span className="font-medium">Nota</span>
-            {showNote ? <ChevronUp className="w-3 h-3 ml-auto" /> : <ChevronDown className="w-3 h-3 ml-auto" />}
+            <FileText className="w-3 h-3 ml-auto opacity-40" />
           </button>
-          {showNote && (
-            <div
-              className="mt-2 text-xs text-muted-foreground prose prose-sm max-w-none"
-              dangerouslySetInnerHTML={{ __html: service.note_html }}
-            />
-          )}
         </div>
       )}
+
+      <Dialog open={showNote} onOpenChange={setShowNote}>
+        <DialogContent className="max-w-lg max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-sm">
+              <FileText className="w-4 h-4 text-primary" />
+              {service.name}
+            </DialogTitle>
+          </DialogHeader>
+          <div
+            className="text-sm text-foreground prose prose-sm max-w-none"
+            dangerouslySetInnerHTML={{ __html: service.note_html }}
+          />
+        </DialogContent>
+      </Dialog>
 
     </Card>
   );
