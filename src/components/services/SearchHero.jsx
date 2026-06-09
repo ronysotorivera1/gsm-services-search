@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
-import { Search, Zap, Loader2, X, Sparkles, List, ChevronDown, ChevronRight } from 'lucide-react';
+import { Search, Zap, Loader2, X, List, ChevronDown, ChevronRight } from 'lucide-react';
 
 const CATEGORY_LABELS = {
   renta: 'RENTA',
@@ -58,8 +58,6 @@ function GroupedResults({ services, exchangeRate }) {
 }
 import ServicesSlider from './ServicesSlider';
 import ServiceCard from './ServiceCard';
-import AISearchChat from './AISearchChat';
-import { AnimatePresence } from 'framer-motion';
 
 const PROMO_MESSAGES = [
 '⚡ Precios vía WhatsApp · Para mejores precios y procesamiento automático visita gsmservicess.com',
@@ -74,15 +72,7 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
   const displayResults = showAll && !hasQuery ? allServices : results;
   const showResults = hasQuery || showAll;
   const inputRef = useRef(null);
-  const [promoIndex, setPromoIndex] = useState(0);
-  const [promoVisible, setPromoVisible] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [aiMode, setAiMode] = useState(false);
-
-  const toggleAI = () => {
-    setAiMode(v => !v);
-    if (!aiMode) onSearchChange(''); // limpiar búsqueda al activar IA
-  };
 
   const uniqueNames = Array.from(new Set(allServices.map(s => s.name))).sort();
   const suggestions = searchQuery ? uniqueNames.filter(n => n.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 5) : [];
@@ -92,19 +82,6 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
     if (hasQuery && inputRef.current) {
       inputRef.current.focus();
     }
-  }, [hasQuery]);
-
-  // Rotar mensajes promo
-  useEffect(() => {
-    if (!hasQuery) return;
-    const interval = setInterval(() => {
-      setPromoVisible(false);
-      setTimeout(() => {
-        setPromoIndex((i) => (i + 1) % PROMO_MESSAGES.length);
-        setPromoVisible(true);
-      }, 400);
-    }, 4000);
-    return () => clearInterval(interval);
   }, [hasQuery]);
 
   return (
@@ -133,79 +110,51 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
               </p>
             </div>
 
-            {/* Input / Chat */}
+            {/* Input */}
             <div className="relative">
-              {!aiMode ? (
-                <div className="relative flex items-center">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
-                  <Input
-                    ref={inputRef}
-                    type="text"
-                    placeholder="Buscar IMEI, Unlock, MDM, FRP..."
-                    value={searchQuery}
-                    onChange={(e) => {
-                      onSearchChange(e.target.value);
-                      setShowSuggestions(true);
-                    }}
-                    onFocus={() => setShowSuggestions(true)}
-                    onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
-                    className={`pl-12 pr-24 text-base bg-white/70 border-border/50 rounded-xl focus:border-primary/50 focus:ring-primary/20 placeholder:text-muted-foreground/50 transition-all duration-300 ${hasQuery ? 'h-12' : 'h-14'}`}
-                  />
-                  {/* Botón IA dentro del input */}
+              <div className="relative flex items-center">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
+                <Input
+                  ref={inputRef}
+                  type="text"
+                  placeholder="Buscar IMEI, Unlock, MDM, FRP..."
+                  value={searchQuery}
+                  onChange={(e) => {
+                    onSearchChange(e.target.value);
+                    setShowSuggestions(true);
+                  }}
+                  onFocus={() => setShowSuggestions(true)}
+                  onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+                  className={`pl-12 pr-10 text-base bg-white/70 border-border/50 rounded-xl focus:border-primary/50 focus:ring-primary/20 placeholder:text-muted-foreground/50 transition-all duration-300 ${hasQuery ? 'h-12' : 'h-14'}`}
+                />
+                {hasQuery && (
                   <button
-                    type="button"
-                    onClick={toggleAI}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-primary/10 text-primary hover:bg-primary/20 border border-primary/20 transition-all"
+                    onClick={() => onSearchChange('')}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    aria-label="Limpiar búsqueda"
                   >
-                    <Sparkles className="w-3.5 h-3.5" />
-                    IA
+                    <X className="w-4 h-4" />
                   </button>
-                  {hasQuery && (
-                    <button
-                      onClick={() => onSearchChange('')}
-                      className="absolute right-20 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                      aria-label="Limpiar búsqueda"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  )}
-                  {showSuggestions && suggestions.length > 0 && (
-                    <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-primary/20 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
-                      {suggestions.map(name => (
-                        <button
-                          key={name}
-                          type="button"
-                          onMouseDown={(e) => {
-                            e.preventDefault();
-                            onSearchChange(name);
-                            setShowSuggestions(false);
-                          }}
-                          className="w-full text-left px-4 py-2.5 text-sm hover:bg-primary/10 border-b border-primary/10 last:border-b-0 transition-colors"
-                        >
-                          {name}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                // Botón para volver al buscador (visible sobre el chat)
-                <div className="flex items-center gap-2 mb-2">
-                  <button
-                    type="button"
-                    onClick={toggleAI}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary text-white transition-all"
-                  >
-                    <Sparkles className="w-3.5 h-3.5" />
-                    IA activa · Volver al buscador
-                    <X className="w-3 h-3 ml-1" />
-                  </button>
-                </div>
-              )}
-
-              <AnimatePresence>
-                <AISearchChat active={aiMode} onClose={() => setAiMode(false)} />
-              </AnimatePresence>
+                )}
+                {showSuggestions && suggestions.length > 0 && (
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-primary/20 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
+                    {suggestions.map(name => (
+                      <button
+                        key={name}
+                        type="button"
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          onSearchChange(name);
+                          setShowSuggestions(false);
+                        }}
+                        className="w-full text-left px-4 py-2.5 text-sm hover:bg-primary/10 border-b border-primary/10 last:border-b-0 transition-colors"
+                      >
+                        {name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
 
             {!hasQuery && (
