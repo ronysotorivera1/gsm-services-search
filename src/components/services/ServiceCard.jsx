@@ -49,11 +49,6 @@ export default function ServiceCard({ service, exchangeRate, whatsappNumber }) {
     if (isCreditos) msg += `\n🔢 Créditos: ${qty}`;
     if (service.delivery_time) msg += `\n🚀 Entrega: ${service.delivery_time}`;
     if (service.description) msg += `\n📝 ${service.description}`;
-    // Strip HTML tags from note
-    if (service.note_html) {
-      const plain = service.note_html.replace(/<[^>]+>/g, '').trim();
-      if (plain) msg += `\n⚠️ Nota: ${plain}`;
-    }
     msg += `\n\n💵 $${displayPrice.toFixed(2)} USDT\n🇵🇪 S/ ${soles} Soles`;
     return msg;
   };
