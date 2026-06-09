@@ -162,7 +162,7 @@ export default function ServiceCard({ service, exchangeRate, whatsappNumber }) {
       )}
 
       <Dialog open={showNote} onOpenChange={setShowNote}>
-        <DialogContent className="max-w-lg max-h-[80vh] overflow-y-auto">
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-sm">
               <FileText className="w-4 h-4 text-primary" />
