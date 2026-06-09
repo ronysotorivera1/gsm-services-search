@@ -59,7 +59,7 @@ export default function ServiceCard({ service, exchangeRate, whatsappNumber }) {
   const whatsappMsg = encodeURIComponent(buildMsg());
 
   return (
-    <Card className="glass glow-blue-hover group relative overflow-hidden transition-all duration-300 hover:border-primary/30 p-5">
+    <Card className="glass glow-blue-hover group relative transition-all duration-300 hover:border-primary/30 p-5">
       {/* Top glow line */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
