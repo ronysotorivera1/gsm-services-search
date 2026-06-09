@@ -11,7 +11,8 @@ const tiers = [
   { key: 'price_24h', label: '24H' },
 ];
 
-export default function RentalCard({ rental, exchangeRate }) {
+export default function RentalCard({ rental, exchangeRate, whatsappNumber }) {
+  const number = whatsappNumber || '51901745069';
   const whatsappMsg = encodeURIComponent(`Hola, quiero rentar: ${rental.tool_name}`);
 
   return (
@@ -47,7 +48,7 @@ export default function RentalCard({ rental, exchangeRate }) {
       </div>
 
       <a
-        href={`https://wa.me/51901745069?text=${whatsappMsg}`}
+        href={`https://wa.me/${number}?text=${whatsappMsg}`}
         target="_blank"
         rel="noopener noreferrer"
       >

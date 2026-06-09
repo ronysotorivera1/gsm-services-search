@@ -10,7 +10,7 @@ const CATEGORY_LABELS = {
   creditos: 'CRÉDITOS',
 };
 
-function GroupedResults({ services, exchangeRate }) {
+function GroupedResults({ services, exchangeRate, whatsappNumber }) {
   const [collapsed, setCollapsed] = useState({});
   const toggle = (cat) => setCollapsed(p => ({ ...p, [cat]: !p[cat] }));
 
@@ -46,7 +46,7 @@ function GroupedResults({ services, exchangeRate }) {
             {isOpen && (
               <div className="px-4 pb-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {items.map(service => (
-                  <ServiceCard key={service.id} service={service} exchangeRate={exchangeRate} />
+                  <ServiceCard key={service.id} service={service} exchangeRate={exchangeRate} whatsappNumber={whatsappNumber} />
                 ))}
               </div>
             )}
@@ -66,7 +66,7 @@ const PROMO_MESSAGES = [
 '🔥 Mejores precios garantizados en gsmservicess.com · Pago automático'];
 
 
-export default function SearchHero({ searchQuery, onSearchChange, results = [], allServices = [], isLoading = false, exchangeRate }) {
+export default function SearchHero({ searchQuery, onSearchChange, results = [], allServices = [], isLoading = false, exchangeRate, whatsappNumber }) {
   const [showAll, setShowAll] = useState(false);
   const hasQuery = searchQuery.length > 0;
   const displayResults = showAll && !hasQuery ? allServices : results;
@@ -216,10 +216,10 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
                   }
                 </p>
                 {showAll && !hasQuery
-                  ? <GroupedResults services={displayResults} exchangeRate={exchangeRate} />
+                  ? <GroupedResults services={displayResults} exchangeRate={exchangeRate} whatsappNumber={whatsappNumber} />
                   : <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                       {displayResults.map((service) =>
-                        <ServiceCard key={service.id} service={service} exchangeRate={exchangeRate} />
+                        <ServiceCard key={service.id} service={service} exchangeRate={exchangeRate} whatsappNumber={whatsappNumber} />
                       )}
                     </div>
                 }

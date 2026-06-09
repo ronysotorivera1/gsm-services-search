@@ -4,13 +4,11 @@ import { useSettings } from '@/hooks/useSettings';
 import { base44 } from '@/api/base44Client';
 import { Settings, LogIn, LogOut, Home } from 'lucide-react';
 
-const OWNER_EMAIL = 'ronysotorivera1@gmail.com';
-
 export default function Footer() {
   const settings = useSettings();
   const location = useLocation();
   const isAdminPage = location.pathname === '/admin';
-  const [isOwner, setIsOwner] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
@@ -18,7 +16,7 @@ export default function Footer() {
       setIsAuthenticated(authed);
       if (authed) {
         base44.auth.me().then(user => {
-          if (user?.email === OWNER_EMAIL) setIsOwner(true);
+          if (user?.role === 'admin') setIsAdmin(true);
         }).catch(() => {});
       }
     });
@@ -88,7 +86,7 @@ export default function Footer() {
             </button>
           )}
 
-          {isOwner && (
+          {isAdmin && (
             isAdminPage ? (
               <Link
                 to="/"

@@ -46,6 +46,7 @@ export default function Home() {
         allServices={services}
         isLoading={isLoading}
         exchangeRate={settings?.usd_to_pen}
+        whatsappNumber={settings?.whatsapp_number}
       />
     </div>
   );

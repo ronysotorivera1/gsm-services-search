@@ -29,8 +29,9 @@ const categoryIcons = {
   creditos: '💳',
 };
 
-export default function ServiceCard({ service, exchangeRate }) {
+export default function ServiceCard({ service, exchangeRate, whatsappNumber }) {
   const rate = exchangeRate || 3.70;
+  const waNumber = whatsappNumber || '51901745069';
   const isCreditos = service.category === 'creditos' && service.credits_quantity;
   const minQty = isCreditos ? service.credits_quantity : 1;
   const [qty, setQty] = useState(minQty);
@@ -135,7 +136,7 @@ export default function ServiceCard({ service, exchangeRate }) {
           )}
         </div>
         <a
-          href={`https://wa.me/51901745069?text=${whatsappMsg}`}
+          href={`https://wa.me/${waNumber}?text=${whatsappMsg}`}
           target="_blank"
           rel="noopener noreferrer"
         >
