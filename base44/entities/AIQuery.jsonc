@@ -24,11 +24,7 @@
     "question"
   ],
   "rls": {
-    "create": {
-      "user_condition": {
-        "role": "admin"
-      }
-    },
+    "create": true,
     "read": {
       "user_condition": {
         "role": "admin"
