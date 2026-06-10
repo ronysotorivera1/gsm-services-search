@@ -1,10 +1,13 @@
 import React from 'react';
 import { MessageSquare } from 'lucide-react';
+import { useSettings } from '@/hooks/useSettings';
 
 export default function WhatsAppButton() {
+  const settings = useSettings();
+  const waNumber = settings?.whatsapp_number || '51901745069';
   return (
     <a
-      href="https://wa.me/51901745069"
+      href={`https://wa.me/${waNumber}`}
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-8 right-8 z-50 group">

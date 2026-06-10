@@ -50,7 +50,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 sm:justify-end">
 
           <a
-            href="https://whatsapp.com/channel/0029Vb6ggImLI8YbWLjlzI2A"
+            href={settings?.whatsapp_channel_url || 'https://whatsapp.com/channel/0029Vb6ggImLI8YbWLjlzI2A'}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 text-xs font-semibold transition-all"

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSettings } from '@/hooks/useSettings';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -31,8 +32,9 @@ const categoryIcons = {
 };
 
 export default function ServiceCard({ service, exchangeRate, whatsappNumber }) {
+  const settings = useSettings();
   const rate = exchangeRate || 3.70;
-  const waNumber = whatsappNumber || '51901745069';
+  const waNumber = whatsappNumber || settings?.whatsapp_number || '51901745069';
   const isCreditos = service.category === 'creditos' && service.credits_quantity;
   const minQty = isCreditos ? service.credits_quantity : 1;
   const [qty, setQty] = useState(minQty);

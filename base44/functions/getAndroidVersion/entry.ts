@@ -6,7 +6,7 @@ Deno.serve(async (req) => {
   const s = settings?.[0] || {};
 
   return Response.json({
-    android_version: s.android_version || '1.0.0',
-    apk_url: s.apk_url || 'https://gsmservicess.com/app.apk',
+    android_version: s.android_version || null,
+    apk_url: s.apk_url || null,
   });
 });
