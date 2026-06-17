@@ -27,7 +27,10 @@ const AdminRoute = () => {
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
 
-  if (isLoadingPublicSettings || isLoadingAuth) {
+  // auth_required = token expirado/inválido, la app pública sigue cargando
+  const isBlockingError = authError && authError.type !== 'auth_required';
+
+  if (isLoadingPublicSettings || (isLoadingAuth && !isBlockingError)) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-background">
         <div className="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
@@ -38,6 +41,8 @@ const AuthenticatedApp = () => {
   if (authError?.type === 'user_not_registered') {
     return <UserNotRegisteredError />;
   }
+
+  // Para auth_required (token expirado), dejamos cargar la app — las rutas protegidas manejan su propio redirect
 
   return (
     <Routes>
