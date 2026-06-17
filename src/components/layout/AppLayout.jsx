@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import AuroraBackground from './AuroraBackground';
+import CustomCursor from './CustomCursor';
 import Footer from './Footer';
 import MobileHeader from './MobileHeader';
 import UpdateBanner from './UpdateBanner';
@@ -11,6 +12,7 @@ export default function AppLayout() {
   return (
     <div className="flex flex-col min-h-screen">
       <AuroraBackground />
+      <CustomCursor />
       <UpdateBanner />
       <MobileHeader />
       <main className="flex-1 flex flex-col">
