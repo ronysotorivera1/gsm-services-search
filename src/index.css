@@ -83,7 +83,7 @@
   }
   body {
     @apply text-foreground font-body;
-    background: linear-gradient(135deg, #ffffff 0%, #f3f1ff 50%, #e8f4ff 100%);
+    background: #ffffff;
     min-height: 100vh;
     overscroll-behavior: none;
     -webkit-tap-highlight-color: transparent;
