@@ -56,29 +56,6 @@ export default function CustomCursor() {
   return (
     <>
       <style>{`
-        * { cursor: none !important; }
-
-        .custom-cursor-dot {
-          position: fixed;
-          top: -4px;
-          left: -4px;
-          width: 8px;
-          height: 8px;
-          background: hsl(var(--primary));
-          border-radius: 50%;
-          pointer-events: none;
-          z-index: 99999;
-          will-change: transform;
-          transition: width 0.15s, height 0.15s, top 0.15s, left 0.15s, background 0.15s;
-        }
-        .custom-cursor-dot.cursor-hover {
-          top: -6px;
-          left: -6px;
-          width: 12px;
-          height: 12px;
-          background: hsl(var(--accent));
-        }
-
         .custom-cursor-ring {
           position: fixed;
           top: -18px;
@@ -106,7 +83,6 @@ export default function CustomCursor() {
           .custom-cursor-dot, .custom-cursor-ring { display: none; }
         }
       `}</style>
-      <div ref={dotRef} className="custom-cursor-dot" />
       <div ref={ringRef} className="custom-cursor-ring" />
     </>
   );
