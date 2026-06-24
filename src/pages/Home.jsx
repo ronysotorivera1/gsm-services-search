@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import SearchHero from '../components/services/SearchHero';
+import IcloudChecker from '../components/services/IcloudChecker';
 import { useSettings } from '../hooks/useSettings';
 import usePullToRefresh from '../hooks/usePullToRefresh';
 import { Loader2 } from 'lucide-react';
@@ -39,6 +40,9 @@ export default function Home() {
           <Loader2 className="w-5 h-5 animate-spin text-primary" />
         </div>
       )}
+      <div className="w-full max-w-3xl mx-auto px-4 pt-4">
+        <IcloudChecker />
+      </div>
       <SearchHero
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
