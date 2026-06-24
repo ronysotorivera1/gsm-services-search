@@ -58,6 +58,7 @@ function GroupedResults({ services, exchangeRate, whatsappNumber }) {
 }
 import ServicesSlider from './ServicesSlider';
 import ServiceCard from './ServiceCard';
+import IcloudChecker from './IcloudChecker';
 
 const PROMO_MESSAGES = [
 '⚡ Precios vía WhatsApp · Para mejores precios y procesamiento automático visita gsmservicess.com',
@@ -159,6 +160,7 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
 
             {!hasQuery && (
               <>
+                <IcloudChecker />
                 <ServicesSlider onSearchChange={onSearchChange} />
                 <button
                   type="button"
