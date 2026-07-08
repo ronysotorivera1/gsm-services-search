@@ -4,6 +4,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Clock, ExternalLink, Minus, Plus, FileText } from 'lucide-react';
+import DOMPurify from 'dompurify';
 import StatusBadge from '../shared/StatusBadge';
 import PriceDisplay from '../shared/PriceDisplay';
 
@@ -168,7 +169,7 @@ export default function ServiceCard({ service, exchangeRate, whatsappNumber }) {
           </DialogHeader>
           <div
             className="text-sm text-foreground prose prose-sm max-w-none"
-            dangerouslySetInnerHTML={{ __html: service.note_html }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(service.note_html || '') }}
           />
         </DialogContent>
       </Dialog>

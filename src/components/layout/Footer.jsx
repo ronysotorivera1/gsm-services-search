@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useSettings } from '@/hooks/useSettings';
 import { base44 } from '@/api/base44Client';
 import { Settings, LogIn, LogOut, Home } from 'lucide-react';
+import DOMPurify from 'dompurify';
 
 export default function Footer() {
   const settings = useSettings();
@@ -41,7 +42,7 @@ export default function Footer() {
         {/* Copyright — izquierda en desktop */}
         <p className="text-xs text-muted-foreground text-center sm:text-left order-last sm:order-first">
           {settings?.footer_contact
-            ? <span dangerouslySetInnerHTML={{ __html: settings.footer_contact }} />
+            ? <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(settings.footer_contact) }} />
             : <>GSMServices © 2026 · Derechos reservados</>
           }
         </p>

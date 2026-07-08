@@ -14,13 +14,15 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 
 const AdminRoute = () => {
-  const { isLoadingAuth, isAuthenticated } = useAuth();
+  const { isLoadingAuth, isAuthenticated, user } = useAuth();
   if (isLoadingAuth) return (
     <div className="fixed inset-0 flex items-center justify-center">
       <div className="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
     </div>
   );
   if (!isAuthenticated) return <Navigate to="/login" replace />;
+  // Strict role check on the route — not just conditional render inside the page
+  if (user?.role !== 'admin') return <Navigate to="/" replace />;
   return <Admin />;
 };
 
