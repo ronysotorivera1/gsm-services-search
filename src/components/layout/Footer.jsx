@@ -29,12 +29,6 @@ export default function Footer() {
     </svg>
   );
 
-  const ApkIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zm-2.5-1C2.67 17 2 17.67 2 18.5v-9C2 8.67 2.67 8 3.5 8S5 8.67 5 9.5v9c0 .83-.67 1.5-1.5 1.5zm17 0c-.83 0-1.5-.67-1.5-1.5v-9c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v9c0 .83-.67 1.5-1.5 1.5zM15.53 2.16l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48A5.84 5.84 0 0 0 12 1c-.57 0-1.11.08-1.64.23L8.88.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.3 1.3A5.977 5.977 0 0 0 6 7h12a5.977 5.977 0 0 0-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/>
-    </svg>
-  );
-
   return (
     <footer className="bg-card/50 border-t border-border py-4 px-4">
       <div className="max-w-5xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
@@ -58,15 +52,6 @@ export default function Footer() {
           >
             <WaIcon />
             <span>WhatsApp</span>
-          </a>
-
-          <a
-            href={settings?.apk_url || 'https://gsmservicess.com/app.apk'}
-            download
-            className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-accent/10 border border-accent/20 text-accent hover:bg-accent/20 text-xs font-semibold transition-all"
-          >
-            <ApkIcon />
-            <span>App Android</span>
           </a>
 
           {!isAuthenticated ? (

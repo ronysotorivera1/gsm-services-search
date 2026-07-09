@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Save, Loader2, Upload, Trash2, Smartphone, Bot } from 'lucide-react';
+import { Save, Loader2, Upload, Trash2, Bot } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
 export default function AdminSettings() {
@@ -24,8 +24,6 @@ export default function AdminSettings() {
     whatsapp_number: '',
     footer_contact: '',
     allow_new_registrations: true,
-    android_version: '',
-    apk_url: '',
     ai_context: '',
   });
 
@@ -45,8 +43,6 @@ export default function AdminSettings() {
         whatsapp_number: s.whatsapp_number || '',
         footer_contact: s.footer_contact || '',
         allow_new_registrations: s.allow_new_registrations !== false,
-        android_version: s.android_version || '',
-        apk_url: s.apk_url || '',
         ai_context: s.ai_context || '',
       });
     }
@@ -156,37 +152,6 @@ export default function AdminSettings() {
             onCheckedChange={(checked) => set('allow_new_registrations', checked)}
             className="ml-4"
           />
-        </div>
-      </div>
-
-      <div className="pb-3 border-b border-border">
-        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">App Android</p>
-        <div className="space-y-4">
-          <div className="space-y-1">
-            <Label>Versión actual (ej: 1.2.0)</Label>
-            <Input
-              value={form.android_version}
-              onChange={e => set('android_version', e.target.value)}
-              placeholder="1.0.0"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>URL de descarga del APK</Label>
-            <Input
-              value={form.apk_url}
-              onChange={e => set('apk_url', e.target.value)}
-              placeholder="https://drive.google.com/uc?id=... o enlace directo al APK"
-            />
-            {form.apk_url && (
-              <div className="flex items-center gap-2 p-2 rounded-lg bg-green-50 border border-green-200">
-                <Smartphone className="w-4 h-4 text-green-600 shrink-0" />
-                <a href={form.apk_url} download className="text-xs text-green-700 font-medium hover:underline truncate flex-1">Descargar APK actual</a>
-              </div>
-            )}
-            <p className="text-xs text-muted-foreground">
-              Pega el enlace directo al APK (Google Drive, Dropbox, servidor propio). Al guardar, el footer y el banner de actualización usarán esta URL.
-            </p>
-          </div>
         </div>
       </div>
 
