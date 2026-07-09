@@ -8,10 +8,9 @@ Deno.serve(async (req) => {
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
     if (user.role !== 'admin') return Response.json({ error: 'Forbidden' }, { status: 403 });
 
-    const [services, appSettings, aiQueries, users] = await Promise.all([
+    const [services, appSettings, users] = await Promise.all([
       base44.asServiceRole.entities.Service.list(),
       base44.asServiceRole.entities.AppSettings.list(),
-      base44.asServiceRole.entities.AIQuery.list(),
       base44.asServiceRole.entities.User.list(),
     ]);
 
@@ -24,7 +23,6 @@ Deno.serve(async (req) => {
 
     addSheet(services, 'Servicios');
     addSheet(appSettings, 'Configuracion');
-    addSheet(aiQueries, 'Consultas IA');
     addSheet(users, 'Usuarios');
 
     const buf = XLSX.write(wb, { type: 'base64', bookType: 'xlsx' });
