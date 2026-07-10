@@ -58,23 +58,24 @@ export default function CustomCursor() {
       <style>{`
         .custom-cursor-ring {
           position: fixed;
-          top: -14px;
-          left: -14px;
-          width: 28px;
-          height: 28px;
-          border: 1px solid hsl(var(--primary) / 0.25);
+          top: -18px;
+          left: -18px;
+          width: 36px;
+          height: 36px;
+          border: 1.5px solid hsl(var(--primary) / 0.5);
           border-radius: 50%;
           pointer-events: none;
           z-index: 99998;
           will-change: transform;
-          transition: width 0.25s ease, height 0.25s ease, top 0.25s ease, left 0.25s ease, border-color 0.25s ease;
+          transition: width 0.2s, height 0.2s, top 0.2s, left 0.2s, border-color 0.2s, border-width 0.2s;
         }
         .custom-cursor-ring.cursor-hover {
-          top: -20px;
-          left: -20px;
-          width: 40px;
-          height: 40px;
-          border-color: hsl(var(--primary) / 0.4);
+          top: -26px;
+          left: -26px;
+          width: 52px;
+          height: 52px;
+          border-color: hsl(var(--accent) / 0.4);
+          border-width: 2px;
         }
 
         @media (hover: none) {

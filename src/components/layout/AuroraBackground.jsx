@@ -6,27 +6,15 @@ export default function AuroraBackground() {
       {/* Base blanca */}
       <div className="absolute inset-0 bg-white" />
 
-      {/* Cuadrícula técnica fina */}
+      {/* Grid técnico */}
       <div
         className="absolute inset-0"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(0,100,220,0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,100,220,0.05) 1px, transparent 1px)
+            linear-gradient(rgba(0,120,255,0.06) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,120,255,0.06) 1px, transparent 1px)
           `,
-          backgroundSize: '32px 32px',
-        }}
-      />
-
-      {/* Cuadrícula técnica más marcada (cada 4 celdas) */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(0,100,220,0.08) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,100,220,0.08) 1px, transparent 1px)
-          `,
-          backgroundSize: '128px 128px',
+          backgroundSize: '48px 48px',
         }}
       />
 
@@ -34,8 +22,8 @@ export default function AuroraBackground() {
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: `radial-gradient(circle, rgba(0,100,220,0.12) 1px, transparent 1px)`,
-          backgroundSize: '128px 128px',
+          backgroundImage: `radial-gradient(circle, rgba(0,120,255,0.15) 1px, transparent 1px)`,
+          backgroundSize: '48px 48px',
         }}
       />
 
@@ -43,12 +31,12 @@ export default function AuroraBackground() {
       <div
         className="absolute rounded-full"
         style={{
-          width: '50vw',
-          height: '50vw',
+          width: '55vw',
+          height: '55vw',
           top: '-15vw',
           right: '-10vw',
-          background: 'radial-gradient(circle, rgba(0,140,255,0.06) 0%, transparent 65%)',
-          filter: 'blur(50px)',
+          background: 'radial-gradient(circle, rgba(0,140,255,0.08) 0%, transparent 65%)',
+          filter: 'blur(40px)',
         }}
       />
 
@@ -56,12 +44,12 @@ export default function AuroraBackground() {
       <div
         className="absolute rounded-full"
         style={{
-          width: '40vw',
-          height: '40vw',
+          width: '45vw',
+          height: '45vw',
           bottom: '-10vw',
           left: '-5vw',
-          background: 'radial-gradient(circle, rgba(0,200,255,0.05) 0%, transparent 65%)',
-          filter: 'blur(60px)',
+          background: 'radial-gradient(circle, rgba(0,200,255,0.07) 0%, transparent 65%)',
+          filter: 'blur(50px)',
         }}
       />
     </div>
