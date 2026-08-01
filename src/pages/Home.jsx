@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import SearchHero from '../components/services/SearchHero';
+import BackToTopButton from '../components/shared/BackToTopButton';
 import { useSettings } from '../hooks/useSettings';
 import usePullToRefresh from '../hooks/usePullToRefresh';
 import { Loader2 } from 'lucide-react';
@@ -48,6 +49,7 @@ export default function Home() {
         exchangeRate={settings?.usd_to_pen}
         whatsappNumber={settings?.whatsapp_number}
       />
+      <BackToTopButton />
     </div>
   );
 }
