@@ -57,7 +57,7 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
   });
 
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
-  const showDuration = form.category === 'renta' || form.category === 'activacion';
+  const showDuration = form.category === 'renta' || form.category === 'activacion' || form.category === 'streaming';
   const showCredits = form.category === 'creditos';
 
   const uniqueNames = Array.from(new Set(allServices.map(s => s.name))).sort();
@@ -151,7 +151,7 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
                 </SelectContent>
               </Select>
             ) : (
-              <Input value={form.duration} onChange={e => set('duration', e.target.value)} placeholder="ej: 1h, 6h, 12h, 24h, 1 mes, anual" />
+              <Input value={form.duration} onChange={e => set('duration', e.target.value)} placeholder={form.category === 'streaming' ? "ej: 1 mes, 3 meses, 1 año" : "ej: 1h, 6h, 12h, 24h, 1 mes, anual"} />
             )}
           </div>
         )}

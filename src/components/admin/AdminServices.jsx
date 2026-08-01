@@ -82,7 +82,7 @@ export default function AdminServices() {
     if (clean.credits_quantity === '' || clean.credits_quantity === null) delete clean.credits_quantity;
     if (clean.price_usd === '' || clean.price_usd === null) delete clean.price_usd;
     // Si la categoría no usa duration, limpiarla
-    if (clean.category !== 'renta' && clean.category !== 'activacion') clean.duration = '';
+    if (clean.category !== 'renta' && clean.category !== 'activacion' && clean.category !== 'streaming') clean.duration = '';
     // Si la categoría no usa credits, limpiarla
     if (clean.category !== 'creditos') delete clean.credits_quantity;
     saveMutation.mutate(clean);
