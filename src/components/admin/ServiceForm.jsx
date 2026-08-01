@@ -143,7 +143,7 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
         {showDuration && (
           <div className="space-y-1">
             <Label className="text-xs">Duración {form.category === 'activacion' ? '(Meses)' : ''}</Label>
-            {form.category === 'activacion' ? (
+            {form.category === 'activacion' || form.category === 'streaming' ? (
               <Select value={form.duration} onValueChange={v => set('duration', v)}>
                 <SelectTrigger><SelectValue placeholder="Selecciona duración" /></SelectTrigger>
                 <SelectContent>
