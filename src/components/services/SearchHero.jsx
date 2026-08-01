@@ -69,9 +69,14 @@ const PROMO_MESSAGES = [
 
 export default function SearchHero({ searchQuery, onSearchChange, results = [], allServices = [], isLoading = false, exchangeRate, whatsappNumber }) {
   const [showAll, setShowAll] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const hasQuery = searchQuery.length > 0;
-  const displayResults = showAll && !hasQuery ? allServices : results;
+  const displayResults = showAll && !hasQuery
+    ? (selectedCategory ? allServices.filter(s => s.category === selectedCategory) : allServices)
+    : results;
   const showResults = hasQuery || showAll;
+
+  const availableCategories = Object.keys(CATEGORY_LABELS).filter(cat => allServices.some(s => s.category === cat));
   const inputRef = useRef(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
@@ -163,12 +168,31 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
                 <ServicesSlider onSearchChange={onSearchChange} />
                 <button
                   type="button"
-                  onClick={() => setShowAll(v => !v)}
+                  onClick={() => { setShowAll(v => !v); setSelectedCategory(null); }}
                   className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-border bg-white/60 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-white/80 transition-all"
                 >
                   <List className="w-4 h-4" />
                   {showAll ? 'Ocultar servicios' : 'Ver todos los servicios'}
                 </button>
+
+                {showAll && availableCategories.length > 0 && (
+                  <div className="mt-3 flex flex-wrap justify-center gap-2">
+                    {availableCategories.map(cat => (
+                      <button
+                        key={cat}
+                        type="button"
+                        onClick={() => setSelectedCategory(prev => prev === cat ? null : cat)}
+                        className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                          selectedCategory === cat
+                            ? 'bg-primary text-primary-foreground border border-primary shadow-sm'
+                            : 'bg-white/60 border border-border text-muted-foreground hover:text-foreground hover:bg-white/80'
+                        }`}
+                      >
+                        {CATEGORY_LABELS[cat] || cat}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </>
             )}
 
