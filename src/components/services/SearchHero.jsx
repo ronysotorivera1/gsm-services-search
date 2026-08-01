@@ -76,7 +76,9 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
     : results;
   const showResults = hasQuery || showAll;
 
-  const availableCategories = Object.keys(CATEGORY_LABELS).filter(cat => allServices.some(s => s.category === cat));
+  const availableCategories = Object.keys(CATEGORY_LABELS)
+    .filter(cat => allServices.some(s => s.category === cat))
+    .sort((a, b) => (CATEGORY_LABELS[a] || a).localeCompare(CATEGORY_LABELS[b] || b, 'es'));
   const inputRef = useRef(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
