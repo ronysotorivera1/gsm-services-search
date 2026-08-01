@@ -13,6 +13,7 @@ const CATEGORIES = [
   { value: 'imei', label: 'IMEI' },
   { value: 'remoto', label: 'REMOTO' },
   { value: 'creditos', label: 'CRÉDITOS' },
+  { value: 'streaming', label: 'STREAMING' },
 ];
 
 const DURATION_OPTIONS = [

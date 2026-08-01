@@ -8,6 +8,7 @@ const CATEGORY_LABELS = {
   imei: 'IMEI',
   remoto: 'REMOTO',
   creditos: 'CRÉDITOS',
+  streaming: 'STREAMING',
 };
 
 function GroupedResults({ services, exchangeRate, whatsappNumber }) {

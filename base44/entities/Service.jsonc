@@ -13,7 +13,8 @@
         "activacion",
         "imei",
         "remoto",
-        "creditos"
+        "creditos",
+        "streaming"
       ],
       "description": "Tipo de servicio"
     },

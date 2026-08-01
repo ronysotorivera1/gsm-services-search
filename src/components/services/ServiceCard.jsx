@@ -14,6 +14,7 @@ const categoryLabels = {
   imei: 'IMEI',
   remoto: 'REMOTO',
   creditos: 'CRÉDITOS',
+  streaming: 'STREAMING',
 };
 
 const categoryColors = {
@@ -22,6 +23,7 @@ const categoryColors = {
   imei: 'bg-blue-500/15 text-blue-600',
   remoto: 'bg-purple-500/15 text-purple-600',
   creditos: 'bg-green-500/15 text-green-600',
+  streaming: 'bg-rose-500/15 text-rose-600',
 };
 
 const categoryIcons = {
@@ -30,6 +32,7 @@ const categoryIcons = {
   imei: '#',
   remoto: '🌐',
   creditos: '💳',
+  streaming: '🎬',
 };
 
 export default function ServiceCard({ service, exchangeRate, whatsappNumber }) {
