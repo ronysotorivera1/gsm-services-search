@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '@/lib/AuthContext';
 import { base44 } from '@/api/base44Client';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Shield, Download, Loader2 } from 'lucide-react';
+import * as XLSX from 'xlsx';
 import AdminServices from '../components/admin/AdminServices';
 import AdminSettings from '../components/admin/AdminSettings';
 
@@ -15,15 +16,27 @@ export default function Admin() {
   const handleExport = async () => {
     setExporting(true);
     try {
-      const response = await base44.functions.invoke('exportDatabase', {});
-      const binary = atob(response.data.file);
-      const bytes = new Uint8Array(binary.length);
-      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-      const blob = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const [services, appSettings, users] = await Promise.all([
+        base44.entities.Service.list(),
+        base44.entities.AppSettings.list(),
+        base44.entities.User.list(),
+      ]);
+
+      const wb = XLSX.utils.book_new();
+      const addSheet = (data, name) => {
+        const ws = XLSX.utils.json_to_sheet(data.length ? data : [{}]);
+        XLSX.utils.book_append_sheet(wb, ws, name);
+      };
+      addSheet(services, 'Servicios');
+      addSheet(appSettings, 'Configuracion');
+      addSheet(users, 'Usuarios');
+
+      const buf = XLSX.write(wb, { type: 'array', bookType: 'xlsx' });
+      const blob = new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = response.data.filename;
+      a.download = `gsmservices_database_${new Date().toISOString().slice(0, 10)}.xlsx`;
       a.click();
       URL.revokeObjectURL(url);
     } catch (e) {
