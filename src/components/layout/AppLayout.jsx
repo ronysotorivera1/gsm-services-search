@@ -19,7 +19,7 @@ export default function AppLayout() {
             key={location.pathname}
             initial={{ opacity: 0, x: 24 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -24 }}
+            exit={{ opacity: 0, x: -24, pointerEvents: 'none' }}
             transition={{ duration: 0.2, ease: 'easeInOut' }}
             className="flex-1 flex flex-col"
           >
