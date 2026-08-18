@@ -137,16 +137,20 @@ export default function ServiceCard({ service, exchangeRate, whatsappNumber }) {
             </div>
           )}
         </div>
-        <a
-          href={`https://wa.me/${waNumber}?text=${whatsappMsg}`}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Button
+          asChild
+          size="sm"
+          className="bg-primary/10 text-primary hover:bg-primary/20 border border-primary/20 gap-1.5 text-xs font-semibold"
         >
-          <Button size="sm" className="bg-primary/10 text-primary hover:bg-primary/20 border border-primary/20 gap-1.5 text-xs font-semibold">
+          <a
+            href={`https://wa.me/${waNumber}?text=${whatsappMsg}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <ExternalLink className="w-3 h-3" />
             SOLICITAR
-          </Button>
-        </a>
+          </a>
+        </Button>
       </div>
 
       {hasNote && (

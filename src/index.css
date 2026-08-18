@@ -88,9 +88,14 @@
     overscroll-behavior: none;
     -webkit-tap-highlight-color: transparent;
   }
-  button, a, nav {
+  button, a, [role="button"] {
     user-select: none;
     -webkit-user-select: none;
+    cursor: pointer;
+  }
+  /* El botón/link siempre es el objetivo del puntero, incluso sobre su texto/íconos */
+  button > *, a > *, [role="button"] > * {
+    pointer-events: none;
   }
 }
 
