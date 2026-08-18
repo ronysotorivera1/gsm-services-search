@@ -8,6 +8,7 @@ import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import AppLayout from './components/layout/AppLayout';
 import Home from './pages/Home';
 import Admin from './pages/Admin';
+import Downloads from './pages/Downloads';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
@@ -50,6 +51,7 @@ const AuthenticatedApp = () => {
     <Routes>
       <Route element={<AppLayout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/descargas" element={<Downloads />} />
         <Route path="/admin" element={<AdminRoute />} />
       </Route>
       <Route path="/login" element={<Login />} />

@@ -6,6 +6,7 @@ import { Shield, Download, Loader2 } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import AdminServices from '../components/admin/AdminServices';
 import AdminSettings from '../components/admin/AdminSettings';
+import AdminDownloads from '../components/admin/AdminDownloads';
 
 
 export default function Admin() {
@@ -71,11 +72,15 @@ export default function Admin() {
       <Tabs defaultValue="services">
          <TabsList className="mb-6">
            <TabsTrigger value="services">Servicios</TabsTrigger>
+           <TabsTrigger value="downloads">Descargas</TabsTrigger>
            {isMainAdmin && <TabsTrigger value="settings">Configuración</TabsTrigger>}
          </TabsList>
 
          <TabsContent value="services">
            <AdminServices />
+         </TabsContent>
+         <TabsContent value="downloads">
+           <AdminDownloads />
          </TabsContent>
          {isMainAdmin && (
           <TabsContent value="settings">

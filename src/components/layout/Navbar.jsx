@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Menu, X } from 'lucide-react';
+import { Search, Menu, X, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const navLinks = [
-{ path: '/', label: 'Search', icon: Search }];
+{ path: '/', label: 'Search', icon: Search },
+{ path: '/descargas', label: 'Descargas', icon: Download }];
 
 
 export default function Navbar() {

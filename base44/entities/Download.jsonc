@@ -1,0 +1,70 @@
+{
+  "name": "Download",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nombre del archivo descargable"
+    },
+    "description": {
+      "type": "string",
+      "description": "Descripci\u00f3n del archivo"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "software",
+        "manual",
+        "driver",
+        "tool",
+        "other"
+      ],
+      "default": "other",
+      "description": "Categor\u00eda del archivo"
+    },
+    "file_url": {
+      "type": "string",
+      "description": "URL del archivo para descargar"
+    },
+    "file_size": {
+      "type": "string",
+      "description": "Tama\u00f1o del archivo (texto, ej: 2.5 MB)"
+    },
+    "version": {
+      "type": "string",
+      "description": "Versi\u00f3n del archivo (ej: v1.2.3)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "inactive"
+      ],
+      "default": "active",
+      "description": "Activo o Inactivo"
+    }
+  },
+  "required": [
+    "name",
+    "category",
+    "file_url"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {},
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

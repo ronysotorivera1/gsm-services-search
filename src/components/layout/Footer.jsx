@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSettings } from '@/hooks/useSettings';
 import { base44 } from '@/api/base44Client';
-import { Settings, LogIn, LogOut, Home } from 'lucide-react';
+import { Settings, LogIn, LogOut, Home, Download } from 'lucide-react';
 import DOMPurify from 'dompurify';
 
 export default function Footer() {
@@ -53,6 +53,14 @@ export default function Footer() {
             <WaIcon />
             <span>WhatsApp</span>
           </a>
+
+          <Link
+            to="/descargas"
+            className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 text-xs font-semibold transition-all"
+          >
+            <Download className="w-3.5 h-3.5" />
+            <span>Descargas</span>
+          </Link>
 
           {!isAuthenticated ? (
             <Link
