@@ -9,6 +9,7 @@ export default function Footer() {
   const settings = useSettings();
   const location = useLocation();
   const isAdminPage = location.pathname === '/admin';
+  const isDownloadsPage = location.pathname === '/descargas';
   const [isAdmin, setIsAdmin] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -54,13 +55,23 @@ export default function Footer() {
             <span>WhatsApp</span>
           </a>
 
-          <Link
-            to="/descargas"
-            className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 text-xs font-semibold transition-all"
-          >
-            <Download className="w-3.5 h-3.5" />
-            <span>Descargas</span>
-          </Link>
+          {isDownloadsPage ? (
+            <Link
+              to="/"
+              className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-muted border border-border text-muted-foreground hover:text-primary hover:bg-muted/80 text-xs font-semibold transition-all"
+            >
+              <Home className="w-3.5 h-3.5" />
+              <span>Buscador</span>
+            </Link>
+          ) : (
+            <Link
+              to="/descargas"
+              className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 text-xs font-semibold transition-all"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Descargas</span>
+            </Link>
+          )}
 
           {!isAuthenticated ? (
             <Link
