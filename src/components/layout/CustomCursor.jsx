@@ -1,15 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 
 export default function CustomCursor() {
+  const dotRef = useRef(null);
   const ringRef = useRef(null);
   const pos = useRef({ x: 0, y: 0 });
   const ring = useRef({ x: 0, y: 0 });
   const raf = useRef(null);
-  const hoverEl = useRef(null);
 
   useEffect(() => {
     const onMove = (e) => {
       pos.current = { x: e.clientX, y: e.clientY };
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+      }
     };
 
     const animate = () => {
@@ -21,35 +24,32 @@ export default function CustomCursor() {
       raf.current = requestAnimationFrame(animate);
     };
 
-    const SELECTOR = 'a, button, [role="button"], input, textarea, select, label[for], summary';
-
-    const setHover = (el) => {
-      if (el === hoverEl.current) return;
-      hoverEl.current = el;
-      if (el) ringRef.current?.classList.add('cursor-hover');
-      else ringRef.current?.classList.remove('cursor-hover');
+    const onEnterClickable = () => {
+      ringRef.current?.classList.add('cursor-hover');
+      dotRef.current?.classList.add('cursor-hover');
     };
-
-    // Delegación global: captura elementos insertados dinámicamente y respeta
-    // pointer-events:none en hijos (el target real es el botón/link).
-    const onOver = (e) => {
-      const el = e.target?.closest?.(SELECTOR);
-      setHover(el || null);
-    };
-    const onOut = (e) => {
-      if (!e.relatedTarget) setHover(null);
+    const onLeaveClickable = () => {
+      ringRef.current?.classList.remove('cursor-hover');
+      dotRef.current?.classList.remove('cursor-hover');
     };
 
     document.addEventListener('mousemove', onMove);
-    document.addEventListener('pointerover', onOver);
-    document.addEventListener('pointerout', onOut);
     raf.current = requestAnimationFrame(animate);
+
+    const addListeners = () => {
+      document.querySelectorAll('a, button, [role="button"], input, textarea, select').forEach(el => {
+        el.addEventListener('mouseenter', onEnterClickable);
+        el.addEventListener('mouseleave', onLeaveClickable);
+      });
+    };
+    addListeners();
+    const observer = new MutationObserver(addListeners);
+    observer.observe(document.body, { childList: true, subtree: true });
 
     return () => {
       document.removeEventListener('mousemove', onMove);
-      document.removeEventListener('pointerover', onOver);
-      document.removeEventListener('pointerout', onOut);
       cancelAnimationFrame(raf.current);
+      observer.disconnect();
     };
   }, []);
 
