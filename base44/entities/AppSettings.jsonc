@@ -30,10 +30,6 @@
       "type": "boolean",
       "default": true,
       "description": "Permitir que nuevos usuarios se registren"
-    },
-    "ai_context": {
-      "type": "string",
-      "description": "Informaci\u00f3n adicional para el asistente IA (precios especiales, promociones, pol\u00edticas, etc.)"
     }
   },
   "required": [
