@@ -99,6 +99,10 @@
   }
 }
 
+/* Footer: el botón/link siempre es el objetivo del puntero, incluso sobre su texto/íconos */
+footer a, footer button { cursor: pointer; }
+footer a > *, footer button > * { pointer-events: none !important; }
+
 /* Minimum font size for readability */
 @media (max-width: 768px) {
   p, span, label, li, td, th, input, textarea, select, button {

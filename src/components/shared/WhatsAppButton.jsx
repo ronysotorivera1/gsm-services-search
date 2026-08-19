@@ -18,9 +18,9 @@ export default function WhatsAppButton() {
       aria-label="Contactar por WhatsApp"
       className="fixed bottom-24 right-5 z-50 group"
     >
-      <div className="relative w-14 h-14">
-        <div className="absolute inset-0 rounded-full bg-primary/40 blur-lg animate-pulse group-hover:scale-125 transition-all duration-300" />
-        <div className="absolute inset-0 rounded-full bg-primary text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+      <div className="relative w-14 h-14 pointer-events-none">
+        <div className="absolute inset-0 rounded-full bg-primary/40 blur-lg animate-pulse group-hover:scale-125 transition-all duration-300 pointer-events-none" />
+        <div className="absolute inset-0 rounded-full bg-primary text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 pointer-events-none">
           <WaIcon className="w-7 h-7" />
         </div>
         <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 whitespace-nowrap bg-white/90 backdrop-blur-sm px-4 py-2.5 rounded-full shadow-lg border border-primary/10 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
