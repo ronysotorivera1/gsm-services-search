@@ -37,6 +37,23 @@ export default function Downloads() {
     );
   }, [downloads, search, activeCategory]);
 
+  // Agrupar por categoría y ordenar alfabéticamente por nombre dentro de cada grupo
+  const grouped = useMemo(() => {
+    const groups = {};
+    for (const d of filtered) {
+      const cat = d.category || 'other';
+      if (!groups[cat]) groups[cat] = [];
+      groups[cat].push(d);
+    }
+    const sorted = {};
+    for (const cat of Object.keys(groups)) {
+      sorted[cat] = groups[cat].slice().sort((a, b) =>
+        (a.name || '').localeCompare(b.name || '', 'es', { sensitivity: 'base' })
+      );
+    }
+    return sorted;
+  }, [filtered]);
+
   return (
     <div className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 py-8">
       <div className="flex items-center gap-3 mb-6">
@@ -99,10 +116,24 @@ export default function Downloads() {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filtered.map(d => (
-            <DownloadCard key={d.id} download={d} />
-          ))}
+        <div className="space-y-8">
+          {categories
+            .filter(cat => activeCategory === 'all' || activeCategory === cat)
+            .filter(cat => grouped[cat]?.length)
+            .map(cat => (
+              <section key={cat}>
+                <div className="flex items-center gap-2 mb-3">
+                  <h2 className="font-heading font-semibold text-sm text-foreground">{categoryLabels[cat]}</h2>
+                  <span className="text-[11px] text-muted-foreground">({grouped[cat].length})</span>
+                  <div className="flex-1 h-px bg-border" />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {grouped[cat].map(d => (
+                    <DownloadCard key={d.id} download={d} />
+                  ))}
+                </div>
+              </section>
+            ))}
         </div>
       )}
     </div>
