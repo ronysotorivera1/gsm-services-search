@@ -164,7 +164,9 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
               </div>
               <div className="mt-2 pl-6 flex items-baseline gap-2 flex-wrap">
                 {s.duration && (
-                  <span className="text-[11px] text-muted-foreground">· {s.duration}</span>
+                  <span className={`text-[11px] font-semibold px-1.5 py-0.5 rounded-md ${active ? theme.badge : 'bg-muted text-muted-foreground'}`}>
+                    {s.duration}
+                  </span>
                 )}
                 <span className={`text-base font-bold ${active ? theme.priceActive : 'text-foreground'}`}>
                   ${s.price_usd.toFixed(2)}
