@@ -177,35 +177,6 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
         })}
       </div>
 
-      {isCreditos && (
-        <div className="flex items-center gap-2 mb-4">
-          <button
-            onClick={() => setQty(q => Math.max(minQty, q - 1))}
-            className="w-7 h-7 rounded-lg border border-border flex items-center justify-center hover:bg-muted transition-colors"
-          >
-            <Minus className="w-3 h-3" />
-          </button>
-          <input
-            type="number"
-            min={minQty}
-            max={1000}
-            value={qty}
-            onChange={e => {
-              const val = parseInt(e.target.value) || minQty;
-              setQty(Math.max(minQty, Math.min(1000, val)));
-            }}
-            className="w-14 text-center text-sm font-semibold border border-border rounded-lg h-7 bg-transparent focus:outline-none focus:ring-1 focus:ring-primary/40"
-          />
-          <button
-            onClick={() => setQty(q => Math.min(1000, q + 1))}
-            className="w-7 h-7 rounded-lg border border-border flex items-center justify-center hover:bg-muted transition-colors"
-          >
-            <Plus className="w-3 h-3" />
-          </button>
-          <span className="text-[10px] text-muted-foreground">(${service.price_usd.toFixed(2)} c/u)</span>
-        </div>
-      )}
-
       {/* Pie: precio + solicitar */}
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 border-t border-border/50 pt-4">
         <div>
@@ -217,17 +188,47 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
             </div>
           )}
         </div>
-        <a
-          href={`https://wa.me/${waNumber}?text=${whatsappMsg}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="self-start sm:self-auto"
-        >
-          <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 font-semibold">
-            <ExternalLink className="w-4 h-4" />
-            SOLICITAR
-          </Button>
-        </a>
+        <div className="flex flex-col items-start sm:items-end gap-2">
+          {isCreditos && (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setQty(q => Math.max(minQty, q - 1))}
+                className="w-7 h-7 rounded-lg border border-border flex items-center justify-center hover:bg-muted transition-colors"
+              >
+                <Minus className="w-3 h-3" />
+              </button>
+              <input
+                type="number"
+                min={minQty}
+                max={1000}
+                value={qty}
+                onChange={e => {
+                  const val = parseInt(e.target.value) || minQty;
+                  setQty(Math.max(minQty, Math.min(1000, val)));
+                }}
+                className="w-14 text-center text-sm font-semibold border border-border rounded-lg h-7 bg-transparent focus:outline-none focus:ring-1 focus:ring-primary/40"
+              />
+              <button
+                onClick={() => setQty(q => Math.min(1000, q + 1))}
+                className="w-7 h-7 rounded-lg border border-border flex items-center justify-center hover:bg-muted transition-colors"
+              >
+                <Plus className="w-3 h-3" />
+              </button>
+              <span className="text-[10px] text-muted-foreground">(${service.price_usd.toFixed(2)} c/u)</span>
+            </div>
+          )}
+          <a
+            href={`https://wa.me/${waNumber}?text=${whatsappMsg}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="self-start sm:self-auto"
+          >
+            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 font-semibold">
+              <ExternalLink className="w-4 h-4" />
+              SOLICITAR
+            </Button>
+          </a>
+        </div>
       </div>
 
       {hasNote && (
