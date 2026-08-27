@@ -83,14 +83,14 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
   const [selectedId, setSelectedId] = useState(services[0]?.id);
   const service = services.find(s => s.id === selectedId) || services[0];
 
-  const isCreditos = service?.category === 'creditos' && service?.credits_quantity;
-  const minQty = isCreditos ? service.credits_quantity : 1;
-  const [qty, setQty] = useState(minQty);
+  const isCreditos = service?.category === 'creditos';
+  const minQty = 1;
+  const [qty, setQty] = useState(1);
   const [showNote, setShowNote] = useState(false);
 
   // Reset de cantidad al cambiar de variante
   useEffect(() => {
-    setQty(service?.category === 'creditos' && service?.credits_quantity ? service.credits_quantity : 1);
+    setQty(1);
   }, [selectedId]);
 
   if (!service) return null;
