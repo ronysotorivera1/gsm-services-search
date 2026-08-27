@@ -52,8 +52,16 @@ function GroupedResults({ services, exchangeRate, whatsappNumber }) {
                 : <ChevronRight className="w-4 h-4 text-muted-foreground" />}
             </button>
             {isOpen && (
-              <div className="px-4 pb-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {items.map(item => renderItem(item))}
+              <div className="px-4 pb-4 space-y-6">
+                {items.filter(i => i.type === 'group').map(item => renderItem(item))}
+                {(() => {
+                  const singles = items.filter(i => i.type === 'single');
+                  return singles.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                      {singles.map(item => renderItem(item))}
+                    </div>
+                  ) : null;
+                })()}
               </div>
             )}
           </div>

@@ -17,6 +17,24 @@ const categoryLabels = {
   streaming: 'STREAMING',
 };
 
+const categoryAccent = {
+  renta: 'bg-accent',
+  activacion: 'bg-primary',
+  imei: 'bg-blue-500',
+  remoto: 'bg-purple-500',
+  creditos: 'bg-green-500',
+  streaming: 'bg-rose-500',
+};
+
+const categoryBadge = {
+  renta: 'bg-accent/15 text-accent',
+  activacion: 'bg-primary/15 text-primary',
+  imei: 'bg-blue-500/15 text-blue-600',
+  remoto: 'bg-purple-500/15 text-purple-600',
+  creditos: 'bg-green-500/15 text-green-600',
+  streaming: 'bg-rose-500/15 text-rose-600',
+};
+
 export default function ServiceGroupCard({ group, services, exchangeRate, whatsappNumber }) {
   const settings = useSettings();
   const rate = exchangeRate || 3.70;
@@ -37,6 +55,10 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
 
   if (!service) return null;
 
+  const cat = services[0]?.category;
+  const accentBar = categoryAccent[cat] || 'bg-primary';
+  const badgeCls = categoryBadge[cat] || 'bg-primary/15 text-primary';
+
   const displayPrice = isCreditos ? service.price_usd * qty : service.price_usd;
   const soles = (displayPrice * rate).toFixed(2);
   const hasNote = service.note_html && service.note_html.replace(/<[^>]+>/g, '').trim().length > 0;
@@ -55,13 +77,17 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
   const whatsappMsg = encodeURIComponent(buildMsg());
 
   return (
-    <Card className="glass glow-blue-hover group relative transition-all duration-300 hover:border-primary/30 p-5 sm:p-6 w-full">
+    <Card className="glass glow-blue-hover group relative transition-all duration-300 hover:border-primary/30 p-5 sm:p-6 w-full overflow-hidden">
+      <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${accentBar}`} />
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
       {/* Encabezado */}
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex-1 min-w-0">
-          <h3 className="font-heading font-semibold text-lg sm:text-xl text-foreground leading-tight break-words">{group}</h3>
+          <div className="flex items-center gap-2 flex-wrap">
+            <h3 className="font-heading font-semibold text-lg sm:text-xl text-foreground leading-tight break-words">{group}</h3>
+            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${badgeCls}`}>{categoryLabels[cat] || cat}</span>
+          </div>
           <span className="text-xs text-muted-foreground font-medium mt-0.5 block">
             {services.length} variantes
           </span>
