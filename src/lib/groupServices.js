@@ -20,12 +20,8 @@ export function clusterServices(services) {
   for (const [group, arr] of groupsMap) {
     // Variantes ordenadas de mayor a menor precio
     const sorted = arr.slice().sort((a, b) => (b.price_usd || 0) - (a.price_usd || 0));
-    // Un grupo con una sola variante se muestra como tarjeta simple
-    if (sorted.length === 1) {
-      items.push({ type: 'single', service: sorted[0], title: sorted[0].name || '' });
-    } else {
-      items.push({ type: 'group', group, services: sorted, title: group });
-    }
+    // Los grupos (incluso con una sola variante) se muestran como tarjeta de grupo a ancho completo
+    items.push({ type: 'group', group, services: sorted, title: group });
   }
   for (const s of singles) {
     items.push({ type: 'single', service: s, title: s.name || '' });

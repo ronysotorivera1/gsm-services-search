@@ -127,7 +127,7 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
             <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${theme.badge}`}>{categoryLabels[cat] || cat}</span>
           </div>
           <span className="text-xs text-muted-foreground font-medium mt-0.5 block">
-            {services.length} variantes
+            {services.length} {services.length === 1 ? 'variante' : 'variantes'}
           </span>
         </div>
         <StatusBadge status={service.status} />
