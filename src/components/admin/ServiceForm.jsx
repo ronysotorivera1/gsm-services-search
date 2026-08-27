@@ -88,8 +88,21 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
     <div className="space-y-3">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 
+        <div className="space-y-1">
+          <Label className="text-xs">Grupo (nombre del servicio en general)</Label>
+          <Input 
+            list="service-groups-list"
+            value={form.group} 
+            onChange={e => set('group', e.target.value)}
+            placeholder="ej: Chimera Tool, UnlockTool... (vacío = sin grupo)"
+          />
+          <datalist id="service-groups-list">
+            {existingGroups.map(g => <option key={g} value={g} />)}
+          </datalist>
+        </div>
+
         <div className="space-y-1 relative">
-          <Label className="text-xs">{form.group ? 'Variante *' : 'Servicio *'}</Label>
+          <Label className="text-xs">{form.group ? 'Variante (nombre dentro del grupo) *' : 'Servicio *'}</Label>
           <Input 
             value={form.name} 
             onChange={e => {
@@ -115,19 +128,6 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
               ))}
             </div>
           )}
-        </div>
-
-        <div className="space-y-1">
-          <Label className="text-xs">Grupo (variantes)</Label>
-          <Input 
-            list="service-groups-list"
-            value={form.group} 
-            onChange={e => set('group', e.target.value)}
-            placeholder="ej: Chimera, UnlockTool... (vacío = sin grupo)"
-          />
-          <datalist id="service-groups-list">
-            {existingGroups.map(g => <option key={g} value={g} />)}
-          </datalist>
         </div>
 
         <div className="space-y-1">
