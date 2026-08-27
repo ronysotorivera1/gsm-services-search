@@ -95,7 +95,7 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
 
   if (!service) return null;
 
-  const cat = services[0]?.category;
+  const cat = service.category;
   const theme = categoryTheme[cat] || categoryTheme.activacion;
 
   const displayPrice = isCreditos ? service.price_usd * qty : service.price_usd;
