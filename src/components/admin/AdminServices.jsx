@@ -95,15 +95,17 @@ export default function AdminServices() {
   const filtered = q
     ? services.filter(s =>
         s.name?.toLowerCase().includes(q) ||
+        s.group?.toLowerCase().includes(q) ||
         s.brand?.toLowerCase().includes(q) ||
         s.category?.toLowerCase().includes(q)
       )
     : services;
 
   const groupedServices = filtered.reduce((acc, service) => {
-    const group = acc.find(g => g.name === service.name);
+    const key = service.group || service.name;
+    const group = acc.find(g => g.name === key);
     if (group) group.items.push(service);
-    else acc.push({ name: service.name, items: [service] });
+    else acc.push({ name: key, isGroup: !!service.group, items: [service] });
     return acc;
   }, []).sort((a, b) => a.name.localeCompare(b.name));
 
@@ -167,12 +169,17 @@ export default function AdminServices() {
                 <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
                   {group.name}
                 </h3>
-                <span className="text-xs text-muted-foreground">({group.items.length})</span>
+                <span className="text-xs text-muted-foreground">
+                  ({group.items.length}{group.isGroup ? ' variantes' : ''})
+                </span>
               </button>
               {!isCollapsed(group.name) && <div className="space-y-2">
                 {group.items.map(s => (
                   <div key={s.id} className="flex items-center justify-between p-3 rounded-lg bg-card border border-border">
                     <div className="flex-1 min-w-0">
+                      {group.isGroup && (
+                        <p className="text-sm font-semibold text-foreground leading-tight">{s.name}</p>
+                      )}
                       <p className="text-xs text-muted-foreground">
                         {s.brand && <span>{s.brand} · </span>}
                         ${s.price_usd} · <span className={statusColors[s.status]}>{s.status}</span>

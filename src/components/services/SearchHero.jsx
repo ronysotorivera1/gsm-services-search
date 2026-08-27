@@ -1,6 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Search, Zap, Loader2, X, List, ChevronDown, ChevronRight } from 'lucide-react';
+import { clusterServices } from '@/lib/groupServices';
+import ServiceGroupCard from './ServiceGroupCard';
 
 const CATEGORY_LABELS = {
   renta: 'RENTA',
@@ -24,7 +26,12 @@ function GroupedResults({ services, exchangeRate, whatsappNumber }) {
     }, {})
   )
   .sort(([a], [b]) => (CATEGORY_LABELS[a] || a).localeCompare(CATEGORY_LABELS[b] || b, 'es'))
-  .map(([cat, items]) => [cat, [...items].sort((a, b) => a.name.localeCompare(b.name, 'es'))]);
+  .map(([cat, items]) => [cat, clusterServices(items)]);
+
+  const renderItem = (item) =>
+    item.type === 'group'
+      ? <ServiceGroupCard key={`g-${item.group}`} group={item.group} services={item.services} exchangeRate={exchangeRate} whatsappNumber={whatsappNumber} />
+      : <ServiceCard key={`s-${item.service.id}`} service={item.service} exchangeRate={exchangeRate} whatsappNumber={whatsappNumber} />;
 
   return (
     <div className="space-y-4">
@@ -46,9 +53,7 @@ function GroupedResults({ services, exchangeRate, whatsappNumber }) {
             </button>
             {isOpen && (
               <div className="px-4 pb-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {items.map(service => (
-                  <ServiceCard key={service.id} service={service} exchangeRate={exchangeRate} whatsappNumber={whatsappNumber} />
-                ))}
+                {items.map(item => renderItem(item))}
               </div>
             )}
           </div>
@@ -71,9 +76,10 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
   const [showAll, setShowAll] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const hasQuery = searchQuery.length > 0;
-  const displayResults = showAll && !hasQuery
+  const rawResults = showAll && !hasQuery
     ? (selectedCategory ? allServices.filter(s => s.category === selectedCategory) : allServices)
     : results;
+  const displayItems = clusterServices(rawResults);
   const showResults = hasQuery || showAll;
 
   const availableCategories = Object.keys(CATEGORY_LABELS)
@@ -232,21 +238,23 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
           <div className="flex justify-center py-12">
                 <Loader2 className="w-6 h-6 animate-spin text-primary" />
               </div> :
-          displayResults.length === 0 ?
+          displayItems.length === 0 ?
           <p className="text-center text-muted-foreground py-12">No se encontraron servicios para "{searchQuery}"</p> :
 
           <>
                 <p className="text-sm text-muted-foreground mb-4">
                   {hasQuery
-                    ? <>{displayResults.length} resultado{displayResults.length !== 1 ? 's' : ''} para "<span className="text-foreground">{searchQuery}</span>"</>
-                    : <>{displayResults.length} servicios disponibles</>
+                    ? <>{displayItems.length} resultado{displayItems.length !== 1 ? 's' : ''} para "<span className="text-foreground">{searchQuery}</span>"</>
+                    : <>{displayItems.length} servicios disponibles</>
                   }
                 </p>
                 {showAll && !hasQuery
-                  ? <GroupedResults services={displayResults} exchangeRate={exchangeRate} whatsappNumber={whatsappNumber} />
+                  ? <GroupedResults services={rawResults} exchangeRate={exchangeRate} whatsappNumber={whatsappNumber} />
                   : <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                      {displayResults.map((service) =>
-                        <ServiceCard key={service.id} service={service} exchangeRate={exchangeRate} whatsappNumber={whatsappNumber} />
+                      {displayItems.map(item =>
+                        item.type === 'group'
+                          ? <ServiceGroupCard key={`g-${item.group}`} group={item.group} services={item.services} exchangeRate={exchangeRate} whatsappNumber={whatsappNumber} />
+                          : <ServiceCard key={`s-${item.service.id}`} service={item.service} exchangeRate={exchangeRate} whatsappNumber={whatsappNumber} />
                       )}
                     </div>
                 }

@@ -4,7 +4,11 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "Nombre del servicio"
+      "description": "Nombre del servicio o variante"
+    },
+    "group": {
+      "type": "string",
+      "description": "Grupo de variantes (ej: Chimera, UnlockTool). Servicios con el mismo grupo se muestran juntos como opciones de un mismo producto."
     },
     "category": {
       "type": "string",

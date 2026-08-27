@@ -35,6 +35,7 @@ const STATUSES = [
 export default function ServiceForm({ initial, onSave, onCancel }) {
   const [form, setForm] = useState({
     name: initial?.name || '',
+    group: initial?.group || '',
     brand: initial?.brand || '',
     category: initial?.category || 'imei',
     service_type: initial?.service_type || 'service',
@@ -63,6 +64,11 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
   const uniqueNames = Array.from(new Set(allServices.map(s => s.name))).sort();
   const suggestions = form.name ? uniqueNames.filter(n => n.toLowerCase().includes(form.name.toLowerCase())).slice(0, 5) : [];
 
+  // Grupos existentes para autocompletar
+  const existingGroups = Array.from(new Set(
+    allServices.map(s => s.group).filter(Boolean)
+  )).sort((a, b) => a.localeCompare(b, 'es'));
+
   const handleSelectSuggestion = (name) => {
     const service = allServices.find(s => s.name === name);
     if (service) {
@@ -83,7 +89,7 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 
         <div className="space-y-1 relative">
-          <Label className="text-xs">Servicio *</Label>
+          <Label className="text-xs">{form.group ? 'Variante *' : 'Servicio *'}</Label>
           <Input 
             value={form.name} 
             onChange={e => {
@@ -93,7 +99,7 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
             }}
             onFocus={() => setShowSuggestions(true)}
             onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
-            placeholder="Nombre del servicio" 
+            placeholder={form.group ? "ej: Básica, Pro, Premium, 3 meses..." : "Nombre del servicio"} 
           />
           {showSuggestions && suggestions.length > 0 && (
             <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-primary/20 rounded-md shadow-lg z-10">
@@ -109,6 +115,19 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
               ))}
             </div>
           )}
+        </div>
+
+        <div className="space-y-1">
+          <Label className="text-xs">Grupo (variantes)</Label>
+          <Input 
+            list="service-groups-list"
+            value={form.group} 
+            onChange={e => set('group', e.target.value)}
+            placeholder="ej: Chimera, UnlockTool... (vacío = sin grupo)"
+          />
+          <datalist id="service-groups-list">
+            {existingGroups.map(g => <option key={g} value={g} />)}
+          </datalist>
         </div>
 
         <div className="space-y-1">
