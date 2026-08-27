@@ -88,8 +88,11 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
   const inputRef = useRef(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
-  const uniqueNames = Array.from(new Set(allServices.map(s => s.name))).sort();
-  const suggestions = searchQuery ? uniqueNames.filter(n => n.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 5) : [];
+  const uniqueNames = Array.from(new Set([
+    ...allServices.map(s => s.group).filter(Boolean),
+    ...allServices.map(s => s.name).filter(Boolean)
+  ])).sort();
+  const suggestions = searchQuery ? uniqueNames.filter(n => n.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 6) : [];
 
   // Mantener el foco en el input cuando cambia hasQuery
   useEffect(() => {
@@ -233,34 +236,45 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
 
         {/* Resultados */}
         {showResults &&
-        <div className="max-w-7xl mx-auto w-full px-4 pb-8">
+        <div className="w-full px-4 sm:px-6 pb-8">
             {isLoading ?
-          <div className="flex justify-center py-12">
-                <Loader2 className="w-6 h-6 animate-spin text-primary" />
-              </div> :
-          displayItems.length === 0 ?
-          <p className="text-center text-muted-foreground py-12">No se encontraron servicios para "{searchQuery}"</p> :
+           <div className="flex justify-center py-12">
+                 <Loader2 className="w-6 h-6 animate-spin text-primary" />
+               </div> :
+           displayItems.length === 0 ?
+           <p className="text-center text-muted-foreground py-12">No se encontraron servicios para "{searchQuery}"</p> :
 
-          <>
-                <p className="text-sm text-muted-foreground mb-4">
-                  {hasQuery
-                    ? <>{displayItems.length} resultado{displayItems.length !== 1 ? 's' : ''} para "<span className="text-foreground">{searchQuery}</span>"</>
-                    : <>{displayItems.length} servicios disponibles</>
-                  }
-                </p>
-                {showAll && !hasQuery
-                  ? <GroupedResults services={rawResults} exchangeRate={exchangeRate} whatsappNumber={whatsappNumber} />
-                  : <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                      {displayItems.map(item =>
-                        item.type === 'group'
-                          ? <ServiceGroupCard key={`g-${item.group}`} group={item.group} services={item.services} exchangeRate={exchangeRate} whatsappNumber={whatsappNumber} />
-                          : <ServiceCard key={`s-${item.service.id}`} service={item.service} exchangeRate={exchangeRate} whatsappNumber={whatsappNumber} />
-                      )}
-                    </div>
-                }
-              </>
-          }
-          </div>
+           <>
+                 <p className="text-sm text-muted-foreground mb-4">
+                   {hasQuery
+                     ? <>{displayItems.length} resultado{displayItems.length !== 1 ? 's' : ''} para "<span className="text-foreground">{searchQuery}</span>"</>
+                     : <>{displayItems.length} servicios disponibles</>
+                   }
+                 </p>
+                 {showAll && !hasQuery
+                   ? <GroupedResults services={rawResults} exchangeRate={exchangeRate} whatsappNumber={whatsappNumber} />
+                   : (() => {
+                       const groups = displayItems.filter(i => i.type === 'group');
+                       const singles = displayItems.filter(i => i.type === 'single');
+                       return (
+                         <div className="space-y-6">
+                           {groups.map(item => (
+                             <ServiceGroupCard key={`g-${item.group}`} group={item.group} services={item.services} exchangeRate={exchangeRate} whatsappNumber={whatsappNumber} />
+                           ))}
+                           {singles.length > 0 && (
+                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                               {singles.map(item => (
+                                 <ServiceCard key={`s-${item.service.id}`} service={item.service} exchangeRate={exchangeRate} whatsappNumber={whatsappNumber} />
+                               ))}
+                             </div>
+                           )}
+                         </div>
+                       );
+                     })()
+                 }
+               </>
+           }
+           </div>
         }
       </div>
     </div>);

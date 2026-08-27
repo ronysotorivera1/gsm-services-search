@@ -28,6 +28,7 @@ export default function Home() {
     return services.filter(s =>
       !searchQuery ||
       s.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      s.group?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       s.brand?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       s.description?.toLowerCase().includes(searchQuery.toLowerCase())
     );
