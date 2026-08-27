@@ -115,13 +115,15 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
                 <span className={`text-sm font-medium line-clamp-2 break-words leading-tight ${active ? 'text-foreground' : 'text-muted-foreground'}`}>
                   {s.name}
                 </span>
-                {s.duration && (
-                  <span className="text-[10px] text-muted-foreground shrink-0">· {s.duration}</span>
-                )}
               </div>
-              <span className={`text-xs font-semibold shrink-0 ${active ? 'text-primary' : 'text-muted-foreground'}`}>
-                ${s.price_usd.toFixed(2)}
-              </span>
+              <div className="flex items-baseline gap-1.5 shrink-0">
+                {s.duration && (
+                  <span className="text-[11px] text-muted-foreground">· {s.duration}</span>
+                )}
+                <span className={`text-sm font-bold ${active ? 'text-primary' : 'text-muted-foreground'}`}>
+                  ${s.price_usd.toFixed(2)}
+                </span>
+              </div>
             </button>
           );
         })}
@@ -171,7 +173,7 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Button size="sm" className="bg-primary/10 text-primary hover:bg-primary/20 border border-primary/20 gap-1.5 text-xs font-semibold">
+          <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 text-xs font-semibold">
             <ExternalLink className="w-3 h-3" />
             SOLICITAR
           </Button>
