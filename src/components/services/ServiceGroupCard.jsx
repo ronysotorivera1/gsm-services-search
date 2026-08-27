@@ -17,22 +17,62 @@ const categoryLabels = {
   streaming: 'STREAMING',
 };
 
-const categoryAccent = {
-  renta: 'bg-accent',
-  activacion: 'bg-primary',
-  imei: 'bg-blue-500',
-  remoto: 'bg-purple-500',
-  creditos: 'bg-green-500',
-  streaming: 'bg-rose-500',
-};
-
-const categoryBadge = {
-  renta: 'bg-accent/15 text-accent',
-  activacion: 'bg-primary/15 text-primary',
-  imei: 'bg-blue-500/15 text-blue-600',
-  remoto: 'bg-purple-500/15 text-purple-600',
-  creditos: 'bg-green-500/15 text-green-600',
-  streaming: 'bg-rose-500/15 text-rose-600',
+// Tema de color por categoría: badge, estado seleccionado del variant y precio.
+const categoryTheme = {
+  renta: {
+    badge: 'bg-accent/15 text-accent',
+    selectedBorder: 'border-accent',
+    selectedBg: 'bg-accent/5',
+    selectedRing: 'ring-accent/30',
+    radioActive: 'border-accent bg-accent text-accent-foreground',
+    priceActive: 'text-accent',
+    priceDisplay: 'text-accent',
+  },
+  activacion: {
+    badge: 'bg-primary/15 text-primary',
+    selectedBorder: 'border-primary',
+    selectedBg: 'bg-primary/5',
+    selectedRing: 'ring-primary/30',
+    radioActive: 'border-primary bg-primary text-primary-foreground',
+    priceActive: 'text-primary',
+    priceDisplay: 'text-primary',
+  },
+  imei: {
+    badge: 'bg-blue-500/15 text-blue-600',
+    selectedBorder: 'border-blue-500',
+    selectedBg: 'bg-blue-50',
+    selectedRing: 'ring-blue-500/30',
+    radioActive: 'border-blue-500 bg-blue-500 text-white',
+    priceActive: 'text-blue-600',
+    priceDisplay: 'text-blue-600',
+  },
+  remoto: {
+    badge: 'bg-purple-500/15 text-purple-600',
+    selectedBorder: 'border-purple-500',
+    selectedBg: 'bg-purple-50',
+    selectedRing: 'ring-purple-500/30',
+    radioActive: 'border-purple-500 bg-purple-500 text-white',
+    priceActive: 'text-purple-600',
+    priceDisplay: 'text-purple-600',
+  },
+  creditos: {
+    badge: 'bg-green-500/15 text-green-600',
+    selectedBorder: 'border-green-500',
+    selectedBg: 'bg-green-50',
+    selectedRing: 'ring-green-500/30',
+    radioActive: 'border-green-500 bg-green-500 text-white',
+    priceActive: 'text-green-600',
+    priceDisplay: 'text-green-600',
+  },
+  streaming: {
+    badge: 'bg-rose-500/15 text-rose-600',
+    selectedBorder: 'border-rose-500',
+    selectedBg: 'bg-rose-50',
+    selectedRing: 'ring-rose-500/30',
+    radioActive: 'border-rose-500 bg-rose-500 text-white',
+    priceActive: 'text-rose-600',
+    priceDisplay: 'text-rose-600',
+  },
 };
 
 export default function ServiceGroupCard({ group, services, exchangeRate, whatsappNumber }) {
@@ -56,8 +96,7 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
   if (!service) return null;
 
   const cat = services[0]?.category;
-  const accentBar = categoryAccent[cat] || 'bg-primary';
-  const badgeCls = categoryBadge[cat] || 'bg-primary/15 text-primary';
+  const theme = categoryTheme[cat] || categoryTheme.activacion;
 
   const displayPrice = isCreditos ? service.price_usd * qty : service.price_usd;
   const soles = (displayPrice * rate).toFixed(2);
@@ -78,7 +117,6 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
 
   return (
     <Card className="glass glow-blue-hover group relative transition-all duration-300 hover:border-primary/30 p-5 sm:p-6 w-full overflow-hidden">
-      <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${accentBar}`} />
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
       {/* Encabezado */}
@@ -86,7 +124,7 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <h3 className="font-heading font-semibold text-lg sm:text-xl text-foreground leading-tight break-words">{group}</h3>
-            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${badgeCls}`}>{categoryLabels[cat] || cat}</span>
+            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${theme.badge}`}>{categoryLabels[cat] || cat}</span>
           </div>
           <span className="text-xs text-muted-foreground font-medium mt-0.5 block">
             {services.length} variantes
@@ -110,13 +148,13 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
               onClick={() => setSelectedId(s.id)}
               className={`flex flex-col flex-1 min-w-[160px] p-3 rounded-xl border text-left transition-all ${
                 active
-                  ? 'border-primary bg-primary/5 ring-1 ring-primary/30'
+                  ? `${theme.selectedBorder} ${theme.selectedBg} ring-1 ${theme.selectedRing}`
                   : 'border-border bg-white/60 hover:border-primary/40 hover:bg-white/80'
               }`}
             >
               <div className="flex items-center gap-2">
                 <span className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 ${
-                  active ? 'border-primary bg-primary text-primary-foreground' : 'border-border'
+                  active ? theme.radioActive : 'border-border'
                 }`}>
                   {active && <Check className="w-3 h-3" />}
                 </span>
@@ -128,7 +166,7 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
                 {s.duration && (
                   <span className="text-[11px] text-muted-foreground">· {s.duration}</span>
                 )}
-                <span className={`text-base font-bold ${active ? 'text-primary' : 'text-foreground'}`}>
+                <span className={`text-base font-bold ${active ? theme.priceActive : 'text-foreground'}`}>
                   ${s.price_usd.toFixed(2)}
                 </span>
               </div>
@@ -169,7 +207,7 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
       {/* Pie: precio + solicitar */}
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 border-t border-border/50 pt-4">
         <div>
-          <PriceDisplay usd={displayPrice} exchangeRate={exchangeRate} />
+          <PriceDisplay usd={displayPrice} exchangeRate={exchangeRate} colorClass={theme.priceDisplay} />
           {service.delivery_time && (
             <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
               <Clock className="w-3 h-3" />

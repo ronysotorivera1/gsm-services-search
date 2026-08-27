@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function PriceDisplay({ usd, exchangeRate = 3.70, size = 'md' }) {
+export default function PriceDisplay({ usd, exchangeRate = 3.70, size = 'md', colorClass = 'text-primary' }) {
   const soles = (usd * exchangeRate).toFixed(2);
   const sizes = {
     sm: { usd: 'text-base font-bold', pen: 'text-xs' },
@@ -11,7 +11,7 @@ export default function PriceDisplay({ usd, exchangeRate = 3.70, size = 'md' }) 
 
   return (
     <div className="flex flex-col">
-      <span className={`${s.usd} text-primary`}>
+      <span className={`${s.usd} ${colorClass}`}>
         ${usd.toFixed(2)} <span className="text-xs font-normal text-muted-foreground">USD</span>
       </span>
       <span className={`${s.pen} text-muted-foreground`}>
