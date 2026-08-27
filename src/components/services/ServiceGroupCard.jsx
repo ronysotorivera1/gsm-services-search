@@ -112,7 +112,7 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
                 }`}>
                   {active && <Check className="w-3 h-3" />}
                 </span>
-                <span className={`text-sm font-medium truncate ${active ? 'text-foreground' : 'text-muted-foreground'}`}>
+                <span className={`text-sm font-medium line-clamp-2 break-words leading-tight ${active ? 'text-foreground' : 'text-muted-foreground'}`}>
                   {s.name}
                 </span>
                 {s.duration && (
