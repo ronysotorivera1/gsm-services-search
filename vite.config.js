@@ -3,15 +3,10 @@ import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
-// force-optimization marker
 export default defineConfig({
   logLevel: 'error', // Suppress warnings, only show errors
   resolve: {
     dedupe: ['react', 'react-dom']
-  },
-  optimizeDeps: {
-    force: true,
-    include: ['react', 'react-dom', 'react/jsx-runtime', 'scheduler']
   },
   plugins: [
     base44({
