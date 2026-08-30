@@ -26,6 +26,10 @@
       "type": "string",
       "description": "URL del archivo para descargar"
     },
+    "image_url": {
+      "type": "string",
+      "description": "URL de la imagen de portada del archivo"
+    },
     "file_size": {
       "type": "string",
       "description": "Tama\u00f1o del archivo (texto, ej: 2.5 MB)"

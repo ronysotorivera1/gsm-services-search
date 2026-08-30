@@ -16,7 +16,7 @@ const CATEGORIES = [
   { value: 'other', label: 'Otros' },
 ];
 
-const emptyForm = { name: '', description: '', category: 'other', file_url: '', file_size: '', version: '', status: 'active' };
+const emptyForm = { name: '', description: '', category: 'other', file_url: '', image_url: '', file_size: '', version: '', status: 'active' };
 
 export default function AdminDownloads() {
   const queryClient = useQueryClient();
@@ -24,6 +24,7 @@ export default function AdminDownloads() {
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState(emptyForm);
   const [uploading, setUploading] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const { data: downloads = [], isLoading } = useQuery({
     queryKey: ['downloads-admin'],
@@ -68,6 +69,20 @@ export default function AdminDownloads() {
       console.error(err);
     } finally {
       setUploading(false);
+    }
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingImage(true);
+    try {
+      const { file_url } = await base44.integrations.Core.UploadFile({ file });
+      set('image_url', file_url);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setUploadingImage(false);
     }
   };
 
@@ -162,6 +177,21 @@ export default function AdminDownloads() {
                 <Label>Tamaño</Label>
                 <Input value={form.file_size} onChange={e => set('file_size', e.target.value)} placeholder="2.5 MB" />
               </div>
+            </div>
+            <div>
+              <Label>Imagen de portada</Label>
+              {form.image_url && (
+                <img src={form.image_url} alt="preview" className="w-full h-32 object-cover rounded-lg mb-2 border border-border" />
+              )}
+              <div className="flex items-center gap-2">
+                <label className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-input bg-secondary text-secondary-foreground hover:bg-secondary/80 text-xs font-semibold cursor-pointer">
+                  {uploadingImage ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
+                  {uploadingImage ? 'Subiendo...' : 'Subir imagen'}
+                  <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} disabled={uploadingImage} />
+                </label>
+                {form.image_url && <span className="text-xs text-green-600 truncate">✓ Imagen cargada</span>}
+              </div>
+              <Input value={form.image_url} onChange={e => set('image_url', e.target.value)} placeholder="o pega la URL de la imagen" className="mt-2" />
             </div>
             <div>
               <Label>Archivo *</Label>
