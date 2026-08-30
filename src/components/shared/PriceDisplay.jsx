@@ -14,7 +14,7 @@ export default function PriceDisplay({ usd, exchangeRate = 3.70, size = 'md', co
       <span className={`${s.usd} ${colorClass}`}>
         ${usd.toFixed(2)} <span className="text-xs font-normal text-muted-foreground">USD</span>
       </span>
-      <span className={`${s.pen} text-muted-foreground`}>
+      <span className={`${s.pen} font-semibold text-foreground`}>
         S/ {soles}
       </span>
     </div>
