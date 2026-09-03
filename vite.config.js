@@ -8,6 +8,10 @@ export default defineConfig({
   resolve: {
     dedupe: ['react', 'react-dom']
   },
+  server: {
+    host: true,
+    allowedHosts: true
+  },
   plugins: [
     base44({
       // Support for legacy code that imports the base44 SDK with @/integrations, @/entities, etc.
