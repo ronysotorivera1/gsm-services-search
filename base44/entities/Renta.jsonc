@@ -15,8 +15,8 @@
       "description": "N\u00famero de WhatsApp del cliente"
     },
     "tiempo_renta": {
-      "type": "string",
-      "description": "Tiempo de renta (ej: 1 mes, 3 meses)"
+      "type": "number",
+      "description": "Tiempo de renta en d\u00edas (1-30)"
     }
   },
   "required": [

@@ -87,7 +87,7 @@ export default function AdminRentas() {
                 </div>
                 <div className="min-w-0">
                   <span className="flex items-center gap-1 text-[10px] text-muted-foreground font-semibold uppercase"><Clock className="w-3 h-3" /> Tiempo</span>
-                  <p className="text-sm font-medium truncate">{r.tiempo_renta}</p>
+                  <p className="text-sm font-medium truncate">{r.tiempo_renta} {Number(r.tiempo_renta) === 1 ? 'día' : 'días'}</p>
                 </div>
               </div>
               <button onClick={() => openEdit(r)} className="p-2 rounded-lg hover:bg-muted transition-colors shrink-0">
@@ -120,8 +120,22 @@ export default function AdminRentas() {
               <Input value={form.whatsapp} onChange={e => set('whatsapp', e.target.value)} placeholder="51999999999" required />
             </div>
             <div>
-              <Label>Tiempo de renta *</Label>
-              <Input value={form.tiempo_renta} onChange={e => set('tiempo_renta', e.target.value)} placeholder="1 mes, 3 meses..." required />
+              <Label>Tiempo de renta (días) *</Label>
+              <div className="flex items-center gap-2">
+                <Input
+                  type="number"
+                  min={1}
+                  max={30}
+                  value={form.tiempo_renta}
+                  onChange={e => {
+                    const val = parseInt(e.target.value) || '';
+                    set('tiempo_renta', val === '' ? '' : Math.max(1, Math.min(30, val)));
+                  }}
+                  className="w-24"
+                  required
+                />
+                <span className="text-sm text-muted-foreground">días (1 a 30)</span>
+              </div>
             </div>
             <div className="flex justify-end gap-2 pt-2">
               <Button type="button" variant="ghost" onClick={() => setShowForm(false)}>Cancelar</Button>
