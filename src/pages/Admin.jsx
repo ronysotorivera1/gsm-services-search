@@ -7,6 +7,7 @@ import * as XLSX from 'xlsx';
 import AdminServices from '../components/admin/AdminServices';
 import AdminSettings from '../components/admin/AdminSettings';
 import AdminDownloads from '../components/admin/AdminDownloads';
+import AdminRentas from '../components/admin/AdminRentas';
 
 
 export default function Admin() {
@@ -73,6 +74,7 @@ export default function Admin() {
          <TabsList className="mb-6">
            <TabsTrigger value="services">Servicios</TabsTrigger>
            <TabsTrigger value="downloads">Descargas</TabsTrigger>
+           <TabsTrigger value="rentas">Rentas</TabsTrigger>
            {isMainAdmin && <TabsTrigger value="settings">Configuración</TabsTrigger>}
          </TabsList>
 
@@ -81,6 +83,9 @@ export default function Admin() {
          </TabsContent>
          <TabsContent value="downloads">
            <AdminDownloads />
+         </TabsContent>
+         <TabsContent value="rentas">
+           <AdminRentas />
          </TabsContent>
          {isMainAdmin && (
           <TabsContent value="settings">

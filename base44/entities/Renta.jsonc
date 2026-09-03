@@ -1,0 +1,50 @@
+{
+  "name": "Renta",
+  "type": "object",
+  "properties": {
+    "ip": {
+      "type": "string",
+      "description": "Direcci\u00f3n IP de la renta"
+    },
+    "nombre": {
+      "type": "string",
+      "description": "Nombre del cliente"
+    },
+    "whatsapp": {
+      "type": "string",
+      "description": "N\u00famero de WhatsApp del cliente"
+    },
+    "tiempo_renta": {
+      "type": "string",
+      "description": "Tiempo de renta (ej: 1 mes, 3 meses)"
+    }
+  },
+  "required": [
+    "ip",
+    "nombre",
+    "whatsapp",
+    "tiempo_renta"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
