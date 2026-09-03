@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Plus, Pencil, Trash2, Loader2, Globe, User, MessageCircle, Clock } from 'lucide-react';
+import { format, addDays } from 'date-fns';
 
 const emptyForm = { ip: '', nombre: '', whatsapp: '', tiempo_renta: '' };
 
@@ -88,6 +89,11 @@ export default function AdminRentas() {
                 <div className="min-w-0">
                   <span className="flex items-center gap-1 text-[10px] text-muted-foreground font-semibold uppercase"><Clock className="w-3 h-3" /> Tiempo</span>
                   <p className="text-sm font-medium truncate">{r.tiempo_renta} {Number(r.tiempo_renta) === 1 ? 'día' : 'días'}</p>
+                  {r.created_date && (
+                    <p className="text-xs text-muted-foreground truncate">
+                      {format(new Date(r.created_date), 'dd/MM/yyyy')} → {format(addDays(new Date(r.created_date), Number(r.tiempo_renta) || 0), 'dd/MM/yyyy')}
+                    </p>
+                  )}
                 </div>
               </div>
               <button onClick={() => openEdit(r)} className="p-2 rounded-lg hover:bg-muted transition-colors shrink-0">
