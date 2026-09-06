@@ -110,7 +110,7 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
   }, [hasQuery]);
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-4rem)]">
+    <div className="flex flex-col flex-1">
 
 
 

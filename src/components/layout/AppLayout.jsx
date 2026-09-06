@@ -9,7 +9,7 @@ export default function AppLayout() {
   const location = useLocation();
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen overflow-x-clip">
       <AuroraBackground />
       <CustomCursor />
       <MobileHeader />
