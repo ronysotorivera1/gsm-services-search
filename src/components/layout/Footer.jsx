@@ -1,28 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSettings } from '@/hooks/useSettings';
-import { base44 } from '@/api/base44Client';
-import { Settings, LogIn, LogOut, Home, Download } from 'lucide-react';
+import { Home, Download } from 'lucide-react';
 import DOMPurify from 'dompurify';
 
 export default function Footer() {
   const settings = useSettings();
   const location = useLocation();
-  const isAdminPage = location.pathname === '/admin';
   const isDownloadsPage = location.pathname === '/descargas';
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    base44.auth.isAuthenticated().then(authed => {
-      setIsAuthenticated(authed);
-      if (authed) {
-        base44.auth.me().then(user => {
-          if (user?.role === 'admin') setIsAdmin(true);
-        }).catch(() => {});
-      }
-    });
-  }, []);
 
   const WaIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
@@ -71,44 +56,6 @@ export default function Footer() {
               <Download className="w-3.5 h-3.5" />
               <span>Descargas</span>
             </Link>
-          )}
-
-          {!isAuthenticated ? (
-            <Link
-              to="/login"
-              className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 text-xs font-semibold transition-all"
-            >
-              <LogIn className="w-3.5 h-3.5" />
-              <span>Iniciar sesión</span>
-            </Link>
-          ) : (
-            <button
-              onClick={() => base44.auth.logout()}
-              className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-muted border border-border text-muted-foreground hover:text-destructive hover:bg-destructive/10 text-xs font-semibold transition-all"
-            >
-              <LogOut className="w-3.5 h-3.5" />
-              <span>Cerrar sesión</span>
-            </button>
-          )}
-
-          {isAdmin && (
-            isAdminPage ? (
-              <Link
-                to="/"
-                className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-muted border border-border text-muted-foreground hover:text-primary hover:bg-muted/80 text-xs font-semibold transition-all"
-              >
-                <Home className="w-3.5 h-3.5" />
-                <span>Buscador</span>
-              </Link>
-            ) : (
-              <Link
-                to="/admin"
-                className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-muted border border-border text-muted-foreground hover:text-primary hover:bg-muted/80 text-xs font-semibold transition-all"
-              >
-                <Settings className="w-3.5 h-3.5" />
-                <span>Admin</span>
-              </Link>
-            )
           )}
 
         </div>
