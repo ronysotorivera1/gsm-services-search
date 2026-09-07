@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Search, Zap, Loader2, X, List, ChevronDown, ChevronRight } from 'lucide-react';
 import { clusterServices } from '@/lib/groupServices';
@@ -81,6 +82,7 @@ const PROMO_MESSAGES = [
 
 
 export default function SearchHero({ searchQuery, onSearchChange, results = [], allServices = [], isLoading = false, exchangeRate, whatsappNumber }) {
+  const navigate = useNavigate();
   const [showAll, setShowAll] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const hasQuery = searchQuery.length > 0;
@@ -145,7 +147,13 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
                   placeholder="Buscar IMEI, Unlock, MDM, FRP..."
                   value={searchQuery}
                   onChange={(e) => {
-                    onSearchChange(e.target.value);
+                    const value = e.target.value;
+                    if (value.trim() === '/admin') {
+                      onSearchChange('');
+                      navigate('/admin');
+                      return;
+                    }
+                    onSearchChange(value);
                     setShowSuggestions(true);
                   }}
                   onFocus={() => setShowSuggestions(true)}
