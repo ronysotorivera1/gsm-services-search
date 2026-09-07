@@ -8,6 +8,7 @@ export default function Footer() {
   const settings = useSettings();
   const location = useLocation();
   const isDownloadsPage = location.pathname === '/descargas';
+  const isAdminPage = location.pathname === '/admin';
 
   const WaIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
@@ -40,7 +41,15 @@ export default function Footer() {
             <span>WhatsApp</span>
           </a>
 
-          {isDownloadsPage ? (
+          {isAdminPage ? (
+            <Link
+              to="/"
+              className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 text-xs font-semibold transition-all"
+            >
+              <Home className="w-3.5 h-3.5" />
+              <span>Inicio</span>
+            </Link>
+          ) : isDownloadsPage ? (
             <Link
               to="/"
               className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-muted border border-border text-muted-foreground hover:text-primary hover:bg-muted/80 text-xs font-semibold transition-all"
