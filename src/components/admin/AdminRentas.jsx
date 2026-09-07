@@ -5,10 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Plus, Pencil, Trash2, Loader2, Globe, User, MessageCircle, Clock } from 'lucide-react';
+import { Plus, Pencil, Trash2, Loader2, Globe, User, MessageCircle, Clock, StickyNote } from 'lucide-react';
 import { format, addDays } from 'date-fns';
+import { Textarea } from '@/components/ui/textarea';
 
-const emptyForm = { ip: '', nombre: '', whatsapp: '', tiempo_renta: '' };
+const emptyForm = { ip: '', nombre: '', whatsapp: '', tiempo_renta: '', nota: '' };
 
 export default function AdminRentas() {
   const queryClient = useQueryClient();
@@ -96,6 +97,12 @@ export default function AdminRentas() {
                   )}
                 </div>
               </div>
+              {r.nota && (
+                <p className="col-span-2 sm:col-span-4 mt-1 flex items-start gap-1.5 text-xs text-muted-foreground min-w-0">
+                  <StickyNote className="w-3.5 h-3.5 shrink-0 mt-0.5 text-accent" />
+                  <span className="break-words line-clamp-2">{r.nota}</span>
+                </p>
+              )}
               <button onClick={() => openEdit(r)} className="p-2 rounded-lg hover:bg-muted transition-colors shrink-0">
                 <Pencil className="w-4 h-4 text-muted-foreground" />
               </button>
@@ -142,6 +149,15 @@ export default function AdminRentas() {
                 />
                 <span className="text-sm text-muted-foreground">días (1 a 30)</span>
               </div>
+            </div>
+            <div>
+              <Label>Nota</Label>
+              <Textarea
+                value={form.nota || ''}
+                onChange={e => set('nota', e.target.value)}
+                placeholder="Nota opcional (ej: fecha de pago, detalles del cliente...)"
+                rows={3}
+              />
             </div>
             <div className="flex justify-end gap-2 pt-2">
               <Button type="button" variant="ghost" onClick={() => setShowForm(false)}>Cancelar</Button>

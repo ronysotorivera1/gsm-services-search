@@ -17,6 +17,10 @@
     "tiempo_renta": {
       "type": "number",
       "description": "Tiempo de renta en d\u00edas (1-30)"
+    },
+    "nota": {
+      "type": "string",
+      "description": "Nota opcional sobre la renta"
     }
   },
   "required": [
