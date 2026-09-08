@@ -7,6 +7,7 @@ import { Clock, ExternalLink, Minus, Plus, FileText } from 'lucide-react';
 import DOMPurify from 'dompurify';
 import StatusBadge from '../shared/StatusBadge';
 import PriceDisplay from '../shared/PriceDisplay';
+import SolicitarDialog from '../shared/SolicitarDialog';
 
 const categoryLabels = {
   renta: 'RENTA',
@@ -43,6 +44,7 @@ export default function ServiceCard({ service, exchangeRate, whatsappNumber }) {
   const minQty = isCreditos ? service.credits_quantity : 1;
   const [qty, setQty] = useState(minQty);
   const [showNote, setShowNote] = useState(false);
+  const [showSolicitar, setShowSolicitar] = useState(false);
   const hasNote = service.note_html && service.note_html.replace(/<[^>]+>/g, '').trim().length > 0;
 
   const displayPrice = isCreditos ? service.price_usd * qty : service.price_usd;
@@ -137,16 +139,14 @@ export default function ServiceCard({ service, exchangeRate, whatsappNumber }) {
             </div>
           )}
         </div>
-        <a
-          href={`https://wa.me/${waNumber}?text=${whatsappMsg}`}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Button
+          size="sm"
+          onClick={() => setShowSolicitar(true)}
+          className="bg-primary/10 text-primary hover:bg-primary/20 border border-primary/20 gap-1.5 text-xs font-semibold"
         >
-          <Button size="sm" className="bg-primary/10 text-primary hover:bg-primary/20 border border-primary/20 gap-1.5 text-xs font-semibold">
-            <ExternalLink className="w-3 h-3" />
-            SOLICITAR
-          </Button>
-        </a>
+          <ExternalLink className="w-3 h-3" />
+          SOLICITAR
+        </Button>
       </div>
 
       {hasNote && (
@@ -176,6 +176,13 @@ export default function ServiceCard({ service, exchangeRate, whatsappNumber }) {
           />
         </DialogContent>
       </Dialog>
+
+      <SolicitarDialog
+        open={showSolicitar}
+        onOpenChange={setShowSolicitar}
+        whatsappUrl={`https://wa.me/${waNumber}?text=${whatsappMsg}`}
+        serviceLabel={service.name}
+      />
 
     </Card>
   );

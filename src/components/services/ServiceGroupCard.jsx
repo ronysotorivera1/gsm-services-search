@@ -7,6 +7,7 @@ import { Clock, ExternalLink, Minus, Plus, FileText, Check } from 'lucide-react'
 import DOMPurify from 'dompurify';
 import StatusBadge from '../shared/StatusBadge';
 import PriceDisplay from '../shared/PriceDisplay';
+import SolicitarDialog from '../shared/SolicitarDialog';
 
 const categoryLabels = {
   renta: 'RENTA',
@@ -87,6 +88,7 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
   const minQty = isCreditos ? service.credits_quantity : 1;
   const [qty, setQty] = useState(minQty);
   const [showNote, setShowNote] = useState(false);
+  const [showSolicitar, setShowSolicitar] = useState(false);
 
   // Reset de cantidad al cambiar de variante
   useEffect(() => {
@@ -217,17 +219,14 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
               <span className="text-[10px] text-muted-foreground">(${service.price_usd.toFixed(2)} c/u)</span>
             </div>
           )}
-          <a
-            href={`https://wa.me/${waNumber}?text=${whatsappMsg}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="self-start sm:self-auto"
+          <Button
+            size="lg"
+            onClick={() => setShowSolicitar(true)}
+            className="self-start sm:self-auto bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 font-semibold"
           >
-            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 font-semibold">
-              <ExternalLink className="w-4 h-4" />
-              SOLICITAR
-            </Button>
-          </a>
+            <ExternalLink className="w-4 h-4" />
+            SOLICITAR
+          </Button>
         </div>
       </div>
 
@@ -257,6 +256,13 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
           />
         </DialogContent>
       </Dialog>
+
+      <SolicitarDialog
+        open={showSolicitar}
+        onOpenChange={setShowSolicitar}
+        whatsappUrl={`https://wa.me/${waNumber}?text=${whatsappMsg}`}
+        serviceLabel={`${group} — ${service.name}`}
+      />
     </Card>
   );
 }

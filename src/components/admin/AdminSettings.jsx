@@ -15,13 +15,17 @@ export default function AdminSettings() {
   const { toast } = useToast();
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [uploadingQr, setUploadingQr] = useState(false);
   const fileRef = useRef();
+  const qrRef = useRef();
   const [form, setForm] = useState({
     site_name: '',
     logo_url: '',
     subtitle: '',
     usd_to_pen: '',
     whatsapp_number: '',
+    payment_qr_url: '',
+    payment_number: '',
     footer_contact: '',
     allow_new_registrations: true,
   });
@@ -40,6 +44,8 @@ export default function AdminSettings() {
         subtitle: s.subtitle || '',
         usd_to_pen: s.usd_to_pen || '',
         whatsapp_number: s.whatsapp_number || '',
+        payment_qr_url: s.payment_qr_url || '',
+        payment_number: s.payment_number || '',
         footer_contact: s.footer_contact || '',
         allow_new_registrations: s.allow_new_registrations !== false,
       });
@@ -55,6 +61,15 @@ export default function AdminSettings() {
     const { file_url } = await base44.integrations.Core.UploadFile({ file });
     set('logo_url', file_url);
     setUploading(false);
+  };
+
+  const handleQrUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploadingQr(true);
+    const { file_url } = await base44.integrations.Core.UploadFile({ file });
+    set('payment_qr_url', file_url);
+    setUploadingQr(false);
   };
 
 
@@ -121,6 +136,36 @@ export default function AdminSettings() {
           <div className="space-y-1">
             <Label>Número WhatsApp (con código país)</Label>
             <Input value={form.whatsapp_number} onChange={e => set('whatsapp_number', e.target.value)} placeholder="51901745069" />
+          </div>
+        </div>
+      </div>
+
+      <div className="pb-3 border-b border-border">
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Método de Pago (QR)</p>
+        <div className="space-y-4">
+          <div className="space-y-1">
+            <Label>Imagen QR de pago (Yape/Plin)</Label>
+            <div className="flex items-center gap-3">
+              {form.payment_qr_url && (
+                <img src={form.payment_qr_url} alt="QR de pago" className="h-20 w-20 object-contain rounded border border-border bg-white" />
+              )}
+              <Button size="sm" variant="outline" onClick={() => qrRef.current.click()} disabled={uploadingQr}>
+                {uploadingQr ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : <Upload className="w-4 h-4 mr-1" />}
+                Subir QR
+              </Button>
+              <input ref={qrRef} type="file" accept="image/*" className="hidden" onChange={handleQrUpload} />
+              {form.payment_qr_url && (
+                <Input value={form.payment_qr_url} onChange={e => set('payment_qr_url', e.target.value)} placeholder="o pega URL..." className="text-xs" />
+              )}
+            </div>
+            {!form.payment_qr_url && (
+              <Input value={form.payment_qr_url} onChange={e => set('payment_qr_url', e.target.value)} placeholder="o pega URL del QR..." className="mt-2 text-xs" />
+            )}
+          </div>
+          <div className="space-y-1">
+            <Label>Número de Yape/Plin</Label>
+            <Input value={form.payment_number} onChange={e => set('payment_number', e.target.value)} placeholder="999 888 777" />
+            <p className="text-xs text-muted-foreground">Se muestra junto al QR al solicitar un servicio</p>
           </div>
         </div>
       </div>
