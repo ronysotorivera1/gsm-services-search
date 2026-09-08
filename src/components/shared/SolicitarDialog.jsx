@@ -34,7 +34,7 @@ export default function SolicitarDialog({ open, onOpenChange, whatsappUrl, servi
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-sm">
+      <DialogContent className="max-w-sm p-4 gap-2 rounded-xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-sm">
             <QrCode className="w-4 h-4 text-primary shrink-0" />
@@ -43,7 +43,7 @@ export default function SolicitarDialog({ open, onOpenChange, whatsappUrl, servi
         </DialogHeader>
 
         {methods.length > 0 && (
-          <div className="space-y-3">
+          <div className="space-y-2">
             <p className="text-xs text-muted-foreground">
               Puedes pagar escaneando el QR o copiando el número:
             </p>
@@ -68,15 +68,15 @@ export default function SolicitarDialog({ open, onOpenChange, whatsappUrl, servi
             )}
 
             {active?.qrUrl && (
-              <div className="flex justify-center p-3 bg-white border border-border rounded-xl">
-                <img src={active.qrUrl} alt={`QR de pago ${active.label}`} className="w-44 h-44 object-contain" />
+              <div className="flex justify-center p-2 bg-white border border-border rounded-xl">
+                <img src={active.qrUrl} alt={`QR de pago ${active.label}`} className="w-32 h-32 sm:w-40 sm:h-40 object-contain" />
               </div>
             )}
             {active?.number && (
               <button
                 type="button"
                 onClick={copyNumber}
-                className="w-full flex items-center justify-between gap-2 px-4 py-2.5 border border-border rounded-lg bg-muted/50 hover:bg-muted transition-colors"
+                className="w-full flex items-center justify-between gap-2 px-3 py-2 border border-border rounded-lg bg-muted/50 hover:bg-muted transition-colors"
               >
                 <span className="text-sm font-bold tracking-wide text-foreground">{active.number}</span>
                 {copied
