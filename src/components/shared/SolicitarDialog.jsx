@@ -34,11 +34,11 @@ export default function SolicitarDialog({ open, onOpenChange, whatsappUrl, servi
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-sm p-4 gap-2 rounded-xl">
+      <DialogContent className="w-[calc(100%-1.5rem)] max-w-sm p-4 gap-2 rounded-xl">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-sm">
+          <DialogTitle className="flex items-center gap-2 text-sm min-w-0">
             <QrCode className="w-4 h-4 text-primary shrink-0" />
-            <span className="truncate">Solicitar: {serviceLabel}</span>
+            <span className="truncate flex-1 min-w-0">Solicitar: {serviceLabel}</span>
           </DialogTitle>
         </DialogHeader>
 
