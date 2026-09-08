@@ -30,6 +30,14 @@
       "type": "string",
       "description": "N\u00famero de Yape/Plin para pagos"
     },
+    "binance_qr_url": {
+      "type": "string",
+      "description": "URL de la imagen QR de Binance Pay"
+    },
+    "binance_id": {
+      "type": "string",
+      "description": "Binance Pay ID o correo para pagos"
+    },
     "footer_contact": {
       "type": "string",
       "description": "Datos de contacto para el footer (HTML permitido)"

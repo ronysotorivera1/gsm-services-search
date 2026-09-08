@@ -16,8 +16,10 @@ export default function AdminSettings() {
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadingQr, setUploadingQr] = useState(false);
+  const [uploadingBinanceQr, setUploadingBinanceQr] = useState(false);
   const fileRef = useRef();
   const qrRef = useRef();
+  const binanceQrRef = useRef();
   const [form, setForm] = useState({
     site_name: '',
     logo_url: '',
@@ -26,6 +28,8 @@ export default function AdminSettings() {
     whatsapp_number: '',
     payment_qr_url: '',
     payment_number: '',
+    binance_qr_url: '',
+    binance_id: '',
     footer_contact: '',
     allow_new_registrations: true,
   });
@@ -46,6 +50,8 @@ export default function AdminSettings() {
         whatsapp_number: s.whatsapp_number || '',
         payment_qr_url: s.payment_qr_url || '',
         payment_number: s.payment_number || '',
+        binance_qr_url: s.binance_qr_url || '',
+        binance_id: s.binance_id || '',
         footer_contact: s.footer_contact || '',
         allow_new_registrations: s.allow_new_registrations !== false,
       });
@@ -70,6 +76,15 @@ export default function AdminSettings() {
     const { file_url } = await base44.integrations.Core.UploadFile({ file });
     set('payment_qr_url', file_url);
     setUploadingQr(false);
+  };
+
+  const handleBinanceQrUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploadingBinanceQr(true);
+    const { file_url } = await base44.integrations.Core.UploadFile({ file });
+    set('binance_qr_url', file_url);
+    setUploadingBinanceQr(false);
   };
 
 
@@ -141,7 +156,7 @@ export default function AdminSettings() {
       </div>
 
       <div className="pb-3 border-b border-border">
-        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Método de Pago (QR)</p>
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Métodos de Pago</p>
         <div className="space-y-4">
           <div className="space-y-1">
             <Label>Imagen QR de pago (Yape/Plin)</Label>
@@ -166,6 +181,30 @@ export default function AdminSettings() {
             <Label>Número de Yape/Plin</Label>
             <Input value={form.payment_number} onChange={e => set('payment_number', e.target.value)} placeholder="999 888 777" />
             <p className="text-xs text-muted-foreground">Se muestra junto al QR al solicitar un servicio</p>
+          </div>
+          <div className="space-y-1 pt-2 border-t border-border/60">
+            <Label>Imagen QR de Binance</Label>
+            <div className="flex items-center gap-3">
+              {form.binance_qr_url && (
+                <img src={form.binance_qr_url} alt="QR de Binance" className="h-20 w-20 object-contain rounded border border-border bg-white" />
+              )}
+              <Button size="sm" variant="outline" onClick={() => binanceQrRef.current.click()} disabled={uploadingBinanceQr}>
+                {uploadingBinanceQr ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : <Upload className="w-4 h-4 mr-1" />}
+                Subir QR
+              </Button>
+              <input ref={binanceQrRef} type="file" accept="image/*" className="hidden" onChange={handleBinanceQrUpload} />
+              {form.binance_qr_url && (
+                <Input value={form.binance_qr_url} onChange={e => set('binance_qr_url', e.target.value)} placeholder="o pega URL..." className="text-xs" />
+              )}
+            </div>
+            {!form.binance_qr_url && (
+              <Input value={form.binance_qr_url} onChange={e => set('binance_qr_url', e.target.value)} placeholder="o pega URL del QR de Binance..." className="mt-2 text-xs" />
+            )}
+          </div>
+          <div className="space-y-1">
+            <Label>Binance Pay ID / Correo</Label>
+            <Input value={form.binance_id} onChange={e => set('binance_id', e.target.value)} placeholder="123456789 o tu correo" />
+            <p className="text-xs text-muted-foreground">Se muestra junto al QR de Binance al solicitar un servicio</p>
           </div>
         </div>
       </div>
