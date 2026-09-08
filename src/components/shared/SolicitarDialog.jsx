@@ -34,7 +34,7 @@ export default function SolicitarDialog({ open, onOpenChange, whatsappUrl, servi
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-[calc(100%-1.5rem)] max-w-sm p-4 gap-2 rounded-xl">
+      <DialogContent className="grid-cols-[minmax(0,1fr)] w-[calc(100%_-_1.5rem)] max-w-sm p-4 gap-2 rounded-xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-sm min-w-0">
             <QrCode className="w-4 h-4 text-primary shrink-0" />
