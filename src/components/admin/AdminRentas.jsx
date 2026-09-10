@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Plus, Pencil, Trash2, Loader2, Globe, User, MessageCircle, Clock, StickyNote } from 'lucide-react';
-import { format, addDays } from 'date-fns';
+import { Plus, Pencil, Trash2, Loader2, Globe, User, MessageCircle, Clock, StickyNote, Hourglass } from 'lucide-react';
+import { format, addDays, differenceInCalendarDays } from 'date-fns';
 import { Textarea } from '@/components/ui/textarea';
 
 const emptyForm = { ip: '', nombre: '', whatsapp: '', tiempo_renta: '', nota: '' };
@@ -67,50 +67,71 @@ export default function AdminRentas() {
         <p className="text-sm text-muted-foreground text-center py-10">No hay rentas. Agrega la primera.</p>
       ) : (
         <div className="space-y-2">
-          {rentas.map(r => (
-            <div key={r.id} className="flex items-center gap-3 p-3 rounded-lg border border-border bg-card/50">
-              <div className="w-8 h-8 rounded-lg bg-accent/15 text-accent flex items-center justify-center shrink-0">
-                <Globe className="w-4 h-4" />
+          {rentas.map(r => {
+            const restante = r.created_date
+              ? differenceInCalendarDays(addDays(new Date(r.created_date), Number(r.tiempo_renta) || 0), new Date())
+              : null;
+            return (
+              <div key={r.id} className="p-3 rounded-lg border border-border bg-card/50 space-y-2">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-accent/15 text-accent flex items-center justify-center shrink-0">
+                    <Globe className="w-4 h-4" />
+                  </div>
+                  <div className="flex-1 min-w-0 grid grid-cols-2 sm:grid-cols-5 gap-x-4 gap-y-1.5">
+                    <div className="min-w-0">
+                      <span className="flex items-center gap-1 text-[10px] text-muted-foreground font-semibold uppercase"><Globe className="w-3 h-3" /> IP</span>
+                      <p className="text-sm font-medium truncate">{r.ip}</p>
+                    </div>
+                    <div className="min-w-0">
+                      <span className="flex items-center gap-1 text-[10px] text-muted-foreground font-semibold uppercase"><User className="w-3 h-3" /> Nombre</span>
+                      <p className="text-sm font-medium truncate">{r.nombre}</p>
+                    </div>
+                    <div className="min-w-0">
+                      <span className="flex items-center gap-1 text-[10px] text-muted-foreground font-semibold uppercase"><MessageCircle className="w-3 h-3" /> WhatsApp</span>
+                      <a href={`https://wa.me/${r.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-sm font-medium truncate text-primary hover:underline block">
+                        {r.whatsapp}
+                      </a>
+                    </div>
+                    <div className="min-w-0">
+                      <span className="flex items-center gap-1 text-[10px] text-muted-foreground font-semibold uppercase"><Clock className="w-3 h-3" /> Tiempo</span>
+                      <p className="text-sm font-medium truncate">{r.tiempo_renta} {Number(r.tiempo_renta) === 1 ? 'día' : 'días'}</p>
+                      {r.created_date && (
+                        <p className="text-xs text-muted-foreground truncate">
+                          {format(new Date(r.created_date), 'dd/MM/yyyy')} → {format(addDays(new Date(r.created_date), Number(r.tiempo_renta) || 0), 'dd/MM/yyyy')}
+                        </p>
+                      )}
+                    </div>
+                    <div className="min-w-0">
+                      <span className="flex items-center gap-1 text-[10px] text-muted-foreground font-semibold uppercase"><Hourglass className="w-3 h-3" /> Restante</span>
+                      {restante === null ? (
+                        <p className="text-sm font-medium text-muted-foreground">—</p>
+                      ) : restante <= 0 ? (
+                        <p className="text-sm font-semibold text-destructive">Vencida</p>
+                      ) : (
+                        <p className={`text-sm font-semibold ${restante <= 3 ? 'text-accent' : 'text-foreground'}`}>
+                          {restante} {restante === 1 ? 'día' : 'días'}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-1 shrink-0">
+                    <button onClick={() => openEdit(r)} className="p-2 rounded-lg hover:bg-muted transition-colors">
+                      <Pencil className="w-4 h-4 text-muted-foreground" />
+                    </button>
+                    <button onClick={() => deleteMut.mutate(r.id)} className="p-2 rounded-lg hover:bg-destructive/10 transition-colors">
+                      <Trash2 className="w-4 h-4 text-destructive" />
+                    </button>
+                  </div>
+                </div>
+                {r.nota && (
+                  <p className="flex items-start gap-1.5 text-xs text-muted-foreground min-w-0">
+                    <StickyNote className="w-3.5 h-3.5 shrink-0 mt-0.5 text-accent" />
+                    <span className="break-words line-clamp-2">{r.nota}</span>
+                  </p>
+                )}
               </div>
-              <div className="flex-1 min-w-0 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-1">
-                <div className="min-w-0">
-                  <span className="flex items-center gap-1 text-[10px] text-muted-foreground font-semibold uppercase"><Globe className="w-3 h-3" /> IP</span>
-                  <p className="text-sm font-medium truncate">{r.ip}</p>
-                </div>
-                <div className="min-w-0">
-                  <span className="flex items-center gap-1 text-[10px] text-muted-foreground font-semibold uppercase"><User className="w-3 h-3" /> Nombre</span>
-                  <p className="text-sm font-medium truncate">{r.nombre}</p>
-                </div>
-                <div className="min-w-0">
-                  <span className="flex items-center gap-1 text-[10px] text-muted-foreground font-semibold uppercase"><MessageCircle className="w-3 h-3" /> WhatsApp</span>
-                  <a href={`https://wa.me/${r.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-sm font-medium truncate text-primary hover:underline block">
-                    {r.whatsapp}
-                  </a>
-                </div>
-                <div className="min-w-0">
-                  <span className="flex items-center gap-1 text-[10px] text-muted-foreground font-semibold uppercase"><Clock className="w-3 h-3" /> Tiempo</span>
-                  <p className="text-sm font-medium truncate">{r.tiempo_renta} {Number(r.tiempo_renta) === 1 ? 'día' : 'días'}</p>
-                  {r.created_date && (
-                    <p className="text-xs text-muted-foreground truncate">
-                      {format(new Date(r.created_date), 'dd/MM/yyyy')} → {format(addDays(new Date(r.created_date), Number(r.tiempo_renta) || 0), 'dd/MM/yyyy')}
-                    </p>
-                  )}
-                </div>
-              </div>
-              {r.nota && (
-                <p className="col-span-2 sm:col-span-4 mt-1 flex items-start gap-1.5 text-xs text-muted-foreground min-w-0">
-                  <StickyNote className="w-3.5 h-3.5 shrink-0 mt-0.5 text-accent" />
-                  <span className="break-words line-clamp-2">{r.nota}</span>
-                </p>
-              )}
-              <button onClick={() => openEdit(r)} className="p-2 rounded-lg hover:bg-muted transition-colors shrink-0">
-                <Pencil className="w-4 h-4 text-muted-foreground" />
-              </button>
-              <button onClick={() => deleteMut.mutate(r.id)} className="p-2 rounded-lg hover:bg-destructive/10 transition-colors shrink-0">
-                <Trash2 className="w-4 h-4 text-destructive" />
-              </button>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 
