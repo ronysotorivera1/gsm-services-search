@@ -2,12 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useSettings } from '@/hooks/useSettings';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, Copy, Check, QrCode } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { ExternalLink, Copy, Check, QrCode, ClipboardList } from 'lucide-react';
 
-export default function SolicitarDialog({ open, onOpenChange, whatsappUrl, serviceLabel }) {
+export default function SolicitarDialog({ open, onOpenChange, waNumber, whatsappMessage, serviceLabel, requiredFields }) {
   const settings = useSettings();
   const [selected, setSelected] = useState('');
   const [copied, setCopied] = useState(false);
+  const [fieldValues, setFieldValues] = useState({});
+
+  const fields = (requiredFields || []).filter(Boolean);
+  const allFilled = fields.every(f => (fieldValues[f] || '').trim().length > 0);
 
   const methods = [
     { key: 'yape', label: 'Yape / Plin', qrUrl: settings?.payment_qr_url, number: settings?.payment_number },
@@ -18,6 +23,7 @@ export default function SolicitarDialog({ open, onOpenChange, whatsappUrl, servi
     if (open) {
       setSelected(methods.length > 0 ? methods[0].key : '');
       setCopied(false);
+      setFieldValues({});
     }
   }, [open]);
 
@@ -32,6 +38,15 @@ export default function SolicitarDialog({ open, onOpenChange, whatsappUrl, servi
     } catch { /* sin permiso de portapapeles */ }
   };
 
+  const buildUrl = () => {
+    let msg = whatsappMessage || '';
+    if (fields.length > 0 && allFilled) {
+      msg += `\n\n📋 Datos:\n${fields.map(f => `• ${f}: ${fieldValues[f].trim()}`).join('\n')}`;
+    }
+    const number = waNumber || settings?.whatsapp_number || '51901745069';
+    return `https://wa.me/${number}?text=${encodeURIComponent(msg)}`;
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="grid-cols-[minmax(0,1fr)] w-[calc(100%_-_1.5rem)] max-w-sm p-4 gap-2 rounded-xl">
@@ -41,6 +56,26 @@ export default function SolicitarDialog({ open, onOpenChange, whatsappUrl, servi
             <span className="truncate flex-1 min-w-0">Solicitar: {serviceLabel}</span>
           </DialogTitle>
         </DialogHeader>
+
+        {fields.length > 0 && (
+          <div className="space-y-2">
+            <p className="text-xs font-semibold text-foreground flex items-center gap-1.5">
+              <ClipboardList className="w-3.5 h-3.5 text-primary shrink-0" />
+              Completa estos datos para tu solicitud:
+            </p>
+            {fields.map(f => (
+              <div key={f} className="space-y-1">
+                <label className="text-[11px] font-medium text-muted-foreground">{f}</label>
+                <Input
+                  value={fieldValues[f] || ''}
+                  onChange={e => setFieldValues(v => ({ ...v, [f]: e.target.value }))}
+                  placeholder={f}
+                  className="h-9 text-sm"
+                />
+              </div>
+            ))}
+          </div>
+        )}
 
         {methods.length > 0 && (
           <div className="space-y-2">
@@ -87,12 +122,24 @@ export default function SolicitarDialog({ open, onOpenChange, whatsappUrl, servi
           </div>
         )}
 
-        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="block">
-          <Button size="lg" className="w-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 font-semibold">
-            <ExternalLink className="w-4 h-4" />
-            Continuar por WhatsApp
-          </Button>
-        </a>
+        {allFilled ? (
+          <a href={buildUrl()} target="_blank" rel="noopener noreferrer" className="block">
+            <Button size="lg" className="w-full bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 font-semibold">
+              <ExternalLink className="w-4 h-4" />
+              Continuar por WhatsApp
+            </Button>
+          </a>
+        ) : (
+          <div className="space-y-1">
+            <Button size="lg" disabled className="w-full bg-primary text-primary-foreground gap-1.5 font-semibold">
+              <ExternalLink className="w-4 h-4" />
+              Continuar por WhatsApp
+            </Button>
+            <p className="text-[11px] text-muted-foreground text-center">
+              Completa los datos requeridos para continuar
+            </p>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );

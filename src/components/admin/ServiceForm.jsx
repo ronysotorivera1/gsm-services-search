@@ -46,6 +46,7 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
     status: initial?.status || 'active',
     description: initial?.description || '',
     note_html: initial?.note_html || '',
+    required_fields: (initial?.required_fields || []).join(', '),
   });
 
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -193,6 +194,15 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
       </div>
 
       <div className="space-y-1">
+        <Label className="text-xs">Datos requeridos al solicitar</Label>
+        <Input
+          value={form.required_fields}
+          onChange={e => set('required_fields', e.target.value)}
+          placeholder="ej: Correo, Usuario (separados por coma; vacío = no se piden datos)"
+        />
+      </div>
+
+      <div className="space-y-1">
         <Label className="text-xs">Descripción</Label>
         <Input value={form.description} onChange={e => set('description', e.target.value)} placeholder="Descripción breve opcional" />
       </div>
@@ -209,7 +219,16 @@ export default function ServiceForm({ initial, onSave, onCancel }) {
 
       <div className="flex gap-2 justify-end">
         <Button size="sm" variant="ghost" onClick={onCancel}>Cancelar</Button>
-        <Button size="sm" onClick={() => onSave(form)} disabled={!form.name || !form.price_usd}>Guardar</Button>
+        <Button
+          size="sm"
+          onClick={() => onSave({
+            ...form,
+            required_fields: form.required_fields.split(',').map(s => s.trim()).filter(Boolean)
+          })}
+          disabled={!form.name || !form.price_usd}
+        >
+          Guardar
+        </Button>
       </div>
     </div>
   );

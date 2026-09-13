@@ -69,6 +69,13 @@
     "description": {
       "type": "string",
       "description": "Descripci\u00f3n del servicio"
+    },
+    "required_fields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Datos que el cliente debe completar al solicitar (ej: Correo, Usuario). Vac\u00edo = no se pide nada."
     }
   },
   "required": [

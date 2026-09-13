@@ -60,7 +60,6 @@ export default function ServiceCard({ service, exchangeRate, whatsappNumber }) {
     msg += `\n\n💵 $${displayPrice.toFixed(2)} USDT\n🇵🇪 S/ ${soles} Soles`;
     return msg;
   };
-  const whatsappMsg = encodeURIComponent(buildMsg());
 
   return (
     <Card className="glass glow-blue-hover group relative transition-all duration-300 hover:border-primary/30 p-5">
@@ -180,7 +179,9 @@ export default function ServiceCard({ service, exchangeRate, whatsappNumber }) {
       <SolicitarDialog
         open={showSolicitar}
         onOpenChange={setShowSolicitar}
-        whatsappUrl={`https://wa.me/${waNumber}?text=${whatsappMsg}`}
+        waNumber={waNumber}
+        whatsappMessage={buildMsg()}
+        requiredFields={service.required_fields}
         serviceLabel={service.name}
       />
 

@@ -115,7 +115,6 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
     msg += `\n\n💵 $${displayPrice.toFixed(2)} USDT\n🇵🇪 S/ ${soles} Soles`;
     return msg;
   };
-  const whatsappMsg = encodeURIComponent(buildMsg());
 
   return (
     <Card className="glass glow-blue-hover group relative transition-all duration-300 hover:border-primary/30 p-5 sm:p-6 w-full overflow-hidden">
@@ -260,7 +259,9 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
       <SolicitarDialog
         open={showSolicitar}
         onOpenChange={setShowSolicitar}
-        whatsappUrl={`https://wa.me/${waNumber}?text=${whatsappMsg}`}
+        waNumber={waNumber}
+        whatsappMessage={buildMsg()}
+        requiredFields={service.required_fields}
         serviceLabel={`${group} — ${service.name}`}
       />
     </Card>
