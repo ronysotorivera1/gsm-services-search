@@ -41,7 +41,7 @@ export default function SolicitarDialog({ open, onOpenChange, waNumber, whatsapp
   const buildUrl = () => {
     let msg = whatsappMessage || '';
     if (fields.length > 0 && allFilled) {
-      msg += `\n\n📋 Datos:\n${fields.map(f => `• ${f}: ${fieldValues[f].trim()}`).join('\n')}`;
+      msg += `\n\n*Datos:*\n${fields.map(f => `• ${f}: ${fieldValues[f].trim()}`).join('\n')}`;
     }
     const number = waNumber || settings?.whatsapp_number || '51901745069';
     return `https://wa.me/${number}?text=${encodeURIComponent(msg)}`;
