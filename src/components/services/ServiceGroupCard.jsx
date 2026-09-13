@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Clock, ExternalLink, Minus, Plus, FileText, Check } from 'lucide-react';
 import DOMPurify from 'dompurify';
+import { buildOrderMessage } from '@/lib/whatsappOrder';
 import StatusBadge from '../shared/StatusBadge';
 import PriceDisplay from '../shared/PriceDisplay';
 import SolicitarDialog from '../shared/SolicitarDialog';
@@ -103,18 +104,6 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
   const displayPrice = isCreditos ? service.price_usd * qty : service.price_usd;
   const soles = (displayPrice * rate).toFixed(2);
   const hasNote = service.note_html && service.note_html.replace(/<[^>]+>/g, '').trim().length > 0;
-
-  const buildMsg = () => {
-    let msg = `Hola, quiero solicitar el servicio:\n*${group}* — ${service.name}`;
-    if (service.brand) msg += `\n🏷️ Marca: ${service.brand}`;
-    if (service.category) msg += `\n📂 Categoría: ${categoryLabels[service.category] || service.category}`;
-    if (service.duration) msg += `\n⏳ Duración: ${service.duration}`;
-    if (isCreditos) msg += `\n🔢 Créditos: ${qty}`;
-    if (service.delivery_time) msg += `\n🚀 Entrega: ${service.delivery_time}`;
-    if (service.description) msg += `\n📝 ${service.description}`;
-    msg += `\n\n💵 $${displayPrice.toFixed(2)} USDT\n🇵🇪 S/ ${soles} Soles`;
-    return msg;
-  };
 
   return (
     <Card className="glass glow-blue-hover group relative transition-all duration-300 hover:border-primary/30 p-5 sm:p-6 w-full overflow-hidden">
@@ -260,7 +249,7 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
         open={showSolicitar}
         onOpenChange={setShowSolicitar}
         waNumber={waNumber}
-        whatsappMessage={buildMsg()}
+        whatsappMessage={buildOrderMessage({ title: `${group} — ${service.name}`, service, quantity: qty, priceUsd: displayPrice, soles })}
         requiredFields={service.required_fields}
         serviceLabel={`${group} — ${service.name}`}
       />
