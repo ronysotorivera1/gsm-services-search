@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Search, Zap, Loader2, X, List, ChevronDown, ChevronRight } from 'lucide-react';
 import { clusterServices } from '@/lib/groupServices';
 import ServiceGroupCard from './ServiceGroupCard';
+import ThemeToggle from '@/components/shared/ThemeToggle';
 
 const CATEGORY_LABELS = {
   renta: 'RENTA',
@@ -112,9 +113,12 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
   }, [hasQuery]);
 
   return (
-    <div className="flex flex-col flex-1">
+    <div className="relative flex flex-col flex-1">
 
-
+      {/* Toggle de tema claro/oscuro */}
+      <div className={`absolute top-4 right-4 sm:top-6 sm:right-6 z-20 ${hasQuery ? 'hidden sm:block' : ''}`}>
+        <ThemeToggle />
+      </div>
 
       {/* Contenido principal */}
       <div className="flex-1 flex flex-col">
