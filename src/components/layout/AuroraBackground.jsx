@@ -3,8 +3,8 @@ import React from 'react';
 export default function AuroraBackground() {
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-      {/* Base blanca */}
-      <div className="absolute inset-0 bg-white" />
+      {/* Base — sigue el tema */}
+      <div className="absolute inset-0 bg-background transition-colors duration-300" />
 
       {/* Grid técnico */}
       <div

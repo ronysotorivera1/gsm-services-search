@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useSettings } from '@/hooks/useSettings';
 import { Home, Download } from 'lucide-react';
 import DOMPurify from 'dompurify';
+import ThemeToggle from '@/components/shared/ThemeToggle';
 
 export default function Footer() {
   const settings = useSettings();
@@ -66,6 +67,8 @@ export default function Footer() {
               <span>Descargas</span>
             </Link>
           )}
+
+          <ThemeToggle />
 
         </div>
 

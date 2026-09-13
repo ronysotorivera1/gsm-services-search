@@ -41,7 +41,7 @@ const categoryTheme = {
   imei: {
     badge: 'bg-blue-500/15 text-blue-600',
     selectedBorder: 'border-blue-500',
-    selectedBg: 'bg-blue-50',
+    selectedBg: 'bg-blue-50 dark:bg-blue-500/10',
     selectedRing: 'ring-blue-500/30',
     radioActive: 'border-blue-500 bg-blue-500 text-white',
     priceActive: 'text-blue-600',
@@ -50,7 +50,7 @@ const categoryTheme = {
   remoto: {
     badge: 'bg-purple-500/15 text-purple-600',
     selectedBorder: 'border-purple-500',
-    selectedBg: 'bg-purple-50',
+    selectedBg: 'bg-purple-50 dark:bg-purple-500/10',
     selectedRing: 'ring-purple-500/30',
     radioActive: 'border-purple-500 bg-purple-500 text-white',
     priceActive: 'text-purple-600',
@@ -59,7 +59,7 @@ const categoryTheme = {
   creditos: {
     badge: 'bg-green-500/15 text-green-600',
     selectedBorder: 'border-green-500',
-    selectedBg: 'bg-green-50',
+    selectedBg: 'bg-green-50 dark:bg-green-500/10',
     selectedRing: 'ring-green-500/30',
     radioActive: 'border-green-500 bg-green-500 text-white',
     priceActive: 'text-green-600',
@@ -68,7 +68,7 @@ const categoryTheme = {
   streaming: {
     badge: 'bg-rose-500/15 text-rose-600',
     selectedBorder: 'border-rose-500',
-    selectedBg: 'bg-rose-50',
+    selectedBg: 'bg-rose-50 dark:bg-rose-500/10',
     selectedRing: 'ring-rose-500/30',
     radioActive: 'border-rose-500 bg-rose-500 text-white',
     priceActive: 'text-rose-600',
@@ -151,7 +151,7 @@ export default function ServiceGroupCard({ group, services, exchangeRate, whatsa
               className={`flex flex-col flex-1 min-w-[160px] p-3 rounded-xl border text-left transition-all ${
                 active
                   ? `${theme.selectedBorder} ${theme.selectedBg} ring-1 ${theme.selectedRing}`
-                  : 'border-border bg-white/60 hover:border-primary/40 hover:bg-white/80'
+                  : 'border-border bg-card/60 dark:bg-secondary/60 hover:border-primary/40 hover:bg-card/80 dark:hover:bg-secondary/80'
               }`}
             >
               <div className="flex items-center gap-2">

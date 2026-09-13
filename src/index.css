@@ -82,8 +82,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply text-foreground font-body;
-    background: #ffffff;
+    @apply text-foreground font-body bg-background;
     min-height: 100vh;
     overscroll-behavior: none;
     -webkit-tap-highlight-color: transparent;
@@ -120,4 +119,9 @@
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(0, 0, 0, 0.07);
+}
+.dark .glass {
+  background: hsl(var(--card) / 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid hsl(var(--border) / 0.8);
 }

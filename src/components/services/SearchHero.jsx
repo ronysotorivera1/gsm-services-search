@@ -39,10 +39,10 @@ function GroupedResults({ services, exchangeRate, whatsappNumber }) {
       {groups.map(([cat, items]) => {
         const isOpen = !collapsed[cat];
         return (
-          <div key={cat} className="border border-border rounded-xl overflow-hidden bg-white/40">
+          <div key={cat} className="border border-border rounded-xl overflow-hidden bg-card/40">
             <button
               onClick={() => toggle(cat)}
-              className="w-full flex items-center justify-between px-4 py-3 hover:bg-white/60 transition-colors"
+              className="w-full flex items-center justify-between px-4 py-3 hover:bg-card/60 transition-colors"
             >
               <div className="flex items-center gap-2">
                 <span className="font-semibold text-sm text-foreground">{CATEGORY_LABELS[cat] || cat}</span>
@@ -158,7 +158,7 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
                   }}
                   onFocus={() => setShowSuggestions(true)}
                   onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
-                  className={`pl-12 pr-10 text-base bg-white/70 border-border/50 rounded-xl focus:border-primary/50 focus:ring-primary/20 placeholder:text-muted-foreground/50 transition-all duration-300 ${hasQuery ? 'h-12' : 'h-14'}`}
+                  className={`pl-12 pr-10 text-base bg-card/70 border-border/50 rounded-xl focus:border-primary/50 focus:ring-primary/20 placeholder:text-muted-foreground/50 transition-all duration-300 ${hasQuery ? 'h-12' : 'h-14'}`}
                 />
                 {hasQuery && (
                   <button
@@ -170,7 +170,7 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
                   </button>
                 )}
                 {showSuggestions && suggestions.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-primary/20 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-popover border border-primary/20 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
                     {suggestions.map(name => (
                       <button
                         key={name}
@@ -196,7 +196,7 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
                 <button
                   type="button"
                   onClick={() => { setShowAll(v => !v); setSelectedCategory(null); }}
-                  className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-border bg-white/60 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-white/80 transition-all"
+                  className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-border bg-card/60 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-card/80 transition-all"
                 >
                   <List className="w-4 h-4" />
                   {showAll ? 'Ocultar servicios' : 'Ver todos los servicios'}
@@ -212,7 +212,7 @@ export default function SearchHero({ searchQuery, onSearchChange, results = [], 
                         className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
                           selectedCategory === cat
                             ? 'bg-primary text-primary-foreground border border-primary shadow-sm'
-                            : 'bg-white/60 border border-border text-muted-foreground hover:text-foreground hover:bg-white/80'
+                            : 'bg-card/60 border border-border text-muted-foreground hover:text-foreground hover:bg-card/80'
                         }`}
                       >
                         {CATEGORY_LABELS[cat] || cat}
