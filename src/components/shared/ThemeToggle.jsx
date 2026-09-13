@@ -16,7 +16,7 @@ export default function ThemeToggle() {
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark');
-    try { localStorage.setItem('theme', theme); } catch { /* sin storage */ }
+    try {localStorage.setItem('theme', theme);} catch {/* sin storage */}
   }, [theme]);
 
   const isDark = theme === 'dark';
@@ -24,12 +24,12 @@ export default function ThemeToggle() {
   return (
     <button
       type="button"
-      onClick={() => setTheme(t => (t === 'dark' ? 'light' : 'dark'))}
-      className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-muted border border-border text-muted-foreground hover:text-primary hover:bg-muted/80 transition-all"
+      onClick={() => setTheme((t) => t === 'dark' ? 'light' : 'dark')}
+      className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-muted border border-border text-muted-foreground hover:text-primary hover:bg-muted/80 transition-all px-1"
       aria-label={isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
-      title={isDark ? 'Modo claro' : 'Modo oscuro'}
-    >
+      title={isDark ? 'Modo claro' : 'Modo oscuro'}>
+      
       {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-    </button>
-  );
+    </button>);
+
 }
