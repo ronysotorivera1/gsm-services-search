@@ -46,6 +46,11 @@
       "type": "boolean",
       "default": true,
       "description": "Permitir que nuevos usuarios se registren"
+    },
+    "maintenance": {
+      "type": "boolean",
+      "default": false,
+      "description": "Modo mantenimiento: visitantes ven pantalla de mantenimiento con el nuevo dominio. Admins siguen con acceso normal."
     }
   },
   "required": [

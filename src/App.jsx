@@ -13,6 +13,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import MaintenanceScreen from './components/shared/MaintenanceScreen';
+import { useSettings } from '@/hooks/useSettings';
 
 const AdminRoute = () => {
   const { isLoadingAuth, isAuthenticated, user } = useAuth();
@@ -28,7 +30,8 @@ const AdminRoute = () => {
 };
 
 const AuthenticatedApp = () => {
-  const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
+  const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin, user } = useAuth();
+  const settings = useSettings();
 
   // auth_required = token expirado/inválido, la app pública sigue cargando
   const isBlockingError = authError && authError.type !== 'auth_required';
@@ -46,6 +49,11 @@ const AuthenticatedApp = () => {
   }
 
   // Para auth_required (token expirado), dejamos cargar la app — las rutas protegidas manejan su propio redirect
+
+  // Modo mantenimiento: visitantes ven pantalla con el nuevo dominio; admins siguen con acceso normal
+  if (settings.maintenance && user?.role !== 'admin') {
+    return <MaintenanceScreen />;
+  }
 
   return (
     <Routes>

@@ -32,6 +32,7 @@ export default function AdminSettings() {
     binance_id: '',
     footer_contact: '',
     allow_new_registrations: true,
+    maintenance: false,
   });
 
   const { data: settings = [] } = useQuery({
@@ -54,6 +55,7 @@ export default function AdminSettings() {
         binance_id: s.binance_id || '',
         footer_contact: s.footer_contact || '',
         allow_new_registrations: s.allow_new_registrations !== false,
+        maintenance: s.maintenance === true,
       });
     }
   }, [settings]);
@@ -218,6 +220,21 @@ export default function AdminSettings() {
             onChange={e => set('footer_contact', e.target.value)}
             placeholder={'ej:\n<p>Email: contacto@gsm.com</p>\n<p>Tel: +51 900 000 000</p>'}
             className="font-mono text-xs min-h-[100px]"
+          />
+        </div>
+      </div>
+
+      <div className="pb-3 border-b border-border">
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Mantenimiento</p>
+        <div className="flex items-center justify-between p-4 rounded-lg border border-border bg-card/50">
+          <div className="flex-1">
+            <Label className="font-medium text-sm">Modo mantenimiento</Label>
+            <p className="text-xs text-muted-foreground mt-1">Los visitantes verán una pantalla de mantenimiento con el nuevo dominio gsmservices.site. Tú seguirás con acceso normal al panel.</p>
+          </div>
+          <Switch
+            checked={form.maintenance}
+            onCheckedChange={(checked) => set('maintenance', checked)}
+            className="ml-4"
           />
         </div>
       </div>
